@@ -1,5 +1,5 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/OY6OZuzi)
-# [A2] Island ca.mcmaster.se2aa4.island.team00.Explorer
+# [A2] Island ca.mcmaster.se2aa4.island.team220.Explorer
 
 - Authors:
   - [Anindita, Bornomala](bornomaa@mcmaster.ca) 
@@ -10,7 +10,7 @@
 
 This product is an _exploration command center_ for the [Island](https://ace-design.github.io/island/) serious game. 
 
-- The `ca.mcmaster.se2aa4.island.team_XXX_.Explorer` class implements the command center, used to compete with the others. (XXX being the team identifier)
+- The `ca.mcmaster.se2aa4.island.team_220_.Explorer` class implements the command center, used to compete with the others. (220 being the team identifier)
 - The `Runner` class allows one to run the command center on a specific map.
 
 ### Strategy description
@@ -33,7 +33,7 @@ mosser@azrael a2-template % mvn clean package
 mosser@azrael a2-template % 
 ```
 
-This creates one jar file in the `target` directory, named after the team identifier (i.e., team 00 uses `team00-1.0.jar`).
+This creates one jar file in the `target` directory, named after the team identifier (i.e., team 220 uses `team220-1.0.jar`).
 
 As the project is intended to run in the competition arena, this jar is not executable. 
 
