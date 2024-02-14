@@ -11,7 +11,6 @@ import org.json.JSONTokener;
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
-    private Integer count = 0;
 
     @Override
     public void initialize(String s) {
@@ -69,6 +68,7 @@ public class Explorer implements IExplorerRaid {
 
 /*
 Abstractions
+------------
 
 IAircraft
 Services: turn left, turn right, move forward, land (aka go home)
