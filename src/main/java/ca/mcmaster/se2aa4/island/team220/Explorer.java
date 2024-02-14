@@ -63,3 +63,37 @@ public class Explorer implements IExplorerRaid {
     }
 
 }
+
+
+
+
+/*
+Abstractions
+
+IAircraft
+Services: turn left, turn right, move forward, land (aka go home)
+- Drone implements IAircraft
+- Composed of a Battery level, Heading, and a Radar which can:
+--- scan
+--- echo left
+--- echo right
+--- echo forward
+
+SourceOfInstructions
+Services: NextAction, PrevAction
+- Remote implement SourceOfInstructions
+- Remote is linked to a drone
+- Remote is aware of the ExpenseTracker to influence it's instructions
+
+Map
+- Map knows the location of different POI's (creeks, emergency cites, etc.)
+- Map knows the path of the drone at all times
+- Map also knows the distance between different POI's
+
+Report
+- Determines final result
+
+ExpenseTracker
+- Keeps track of our expenses
+
+*/
