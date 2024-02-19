@@ -27,6 +27,7 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
+        int count = 0;
         while (count < 159) {
             if (count % 3 == 0) {
                 decision.put("action", "echo");
