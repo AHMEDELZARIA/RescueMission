@@ -1,0 +1,72 @@
+@startuml structure
+
+interface IExplorerRaid {
+    +initialize(s: String)
+    +takeDecision(): String
+    +acknowledgeResults(s: String)
+    +deliverFinalReport(): String
+}
+interface DecisionHandler {
+    +determineDecision(map: AreaMap, drone: Drone)
+}
+
+class Explorer {
+    -map: AreaMap
+    -translator: Translator
+    -drone: Drone
+
+    +initialize(s: String)
+    +takeDecision(): String
+    +acknowledgeResults(s: String)
+    +deliverFinalReport(): String
+} 
+class Translator
+class Information
+class Drone {
+    -battery: Integer
+    -heading: Direction
+} 
+class Compass {
+    heading: Direction
+}
+class Point {
+    -x: Integer
+    -y: Integer
+}
+class GridSearch {
+    +determineDecision(map: AreaMap, drone: Drone)
+}
+class CoastlineSearch {
+    +determineDecision(map: AreaMap, drone: Drone)
+}
+class AreaMap {
+    +coordinateSystem: Map<Point, MapFeature>
+}
+
+enum Direction {
+    +NORTH
+    +SOUTH 
+    +EAST 
+    +WEST
+}
+enum MapFeature {
+    +WATER
+    +CREEK 
+    +EMERGENCYSITE
+    +LAND
+}
+
+IExplorerRaid <|.. Explorer
+Explorer --> Translator
+Translator --> Information
+Explorer --> Drone
+Drone --> Compass
+Compass --> Direction
+Explorer --> AreaMap
+AreaMap *--> "*" Point
+AreaMap --> MapFeature
+Explorer --> DecisionHandler
+DecisionHandler <|.. GridSearch
+DecisionHandler <|.. CoastlineSearch
+
+@enduml
