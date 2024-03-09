@@ -19,6 +19,26 @@ public class Point {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((x == null) ? 0 : x.hashCode());
+        result = prime * result + ((y == null) ? 0 : y.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Point)) return false;
+
+        Point point = (Point) o;
+
+        if (!x.equals(point.getX())) return false;
+        return y.equals(point.getY());
+    }
+
+    @Override
     public String toString() {
         return "Point [x=" + x + ", y=" + y + "]";
     }
