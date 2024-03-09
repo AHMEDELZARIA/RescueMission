@@ -5,42 +5,64 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import eu.ace_design.island.bot.IExplorerRaid;
+import scala.annotation.tailrec;
+
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
+    private Drone drone;
+    private Translator translator;
+    private AreaMap map;
+
+    private int count = 0;
 
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
-        JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Initialization info:\n {}",info.toString(2));
-        String direction = info.getString("heading");
-        Integer batteryLevel = info.getInt("budget");
-        logger.info("The drone is facing {}", direction);
-        logger.info("Battery level is {}", batteryLevel);
+        JSONObject context = new JSONObject(new JSONTokener(new StringReader(s)));
+        logger.info("** Initialization info:\n {}",context.toString(2));
+
+        map = new AreaMap();
+        translator = new Translator();
+        
+        // Initialize the drone's heading and battery level
+        Direction heading = Direction.toDirection(context.getString("heading"));
+        Integer batteryLevel = context.getInt("budget");
+        drone = new Drone(batteryLevel, heading);
+        
+        logger.info("The drone is facing {}", drone.getHeading());
+        logger.info("Battery level is {}", drone.getBattery());
     }
 
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
-        int count = 0;
-        while (count < 159) {
-            if (count % 3 == 0) {
+
+        while (this.count < 4) {
+            if (this.count == 0) {
+                decision.put("action", "scan");
+                this.count++;
+                break;
+            } else if (this.count == 1) {
+                decision.put("action", "fly");
+                this.count++;
+                break;
+            } else if (this.count == 2) {
                 decision.put("action", "echo");
                 decision.put("parameters", parameters.put("direction", "E"));
-            } else if (count % 2 == 0) {
-                decision.put("action", "scan");
+                this.count++;
+                break;
             } else {
-                decision.put("action", "fly");
+                decision.put("action", "stop");
+                this.count++;
+                break;
             }
-            count++;
-            break;
         }
-        if (count >= 106) { decision.put("action", "stop"); }
+                
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
