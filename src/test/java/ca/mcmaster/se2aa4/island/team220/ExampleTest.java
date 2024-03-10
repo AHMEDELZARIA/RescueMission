@@ -3,6 +3,8 @@ package ca.mcmaster.se2aa4.island.team220;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExampleTest {
 
@@ -58,6 +60,30 @@ public class ExampleTest {
 
         assertTrue(hashCode1 == hashCode2);
         assertTrue(origin1.equals(origin2));
+    }
+
+    @Test
+    public void pointNotInMap() {
+        AreaMap map = new AreaMap();
+        Point point = new Point(1, 1);
+
+        assertTrue(map.getPoint(point) == null); 
+    }
+
+    @Test
+    public void pointsInMap() {
+        AreaMap map = new AreaMap();
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(1, 1));
+        points.add(new Point(1, 2));
+        points.add(new Point(1, 3));
+        points.add(new Point(1, 4));
+        points.add(new Point(1, 5));
+
+        for (Point p : points) {
+            map.addPoint(p, MapFeature.OCEAN);
+            assertTrue(map.getPoint(p) != null);
+        }
     }
 
     

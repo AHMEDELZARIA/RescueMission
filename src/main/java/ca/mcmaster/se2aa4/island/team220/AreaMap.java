@@ -18,6 +18,11 @@ public class AreaMap {
     }
 
     public MapFeature getPoint(Point point) { 
-        if (map.containsKey(point)) return this.map.get(point); else return null; }
+        if (map.containsKey(point)) {
+            return this.map.get(point); 
+        } else {
+            return null; 
+        }
+    }
 
 }
