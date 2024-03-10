@@ -78,7 +78,6 @@ public class ExampleTest {
         points.add(new Point(1, 2));
         points.add(new Point(1, 3));
         points.add(new Point(1, 4));
-        points.add(new Point(1, 5));
 
         for (Point p : points) {
             map.addPoint(p, MapFeature.OCEAN);
@@ -86,6 +85,6 @@ public class ExampleTest {
         }
     }
 
-    
+
 
 }
