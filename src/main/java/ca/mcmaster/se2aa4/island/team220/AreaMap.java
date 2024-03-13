@@ -6,7 +6,7 @@ import java.util.Map;
 public class AreaMap {
 
     // Use a LinkedHashMap as order of insertion is important to us
-    private Map<Point, MapFeature> map;
+    private Map<Point, MapFeature> map; // maps the coordinate point to the area type it represents (ex. land, creek)
 
     public AreaMap() {
         map = new LinkedHashMap<>();
