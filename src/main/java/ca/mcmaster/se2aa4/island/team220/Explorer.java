@@ -41,6 +41,8 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
+        // echo to find land, fly, if echo finds land, change heading, fly, echo until you hit land, scan, gridmap 
+        
 
         while (this.count < 4) {
             if (this.count == 0) {
@@ -77,6 +79,10 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
+
+        //parse information from extraInfo about ground and range if land is found and change heading, 
+        //if nothing is found then continue flying
+
     }
 
     @Override

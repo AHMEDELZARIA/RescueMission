@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team220;
 
+import org.json.JSONObject;
+
 public class Drone {
 
     private Integer battery;
@@ -13,5 +15,15 @@ public class Drone {
     public Integer getBattery() { return this.battery; }
 
     public Direction getHeading() { return this.heading; }
+
+    public void setBattery(int battery) {
+        this.battery = battery;
+    }
+    public void setDirection(Direction direction) {
+        this.heading = direction;
+    }
+    /*public boolean Echo(JSONObject echo){
+
+    }*/
     
 }
