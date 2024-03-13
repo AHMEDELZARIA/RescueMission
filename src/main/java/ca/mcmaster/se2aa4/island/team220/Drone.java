@@ -15,7 +15,13 @@ public class Drone {
     public Integer getBattery() { return this.battery; }
 
     public Direction getHeading() { return this.heading; }
-
+    
+    // public Direction getLeft() {
+    //     switch(heading) {
+    //         case "E":
+    //         return "N";
+    //     }
+    // }
     public void setBattery(int battery) {
         this.battery = battery;
     }
