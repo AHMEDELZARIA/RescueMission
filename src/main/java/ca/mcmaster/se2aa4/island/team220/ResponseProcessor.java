@@ -10,6 +10,19 @@ public class ResponseProcessor {
         this.range = range;
     }
 
+
+    public void readResults(JSONObject response){
+        if (response.has("extras")){
+            JSONObject extras = response.getJSONObject("extras");
+            if (extras.has("range") || extras.has("status")){
+                processEcho(extras);
+            }else if (extras.has("biomes") || extras.has("creeks") || extras.has("sites")){
+                processScan(extras);
+            }
+
+        }
+    }
+    
     public void processEcho(JSONObject response){
         JSONObject extras = response.getJSONObject("extras");
         int range = extras.getInt("range");
