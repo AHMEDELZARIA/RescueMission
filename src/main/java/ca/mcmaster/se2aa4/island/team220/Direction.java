@@ -8,7 +8,7 @@ public enum Direction {
 
     private final char dir;
 
-    Direction(char dir) { this.dir = dir; }
+    Direction(char dir) { this.dir = dir; } // constructor
 
     @Override
     public String toString() { return "" + dir; }
