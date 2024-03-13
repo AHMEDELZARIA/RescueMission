@@ -16,7 +16,7 @@ public class Explorer implements IExplorerRaid {
     private Drone drone;
     private Translator translator;
     private AreaMap map;
-
+    private ResultProcessor results;
     private int count = 0;
 
     @Override
@@ -82,7 +82,9 @@ public class Explorer implements IExplorerRaid {
 
         //parse information from extraInfo about ground and range if land is found and change heading, 
         //if nothing is found then continue flying
-
+        
+        int range = extraInfo.getInt("range");
+        results.setRange(range);    
     }
 
     @Override
