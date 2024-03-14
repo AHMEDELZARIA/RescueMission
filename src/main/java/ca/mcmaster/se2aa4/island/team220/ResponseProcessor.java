@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 public class ResponseProcessor {
     int range = 0;
+    String found = "";
     String status = "";
     JSONArray biomes = null;
     JSONArray creeks = null;
@@ -52,6 +53,7 @@ public class ResponseProcessor {
     public void processEcho(JSONObject response) {
         JSONObject extras = response.getJSONObject("extras");
         range = extras.getInt("range");
+        found = extras.getString("found");
         status = response.getString("status");
     }
 
