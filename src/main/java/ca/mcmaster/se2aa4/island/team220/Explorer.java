@@ -90,7 +90,8 @@ public class Explorer implements IExplorerRaid {
 
         results.readResults(response);
 
-
+        String found = extraInfo.getString("found");
+        groundFound = found.equals("GROUND");
 
         
     }
