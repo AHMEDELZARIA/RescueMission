@@ -84,8 +84,9 @@ public class Explorer implements IExplorerRaid {
         //if nothing is found then continue flying
         
         int range = extraInfo.getInt("range");
-        results.setRange(range);  
+        results.setRange(range); 
         
+        results.readResults(response);
         
     }
 

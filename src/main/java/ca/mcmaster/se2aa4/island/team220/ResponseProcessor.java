@@ -5,11 +5,35 @@ import org.json.JSONObject;
 
 public class ResponseProcessor {
     int range =0;
+    String status = "";
+    JSONArray biomes = null;
+    JSONArray creeks = null;
+    JSONArray sites = null;
+
 
     public void setRange(int range) {
         this.range = range;
     }
 
+    public int getRange() {
+        return range;
+    }
+
+    public String getStatus(){
+        return status;
+    }
+
+    public JSONArray getBiomes(){
+        return biomes;
+    }
+
+    public JSONArray getCreeks(){
+        return creeks;
+    }
+
+    public JSONArray getSites(){
+        return sites;
+    }
 
     public void readResults(JSONObject response){
         if (response.has("extras")){
@@ -25,15 +49,15 @@ public class ResponseProcessor {
     
     public void processEcho(JSONObject response){
         JSONObject extras = response.getJSONObject("extras");
-        int range = extras.getInt("range");
-        String status = response.getString("status");
+        range = extras.getInt("range");
+        status = response.getString("status");
     }
 
     public void processScan(JSONObject response){
         JSONObject extras = response.getJSONObject("extras");
-        JSONArray biomes = extras.getJSONArray("biomes");
-        JSONArray creeks = extras.getJSONArray("creeks");
-        JSONArray sites = extras.getJSONArray("sites");
+        biomes = extras.getJSONArray("biomes");
+        creeks = extras.getJSONArray("creeks");
+        sites = extras.getJSONArray("sites");
     }
 
 }
