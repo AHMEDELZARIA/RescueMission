@@ -65,6 +65,8 @@ public class Explorer implements IExplorerRaid {
         }
                 
         logger.info("** Decision: {}",decision.toString());
+        String actions = decision.toString();
+        System.out.println(actions);
         return decision.toString();
     }
 
