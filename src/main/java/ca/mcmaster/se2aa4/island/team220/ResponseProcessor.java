@@ -40,8 +40,10 @@ public class ResponseProcessor {
             JSONObject extras = response.getJSONObject("extras");
             if (extras.has("range") || extras.has("status")){
                 processEcho(extras);
+                //System.out.println("echo");
             }else if (extras.has("biomes") || extras.has("creeks") || extras.has("sites")){
                 processScan(extras);
+                //System.out.println("scan");
             }
 
         }

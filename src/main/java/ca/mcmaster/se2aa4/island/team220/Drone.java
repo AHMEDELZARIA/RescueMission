@@ -16,20 +16,29 @@ public class Drone {
 
     public Direction getHeading() { return this.heading; }
     
-    // public Direction getLeft() {
-    //     switch(heading) {
-    //         case "E":
-    //         return "N";
-    //     }
-    // }
     public void setBattery(int battery) {
         this.battery = battery;
     }
     public void setDirection(Direction direction) {
         this.heading = direction;
     }
-    /*public boolean Echo(JSONObject echo){
+    public boolean Echo(JSONObject echo){
+        JSONObject extras = echo.getJSONObject("extras");
+        String found = extras.getString("found");
+        if (found.equals("GROUND")){
+            return true; 
+        }else{
+            return false; 
+        }
+    }
 
-    }*/
+    
+
+        // public Direction getLeft() {
+    //     switch(heading) {
+    //         case "E":
+    //         return "N";
+    //     }
+    // }
     
 }

@@ -80,13 +80,12 @@ public class Explorer implements IExplorerRaid {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
-        //parse information from extraInfo about ground and range if land is found and change heading, 
-        //if nothing is found then continue flying
-        
-        int range = extraInfo.getInt("range");
-        results.setRange(range); 
-        
         results.readResults(response);
+
+        // boolean groundFound = drone.Echo(response);
+        // if (groundFound) {
+        //     drone.moveForward();
+        // }
         
     }
 
