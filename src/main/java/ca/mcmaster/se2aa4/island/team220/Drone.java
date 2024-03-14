@@ -32,7 +32,11 @@ public class Drone {
         }
     }
 
-    
+    public void moveForward(){
+        
+    }
+
+
 
         // public Direction getLeft() {
     //     switch(heading) {

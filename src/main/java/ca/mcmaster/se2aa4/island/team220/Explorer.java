@@ -18,6 +18,7 @@ public class Explorer implements IExplorerRaid {
     private AreaMap map;
     private ResponseProcessor results;
     private int count = 0;
+    private boolean groundFound = false; //added
 
     @Override
     public void initialize(String s) {
@@ -64,6 +65,13 @@ public class Explorer implements IExplorerRaid {
                 break;
             }
         }
+
+        //added
+        if (!groundFound) {
+            decision.put("action", "fly");
+        } else {
+            decision.put("action", "stop");
+        }
                 
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
@@ -82,10 +90,8 @@ public class Explorer implements IExplorerRaid {
 
         results.readResults(response);
 
-        // boolean groundFound = drone.Echo(response);
-        // if (groundFound) {
-        //     drone.moveForward();
-        // }
+
+
         
     }
 
