@@ -1,5 +1,9 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-public interface IDecisionHandler {
-    void determineDecision(AreaMap map, Drone drone);
+public class DecisionHandler {
+
+    private State currentState;
+
+    public void determineDecision(AreaMap map, Drone drone) {
+    };
 }

@@ -5,17 +5,20 @@ import org.json.JSONObject;
 public class Translator {
 
     public Information translate(JSONObject response) {
-        
+
         Action action = determineAction(response.getJSONObject("extras"));
-        
+
         Integer cost = response.getInt("cost");
 
-        
-        
         Boolean status;
-        if (response.getString("status").equals("OK")) { status = true; }
-        else { status = false; }
-        
+        if (response.getString("status").equals("OK")) {
+            status = true;
+        } else {
+            status = false;
+        }
+
+        // PLACEHOLDER
+        return new Information(action, cost, null, status);
     }
 
     private Action determineAction(JSONObject extraInfo) {
