@@ -5,7 +5,7 @@ public class Point {
     private Integer x;
     private Integer y;
 
-    public Point(Integer x, Integer y) {
+    public Point(Integer x, Integer y) { // constructor
         this.x = x;
         this.y = y;
     }
@@ -40,6 +40,6 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point [x=" + x + ", y=" + y + "]";
+        return "Point [x =" + x + ", y =" + y + "]";
     }
 }
