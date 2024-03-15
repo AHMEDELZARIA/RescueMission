@@ -72,16 +72,23 @@ enum MapFeature {
     +LAND
     +UNKNOWN
 }
+enum Action {
+    +FLY
+    +ECHO
+    +SCAN 
+    +STOP
+}
 
 IExplorerRaid <|.. Explorer
 Explorer --> Translator
 Translator --> Information
+Translator --> Action
 Explorer --> Drone
 Drone --> Compass
 Compass --> Direction
 Explorer --> AreaMap
 AreaMap *--> "*" Point
-AreaMap --> MapFeature
+AreaMap *--> "*" MapFeature
 Explorer --> DecisionHandler
 DecisionHandler <|.. GridSearch
 DecisionHandler <|.. CoastlineSearch
