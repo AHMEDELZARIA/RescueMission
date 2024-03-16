@@ -5,8 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import eu.ace_design.island.bot.IExplorerRaid;
-import scala.annotation.tailrec;
-
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -42,6 +40,7 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
+        translator = new Translator();
 
         boolean islandFound = false;
 
