@@ -42,6 +42,8 @@ public class Explorer implements IExplorerRaid {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
+        CommandBook command = new CommandBook(); // DELETE LATER
+
         while (this.count < 4) {
             if (this.count == 0) {
                 decision.put("action", "scan");
@@ -57,6 +59,7 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
                 break;
             } else {
+                command.getCommand();
                 decision.put("action", "stop");
                 this.count++;
                 break;
