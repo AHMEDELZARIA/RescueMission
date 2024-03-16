@@ -46,7 +46,6 @@ public class ResponseProcessor {
                 processScan(extras);
                 //System.out.println("scan");
             }
-
         }
     }
     
