@@ -43,6 +43,17 @@ public class Explorer implements IExplorerRaid {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
+        boolean islandFound = false;
+
+        while (islandFound == false) {
+            decision.put("action", "echo");
+            decision.put("parameters", parameters.put("direction", "N"));
+            if (_________)
+        }
+
+
+        // ---------------------------------------------------------
+
         while (this.count < 4) {
             if (this.count == 0) {
                 decision.put("action", "scan");
@@ -65,8 +76,6 @@ public class Explorer implements IExplorerRaid {
         }
                 
         logger.info("** Decision: {}",decision.toString());
-        String actions = decision.toString();
-        System.out.println(actions);
         return decision.toString();
     }
 
