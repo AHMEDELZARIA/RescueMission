@@ -21,7 +21,7 @@ public class Explorer implements IExplorerRaid {
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
     private int count = 0;
-    boolean islandFound = false;
+    private boolean islandFound = false;
 
     @Override
     public void initialize(String s) {
@@ -47,7 +47,36 @@ public class Explorer implements IExplorerRaid {
         JSONObject parameters = new JSONObject();
         GridSearch search = new GridSearch();
 
+        
+        while (this.count < 2) {
+            decision.put("action", "scan");
+            this.count++;
+            break;
+        }
 
+        /*
+        while (this.count < 4) {
+            if (this.count == 0) {
+                decision.put("action", "scan");
+                this.count++;
+                break;
+            } else if (this.count == 1) { // && this.islandFound == false
+                decision.put("action", "fly");
+                this.count++;
+                break;
+            } else if (this.count == 2) {
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "E"));
+                this.count++;
+                break;
+            } else {
+                decision.put("action", "stop");
+                this.count++;
+                break;
+            }
+        }
+
+        /*
         while (true) {
             if (islandFound == false) {
                 decision.put("action", "fly");
@@ -60,6 +89,7 @@ public class Explorer implements IExplorerRaid {
                 break;
             }
         }
+        */
                 
         logger.info("** Decision: {}", decision.toString());
         return decision.toString();
