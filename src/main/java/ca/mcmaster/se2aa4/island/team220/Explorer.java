@@ -19,6 +19,7 @@ public class Explorer implements IExplorerRaid {
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
     private int count = 0;
+    boolean islandFound = false;
 
     @Override
     public void initialize(String s) {
@@ -44,16 +45,16 @@ public class Explorer implements IExplorerRaid {
         JSONObject parameters = new JSONObject();
         GridSearch search = new GridSearch();
 
-        boolean islandFound = false;
 
         while (true) {
-            if (islandFound == false) {
+            if (islandFound == true) {
                 decision.put("action", "echo");
                 decision.put("parameters", parameters.put("direction", "E"));
-                islandFound = true;
+                islandFound = false;
                 break;
             } else {
                 decision.put("action", "fly");
+                islandFound = true;
                 break;
             }
 
