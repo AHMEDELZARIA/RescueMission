@@ -48,31 +48,25 @@ public class Explorer implements IExplorerRaid {
         while (islandFound == false) {
             decision.put("action", "echo");
             decision.put("parameters", parameters.put("direction", "N"));
-            if (_________)
-        }
-
-
-        // ---------------------------------------------------------
-
-        while (this.count < 4) {
-            if (this.count == 0) {
-                decision.put("action", "scan");
-                this.count++;
-                break;
-            } else if (this.count == 1) {
+            translator.processEcho(decision);
+            if (translator.found == "found") {
+                logger.info("The island has been found up North!");
                 decision.put("action", "fly");
-                this.count++;
-                break;
-            } else if (this.count == 2) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "E"));
-                this.count++;
-                break;
-            } else {
-                decision.put("action", "stop");
-                this.count++;
                 break;
             }
+            decision.put("action", "echo");
+            decision.put("parameters", parameters.put("direction", "E"));
+            if (translator.found == "found") {
+                logger.info("The island has been found to the right!");
+                break;
+            }
+            decision.put("action", "echo");
+            decision.put("parameters", parameters.put("direction", "W"));
+            if (translator.found == "found") {
+                logger.info("The island has been found to the left!");
+                break;
+            }
+            decision.put("action", "fly");
         }
                 
         logger.info("** Decision: {}",decision.toString());
