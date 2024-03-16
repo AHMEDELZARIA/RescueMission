@@ -47,15 +47,15 @@ public class Explorer implements IExplorerRaid {
         JSONObject parameters = new JSONObject();
         GridSearch search = new GridSearch();
 
-        
+
         while (true) {
-            if (islandFound == true) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "E"));
+            if (islandFound == false) {
+                decision.put("action", "fly");
                 islandFound = false;
                 break;
             } else {
-                decision.put("action", "fly");
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "E"));
                 islandFound = true;
                 break;
             }
