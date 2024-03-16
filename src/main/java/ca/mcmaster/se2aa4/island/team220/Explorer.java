@@ -1,6 +1,8 @@
 package ca.mcmaster.se2aa4.island.team220;
 
 import java.io.StringReader;
+import java.lang.reflect.GenericDeclaration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,9 +42,12 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
+        GridSearch search = new GridSearch();
 
+        search.determineDecision(map, drone);
+
+        /*
         boolean islandFound = false;
-
 
         while (true) {
             if (islandFound == false) {
