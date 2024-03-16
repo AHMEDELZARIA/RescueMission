@@ -40,19 +40,24 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
-        translator = new Translator();
 
         boolean islandFound = false;
 
-        while (islandFound == false) {
-            decision.put("action", "echo");
-            decision.put("parameters", parameters.put("direction", "N"));
+
+        while (true) {
+            if (islandFound == false) {
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "E"));
+                break;
+            } 
+
+            /*
             translator.processEcho(decision);
             if (translator.found == "found") {
                 logger.info("The island has been found up North!");
                 decision.put("action", "fly");
-                break;
             }
+            break;
             decision.put("action", "echo");
             decision.put("parameters", parameters.put("direction", "E"));
             if (translator.found == "found") {
@@ -66,9 +71,10 @@ public class Explorer implements IExplorerRaid {
                 break;
             }
             decision.put("action", "fly");
+            */
         }
                 
-        logger.info("** Decision: {}",decision.toString());
+        logger.info("** Decision: {}", decision.toString());
         return decision.toString();
     }
 
