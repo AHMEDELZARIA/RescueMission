@@ -44,7 +44,10 @@ public class Explorer implements IExplorerRaid {
         JSONObject parameters = new JSONObject();
         GridSearch search = new GridSearch();
 
-        search.determineDecision(map, drone);
+        while (true) {
+            search.determineDecision(map, drone);
+        }
+        
 
         /*
         boolean islandFound = false;
