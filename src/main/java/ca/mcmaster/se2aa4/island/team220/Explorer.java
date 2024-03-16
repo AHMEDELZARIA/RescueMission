@@ -60,7 +60,7 @@ public class Explorer implements IExplorerRaid {
                 break;
             } else {
                 command.getCommand();
-                decision.put("action", "stop");
+                // decision.put("action", "stop");
                 this.count++;
                 break;
             }
