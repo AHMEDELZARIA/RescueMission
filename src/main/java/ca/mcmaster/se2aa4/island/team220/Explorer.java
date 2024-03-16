@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team220;
 
+import static org.junit.Assert.fail;
+
 import java.io.StringReader;
 import java.lang.reflect.GenericDeclaration;
 
@@ -45,11 +47,7 @@ public class Explorer implements IExplorerRaid {
         JSONObject parameters = new JSONObject();
         GridSearch search = new GridSearch();
 
-        decision.put("action", "fly");
-        islandFound = true;
-
-
-        /*
+        
         while (true) {
             if (islandFound == true) {
                 decision.put("action", "echo");
@@ -61,29 +59,6 @@ public class Explorer implements IExplorerRaid {
                 islandFound = true;
                 break;
             }
-            */
-
-            /*
-            translator.processEcho(decision);
-            if (translator.found == "found") {
-                logger.info("The island has been found up North!");
-                decision.put("action", "fly");
-            }
-            break;
-            decision.put("action", "echo");
-            decision.put("parameters", parameters.put("direction", "E"));
-            if (translator.found == "found") {
-                logger.info("The island has been found to the right!");
-                break;
-            }
-            decision.put("action", "echo");
-            decision.put("parameters", parameters.put("direction", "W"));
-            if (translator.found == "found") {
-                logger.info("The island has been found to the left!");
-                break;
-            }
-            decision.put("action", "fly");
-            */
         }
                 
         logger.info("** Decision: {}", decision.toString());
