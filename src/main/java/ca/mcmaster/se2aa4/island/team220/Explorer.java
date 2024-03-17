@@ -93,7 +93,7 @@ public class Explorer implements IExplorerRaid {
                             gridCount = 6; 
                         }
                         break;
-                        case 6: 
+                    case 6: 
                         decision.put("action", "scan");
                         gridCount++;
                         break;
