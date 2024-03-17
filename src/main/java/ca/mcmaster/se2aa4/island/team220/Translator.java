@@ -46,6 +46,13 @@ public class Translator {
     public void setRange(int range) {
         this.range = range;
     }
+    public int getRange() {
+        return range;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 
     public void processEcho(JSONObject response) {
         JSONObject extras = response.getJSONObject("extras");
