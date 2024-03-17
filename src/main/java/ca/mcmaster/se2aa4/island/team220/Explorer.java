@@ -25,7 +25,7 @@ public class Explorer implements IExplorerRaid {
     private String found = ""; // DELETE LATER, for echo results
     private int range = 0; // DELETE LATER, for echo results
     private JSONObject scan = null; // DELETE LATER
-    private int testCount = 0; // DELETE LATER JUST A TEST
+    private int count2 = 0; // DELETE LATER JUST A TEST
     private boolean headingDone = false;
 
     private boolean findIslandMode = true; // DELETE LATER, we always start with this mode
@@ -105,17 +105,39 @@ public class Explorer implements IExplorerRaid {
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 2");
             }
         }
+ 
+        if (this.reachIslandMode == true) {
+            if (this.count2 < 52) {
+                logger.info(this.count2); // count for scan and fly
+                // add a condition for finding land
+                if (this.count2 % 2 == 0) {
+                    decision.put("action", "fly");
+                    // this.count2++;
+                } else if (this.count2 % 2 == 1) {
+                    decision.put("action", "scan");
+                    // this.count2++;
+                }
+                this.count2++;
+            }
+        }
 
         /* 
-        if (this.reachIslandMode == true) {
-            // add a condition for finding land
-            if (this.testCount % 2 == 0) {
-                decision.put("action", "scan");
-            } else if (this.testCount % 2 == 1) {
-                decision.put("action", "fly");
-            }
-            this.testCount++;
-        }
+        if (this.findIslandMode == true) {
+            if (!(this.found).equals("GROUND")) { // while the island is not found
+                logger.info(this.count); // total count = 106
+                if (this.count % 4 == 0) {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "S")); // echo left
+                } else if (this.count % 4 == 1) {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "N")); // echo right
+                } else if (this.count % 4 == 2) {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "E")); // echo straight
+                } else if (this.count % 4 == 3) {
+                    decision.put("action", "fly"); // fly
+                }
+                this.count++;
         */
 
         /* 
@@ -176,10 +198,12 @@ public class Explorer implements IExplorerRaid {
             this.range = extraInfo.getInt("range"); // we get the range of GROUND
         }
 
+        /* 
         // logger.info("-------------------------------------------> This is scan: {}", this.scan);
         if (extraInfo.has("biomes")) {
             this.scan = extraInfo.getJSONArray("biomes").getJSONObject(0); // hopefully this gets OCEAN
         }
+        */
         
     }
 
