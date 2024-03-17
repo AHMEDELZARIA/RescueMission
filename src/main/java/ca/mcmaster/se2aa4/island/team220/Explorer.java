@@ -126,8 +126,13 @@ public class Explorer implements IExplorerRaid {
             }
         }
 
+        /* searchLine Algorithm:
+        there are actually a lot of conditions, make a plan for it first
+         * 1. While end of island not reached (while ocean not found)
+        */
+
        
-        
+
                 
 
         // execute decision
