@@ -23,16 +23,16 @@ public class Explorer implements IExplorerRaid {
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
     private int count = 0;
-    private int rangeCount = 0; // DELETE LATER
-    private String found = ""; // DELETE LATER, for echo results
-    private int range = 0; // DELETE LATER, for echo results
-    private String scan = ""; // DELETE LATER
-    private int count2 = 0; // DELETE LATER JUST A TEST
+    private String found = ""; // DELETE LATER: findIsland, for echo results
+    private int range = 0; // DELETE LATER: findIsland, for echo results
+    private String scan = ""; // DELETE LATER: reachIsland, 
+    private int count2 = 0; // DELETE LATER: reachIsland
     private boolean headingDone = false;
 
-    private boolean findIslandMode = true; // DELETE LATER, we always start with this mode
-    private boolean reachIslandMode = false; // DELETE LATER, we do this mode after findIsland mode is complete (aka false)
-    private boolean changeHeading = false;
+    private boolean findIslandMode = true; // DELETE LATER: round 1 (we always start with this mode)
+    private boolean changeHeading = false; // DELETE LATER: round 2
+    private boolean reachIslandMode = false; // DELETE LATER: round 3
+    
 
     @Override
     public void initialize(String s) {
@@ -56,10 +56,8 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
-        GridSearch search = new GridSearch(); // DELETE LATER
-        Translator echoTime = new Translator(); // DELETE LATER
 
-        // findIsland Mode
+        // findIsland Mode: FIND THE ISLAND
         if (this.findIslandMode == true) {
             if (!(this.found).equals("GROUND")) { // while the island is not found
                 logger.info(this.count); // total count = 106
@@ -76,19 +74,19 @@ public class Explorer implements IExplorerRaid {
                     decision.put("action", "fly"); // fly
                 }
                 this.count++;
-            } else if ((this.found).equals("GROUND")) {
+            } else {
                 // decision.put("action", "stop");
                 this.findIslandMode = false;
                 // this.reachIslandMode = true;
                 this.changeHeading = true;
                 logger.info("This is the final count: {}", (this.count-1));
-                logger.info("THIS IS THE RANGE --------------------------------> {}", this.range);
+                logger.info("THIS IS THE RANGE --------------------------------> {}", this.range); // 27 for map20
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 1");
                 logger.info("");
             }
         }
         
-        // changeHeading mode
+        // changeHeading mode: TURN TOWARDS THE ISLAND
         if (this.changeHeading == true) {
             if (this.headingDone == false) {
                 if ((this.count-1) % 4 == 0) {
@@ -108,6 +106,7 @@ public class Explorer implements IExplorerRaid {
             }
         }
  
+        // reachIsland: REACH THE ISLAND
         if (this.reachIslandMode == true) {
             if (!(this.scan).equals("BEACH")) { // condition for finding land
                 logger.info(this.count2); // count for scan and fly
@@ -120,60 +119,15 @@ public class Explorer implements IExplorerRaid {
                     // this.count2++;
                 }
                 this.count2++;
-            }
-        }
-
-        /* 
-        if (this.findIslandMode == true) {
-            if (!(this.found).equals("GROUND")) { // while the island is not found
-                logger.info(this.count); // total count = 106
-                if (this.count % 4 == 0) {
-                    decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "S")); // echo left
-                } else if (this.count % 4 == 1) {
-                    decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "N")); // echo right
-                } else if (this.count % 4 == 2) {
-                    decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "E")); // echo straight
-                } else if (this.count % 4 == 3) {
-                    decision.put("action", "fly"); // fly
-                }
-                this.count++;
-        */
-
-        /* 
-        if (this.changeHeading == true && this.reachIslandMode == false) {
-            decision.put("action", "scan");
-        }
-        */
-            
-            /* 
-            else if (this.changeHeading == true && !(this.scan).equals("LAND")) {
-                if (this.testCount % 2 == 0) {
-                    decision.put("action", "fly");
-                    this.testCount++;
-                }
-                if (this.testCount % 2 == 1) {
-                    decision.put("action", "scan");
-                    this.testCount++;
-                }
-            }
-            */
-
-
-            /* 
-            if (this.rangeCount < 29 && this.testCount == 6) {
-                decision.put("action", "fly");
-                logger.info("THIS IS THE RANGE --------------------------------> {}", this.range);
-                logger.info("THIS IS THE RANGECOUNT --------------------------------> {}", this.rangeCount);
-                this.rangeCount++;
-            } else if (this.rangeCount == 29 && this.testCount == 6) {
-                decision.put("action", "scan");
-                //decision.put("parameters", parameters.put("direction", "S"));
+            } else {
                 this.reachIslandMode = false;
+                decision.clear();
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 3");
             }
-            */
+        }
+
+       
+        
                 
 
         // execute decision
