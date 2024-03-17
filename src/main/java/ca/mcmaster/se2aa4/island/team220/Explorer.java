@@ -21,8 +21,11 @@ public class Explorer implements IExplorerRaid {
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
     private int count = 0;
+    private int rangeCount = 0; // DELETE LATER
     private String found = ""; // DELETE LATER, for echo results
     private int range = 0; // DELETE LATER, for echo results
+    private String scan = ""; // DELETE LATER
+    private int testCount = 0; // DELETE LATER JUST A TEST
 
     private boolean findIslandMode = true; // DELETE LATER, we always start with this mode
     private boolean reachIslandMode = false; // DELETE LATER, we do this mode after findIsland mode is complete (aka false)
@@ -52,12 +55,6 @@ public class Explorer implements IExplorerRaid {
         GridSearch search = new GridSearch(); // DELETE LATER
         Translator echoTime = new Translator(); // DELETE LATER
 
-        boolean echoStraight = false;
-        boolean echoLeft = false;
-        boolean echoRight = false;
-
-
-
         // findIsland Mode
         if (this.findIslandMode == true) {
             if (!(this.found).equals("GROUND")) { // while the island is not found
@@ -65,37 +62,55 @@ public class Explorer implements IExplorerRaid {
                 if (this.count % 4 == 0) {
                     decision.put("action", "echo");
                     decision.put("parameters", parameters.put("direction", "S")); // echo left
-                    this.count++;
                 } else if (this.count % 4 == 1) {
                     decision.put("action", "echo");
                     decision.put("parameters", parameters.put("direction", "N")); // echo right
-                    this.count++;
                 } else if (this.count % 4 == 2) {
                     decision.put("action", "echo");
                     decision.put("parameters", parameters.put("direction", "E")); // echo straight
-                    this.count++;
                 } else if (this.count % 4 == 3) {
                     decision.put("action", "fly"); // fly
-                    this.count++;
                 }
+                count++;
             } else if ((this.found).equals("GROUND")) {
-                decision.put("action", "stop");
-                this.count--;
+                // decision.put("action", "stop");
                 this.findIslandMode = false;
                 this.reachIslandMode = true;
+                logger.info("Time to reach the island!");
+                logger.info("This is the final count: {}", (this.count-1));
             }
         }
 
+        
         // reachIsland mode
         if (this.reachIslandMode == true) {
-            logger.info("Time to reach the island!");
-            logger.info("This is the final count: {}", (count));
-            switch (this.count % 4) {
-                case 0:
-                    decision.put("action", "heading");
-                    // ____________________________________________
+
+            if (this.testCount < 5) {
+                decision.put("action", "fly");
+                this.testCount++;
+            }
+            if ((this.count-1) % 4 == 0 && this.testCount == 5) {
+                decision.put("action", "heading");
+                decision.put("parameters", parameters.put("direction", "S"));
+                this.count = 2;
+                this.testCount = 6; // DELETE LATER
+            } else if ((this.count-1) % 4 == 1 && this.testCount == 5) {
+                decision.put("action", "heading");
+                decision.put("parameters", parameters.put("direction", "N"));
+                this.count = 2;
+                this.testCount = 6; // DELETE LATER
             }
             
+            if (this.rangeCount < this.range*2 && this.testCount == 6) {
+                decision.put("action", "fly");
+                logger.info("THIS IS THE RANGE --------------------------------> {}", this.range);
+                logger.info("THIS IS THE RANGECOUNT --------------------------------> {}", this.rangeCount);
+                this.rangeCount++;
+            } else if (this.rangeCount == this.range*2 && this.testCount == 6) {
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "S"));
+                this.reachIslandMode = false;
+            }
         }
                 
 
