@@ -56,6 +56,10 @@ public class Explorer implements IExplorerRaid {
                 decision.put("action", "fly");
                 this.count++;
             }
+            // else if (this.count % 3 == 2){
+            //     decision.put("action", "echo");
+            //     this.count++;
+            // }
         } else if ((this.found).equals("GROUND")) {
             decision.put("action", "stop");
         }
@@ -85,15 +89,18 @@ public class Explorer implements IExplorerRaid {
         */
 
         //added
+        /* 
         if (!groundFound) {
             decision.put("action", "fly");
         } else {
             decision.put("action", "stop");
         }
+        */
                 
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
+    
 
     @Override
     public void acknowledgeResults(String s) {
