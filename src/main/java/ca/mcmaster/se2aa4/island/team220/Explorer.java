@@ -18,6 +18,7 @@ public class Explorer implements IExplorerRaid {
     private AreaMap map;
 
     private int count = 0;
+    private String found = ""; // NEW
 
     @Override
     public void initialize(String s) {
@@ -42,6 +43,24 @@ public class Explorer implements IExplorerRaid {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
+        // NEW
+        if (!(this.found).equals("GROUND")) {
+            logger.info(this.count); // total fly count = like 106 idk lol
+            if (this.count % 2 == 0) {
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "S"));
+                this.count++;
+            }
+            else if (this.count % 2 == 1) {
+                decision.put("action", "fly");
+                this.count++;
+            }
+        } else if ((this.found).equals("GROUND")) {
+            decision.put("action", "stop");
+        }
+
+
+        /*
         while (this.count < 4) {
             if (this.count == 0) {
                 decision.put("action", "scan");
@@ -62,6 +81,7 @@ public class Explorer implements IExplorerRaid {
                 break;
             }
         }
+        */
 
         logger.info("** Decision: {}", decision.toString());
         return decision.toString();
