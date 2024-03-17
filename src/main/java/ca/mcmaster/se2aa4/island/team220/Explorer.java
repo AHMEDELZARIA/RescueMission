@@ -81,6 +81,18 @@ public class Explorer implements IExplorerRaid {
                         decision.put("parameters", parameters.put("direction", "N")); 
                         gridCount++;
                         break;
+                    case 4: 
+                        if (this.found.equals("LAND")) {
+                            gridCount = 0; 
+                        }
+                        break;
+                    case 5: 
+                        if (this.found.equals("OCEAN")) {
+                            decision.put("action", "heading");
+                            decision.put("parameters", parameters.put("direction", "E"));
+                            gridCount = 6; 
+                        }
+                        break;
                    
                 }
             } else {
