@@ -1,8 +1,15 @@
 package ca.mcmaster.se2aa4.island.team220;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Translator {
+    int range = 0;
+    String found = "";
+    String status = "";
+    JSONArray biomes = null;
+    JSONArray creeks = null;
+    JSONArray sites = null;
 
     public Information translate(JSONObject response) {
 
@@ -35,4 +42,8 @@ public class Translator {
             return Action.SCAN;
         }
     }
+
+
+
+
 }
