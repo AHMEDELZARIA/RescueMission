@@ -18,7 +18,7 @@ public class Explorer implements IExplorerRaid {
     private AreaMap map;
     private ResponseProcessor results;
     private int count = 0;
-    private boolean groundFound = false; //added
+    private String found = "";
 
     @Override
     public void initialize(String s) {
@@ -44,7 +44,24 @@ public class Explorer implements IExplorerRaid {
         JSONObject parameters = new JSONObject();
         // echo to find land, fly, if echo finds land, change heading, fly, echo until you hit land, scan, gridmap 
         
+        
+        if (!(this.found).equals("GROUND")) {
+            logger.info(this.count); // total fly count = like 106 idk lol
+            if (this.count % 2 == 0) {
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "S"));
+                this.count++;
+            }
+            else if (this.count % 2 == 1) {
+                decision.put("action", "fly");
+                this.count++;
+            }
+        } else if ((this.found).equals("GROUND")) {
+            decision.put("action", "stop");
+        }
 
+
+        /* 
         while (this.count < 4) {
             if (this.count == 0) {
                 decision.put("action", "scan");
@@ -65,6 +82,7 @@ public class Explorer implements IExplorerRaid {
                 break;
             }
         }
+        */
 
         //added
         if (!groundFound) {
@@ -90,9 +108,8 @@ public class Explorer implements IExplorerRaid {
 
         results.readResults(response);
 
-        String found = extraInfo.getString("found");
-        groundFound = found.equals("GROUND");
-
+        
+        //groundFound = found.equals("GROUND");
         
     }
 
