@@ -61,6 +61,7 @@ public class Explorer implements IExplorerRaid {
 
 
         /*
+        Original Code:
         while (this.count < 4) {
             if (this.count == 0) {
                 decision.put("action", "scan");
@@ -80,6 +81,23 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
                 break;
             }
+        }
+
+        Alt. Code:
+        if (this.count == 0) {
+            decision.put("action", "scan");
+            this.count++;
+        } else if (this.count == 1 && this.islandFound == false) { // && this.islandFound == false
+            decision.put("action", "scan");
+            this.count++;
+            //this.islandFound = true;
+        } else if (this.count == 2 && this.islandFound == false) {
+            decision.put("action", "echo");
+            decision.put("parameters", parameters.put("direction", "E"));
+            this.count++;
+        } else if (this.count < 6) {
+            decision.put("action", "fly");
+            this.count++;
         }
         */
 
