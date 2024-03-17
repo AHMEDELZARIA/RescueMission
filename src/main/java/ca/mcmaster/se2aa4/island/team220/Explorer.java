@@ -9,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import eu.ace_design.island.bot.IExplorerRaid;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -24,7 +26,7 @@ public class Explorer implements IExplorerRaid {
     private int rangeCount = 0; // DELETE LATER
     private String found = ""; // DELETE LATER, for echo results
     private int range = 0; // DELETE LATER, for echo results
-    private JSONObject scan = null; // DELETE LATER
+    private String scan = ""; // DELETE LATER
     private int count2 = 0; // DELETE LATER JUST A TEST
     private boolean headingDone = false;
 
@@ -192,18 +194,19 @@ public class Explorer implements IExplorerRaid {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
         
-        // DELETE THIS LATER
+        // DELETE THIS LATER: ECHO EXTRACT
         if (extraInfo.has("found")) { // if extraInfo has information ('fly' will yield no info so we skip it)
             this.found = extraInfo.getString("found"); // (now this will contain either OUT_OF_RANGE or GROUND)
             this.range = extraInfo.getInt("range"); // we get the range of GROUND
         }
 
-        /* 
-        // logger.info("-------------------------------------------> This is scan: {}", this.scan);
+        // DELETE THIS LATER: SCAN EXTRACT
         if (extraInfo.has("biomes")) {
-            this.scan = extraInfo.getJSONArray("biomes").getJSONObject(0); // hopefully this gets OCEAN
+            logger.info("heck yeah");
+            JSONArray smurf = extraInfo.getJSONArray("biomes");
+            this.scan = smurf.getString(0);
+            logger.info("-------------------------------------------> This is scan: {}", this.scan);
         }
-        */
         
     }
 
