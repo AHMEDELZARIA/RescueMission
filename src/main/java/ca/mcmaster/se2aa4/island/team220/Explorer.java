@@ -93,7 +93,23 @@ public class Explorer implements IExplorerRaid {
                             gridCount = 6; 
                         }
                         break;
-                   
+                        case 6: 
+                        decision.put("action", "scan");
+                        gridCount++;
+                        break;
+                    case 7:
+                        decision.put("action", "echo");
+                        decision.put("parameters", parameters.put("direction", "E"));
+                        gridCount++;
+                        break;
+                    case 8: 
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", "E"));
+                        gridCount++;
+                        break;
+                    default: 
+                        gridCount = 0; 
+                        break;
                 }
             } else {
                 decision.put("action", "stop");
