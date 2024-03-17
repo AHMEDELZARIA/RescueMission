@@ -48,9 +48,6 @@ public class Explorer implements IExplorerRaid {
         JSONObject parameters = new JSONObject();
         GridSearch search = new GridSearch(); // DELETE LATER
         Translator echoTime = new Translator(); // DELETE LATER
-        
-        // range = extras.getInt("range");
-        // status = response.getString("status");
 
 
         if (this.count % 2 == 0) { // && this.found != "GROUND"
@@ -63,8 +60,10 @@ public class Explorer implements IExplorerRaid {
             this.count++;
         }
         logger.info(this.count); // total fly count = 106
+        logger.info(found);
+ 
 
-
+        // {"cost":6,"extras":{"found":"OUT_OF_RANGE","range":52},"status":"OK"}
         
        /* 
        if (this.count == 0) {
@@ -106,6 +105,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public void acknowledgeResults(String s) {
+        found = s; // DELETE LATER
         logger.info(s); // DELETE LATER
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n"+response.toString(2));
@@ -115,9 +115,10 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
+        found = extraInfo.toString(); // DELETE LATER
 
-        String yeehaw = extraInfo.getString("found"); // DELETE LATER
-        found = yeehaw; // DELETE LATER
+        // String yeehaw = extraInfo.getString("found"); // DELETE LATER
+        // found = yeehaw; // DELETE LATER
         // logger.info(found); // DELETE LATER
     }
 
