@@ -46,12 +46,15 @@ public class Explorer implements IExplorerRaid {
         // NEW
         if (!(this.found).equals("GROUND")) {
             logger.info(this.count); // total fly count = like 106 idk lol
-            if (this.count % 2 == 0) {
+            if (this.count % 3 == 0) {
                 decision.put("action", "echo");
                 decision.put("parameters", parameters.put("direction", "S"));
                 this.count++;
             }
-            else if (this.count % 2 == 1) {
+            else if (this.count % 3 == 1) {
+                decision.put("action", "scan");
+                this.count++;
+            }else{
                 decision.put("action", "fly");
                 this.count++;
             }
