@@ -26,6 +26,7 @@ public class Explorer implements IExplorerRaid {
     private int range = 0; // DELETE LATER, for echo results
     private JSONObject scan = null; // DELETE LATER
     private int testCount = 0; // DELETE LATER JUST A TEST
+    private boolean headingDone = false;
 
     private boolean findIslandMode = true; // DELETE LATER, we always start with this mode
     private boolean reachIslandMode = false; // DELETE LATER, we do this mode after findIsland mode is complete (aka false)
@@ -78,29 +79,34 @@ public class Explorer implements IExplorerRaid {
                 this.findIslandMode = false;
                 // this.reachIslandMode = true;
                 this.changeHeading = true;
-                logger.info("Time to reach the island!");
                 logger.info("This is the final count: {}", (this.count-1));
                 logger.info("THIS IS THE RANGE --------------------------------> {}", this.range);
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII this is the point where I lose it");
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 1");
                 logger.info("");
             }
         }
         
-        // reachIsland mode
+        // changeHeading mode
         if (this.changeHeading == true) {
-            if ((this.count-1) % 4 == 0) {
-                decision.put("action", "heading");
-                decision.put("parameters", parameters.put("direction", "S"));
-            } else if ((this.count-1) % 4 == 1) {
-                decision.put("action", "heading");
-                decision.put("parameters", parameters.put("direction", "N"));
+            if (this.headingDone == false) {
+                if ((this.count-1) % 4 == 0) {
+                    decision.put("action", "heading");
+                    decision.put("parameters", parameters.put("direction", "S"));
+                    this.headingDone = true;
+                } else if ((this.count-1) % 4 == 1) {
+                    decision.put("action", "heading");
+                    decision.put("parameters", parameters.put("direction", "N"));
+                    this.headingDone = true;
+                }
+            } else {
+                this.changeHeading = false;
+                this.reachIslandMode = true;
+                decision.clear();
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 2");
             }
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 2");
-            this.changeHeading = false;
-            this.reachIslandMode = true; 
-            decision.clear();
         }
 
+        /* 
         if (this.reachIslandMode == true) {
             // add a condition for finding land
             if (this.testCount % 2 == 0) {
@@ -110,6 +116,7 @@ public class Explorer implements IExplorerRaid {
             }
             this.testCount++;
         }
+        */
 
         /* 
         if (this.changeHeading == true && this.reachIslandMode == false) {
@@ -168,7 +175,8 @@ public class Explorer implements IExplorerRaid {
             this.found = extraInfo.getString("found"); // (now this will contain either OUT_OF_RANGE or GROUND)
             this.range = extraInfo.getInt("range"); // we get the range of GROUND
         }
-        logger.info("-------------------------------------------> This is scan: {}", this.scan);
+
+        // logger.info("-------------------------------------------> This is scan: {}", this.scan);
         if (extraInfo.has("biomes")) {
             this.scan = extraInfo.getJSONArray("biomes").getJSONObject(0); // hopefully this gets OCEAN
         }
