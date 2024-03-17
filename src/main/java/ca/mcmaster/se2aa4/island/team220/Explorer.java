@@ -21,8 +21,7 @@ public class Explorer implements IExplorerRaid {
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
     private int count = 0;
-    private boolean islandFound = false; // DELETE LATER
-    private String found; // DELETE LATER
+    private String found = ""; // DELETE LATER
 
     @Override
     public void initialize(String s) {
@@ -50,22 +49,22 @@ public class Explorer implements IExplorerRaid {
         Translator echoTime = new Translator(); // DELETE LATER
 
 
-        if (this.count % 2 == 0) { // && this.found != "GROUND"
-            decision.put("action", "echo");
-            decision.put("parameters", parameters.put("direction", "S"));
-            this.count++;
+        if (!(this.found).equals("GROUND")) {
+            logger.info(this.count); // total fly count = like 106 idk lol
+            if (this.count % 2 == 0) {
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "S"));
+                this.count++;
+            }
+            else if (this.count % 2 == 1) {
+                decision.put("action", "fly");
+                this.count++;
+            }
+        } else if ((this.found).equals("GROUND")) {
+            decision.put("action", "stop");
         }
-        else if (this.count % 2 == 1) {
-            decision.put("action", "fly");
-            this.count++;
-        }
-        logger.info("----------------------->", found);
-        logger.info(this.count); // total fly count = 106
         
- 
-
-        // {"cost":6,"extras":{"found":"OUT_OF_RANGE","range":52},"status":"OK"}
-        
+    
        /* 
        if (this.count == 0) {
             decision.put("action", "scan");
@@ -82,23 +81,7 @@ public class Explorer implements IExplorerRaid {
             decision.put("action", "fly");
             this.count++;
         }
-
-        /*
-        while (true) {
-            if (islandFound == false) {
-                decision.put("action", "fly");
-                islandFound = false;
-                break;
-            } else {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "E"));
-                islandFound = true;
-                break;
-            }
-        }
         */
-
-
                 
         logger.info("** Decision: {}", decision.toString());
         return decision.toString();
@@ -107,7 +90,7 @@ public class Explorer implements IExplorerRaid {
     @Override
     public void acknowledgeResults(String s) {
         // found = s; // DELETE LATER
-        logger.info(s); // DELETE LATER
+        // logger.info (s); // DELETE LATER
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n"+response.toString(2));
         Integer cost = response.getInt("cost");
@@ -116,22 +99,12 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
-
-        logger.info("-----------------------------------------------------TEST I");
-        if (extraInfo.isNull("found")) {
-            logger.info("------------------------------------ This works");
+        
+        // DELETE THIS LATER
+        if (!extraInfo.isNull("found")) {
+            this.found = extraInfo.getString("found");
         }
-
-        /* 
-        if (extraInfo.isNull("found")) {
-            found = extraInfo.getString("found");
-        }
-        // found = extraInfo.toString(); // DELETE LATER
-
-        // String yeehaw = extraInfo.getString("found"); // DELETE LATER
-        // found = yeehaw; // DELETE LATER
-        // logger.info(found); // DELETE LATER
-        */
+        
     }
 
     @Override
