@@ -77,27 +77,6 @@ public class Explorer implements IExplorerRaid {
         if (this.reachIslandMode == true) {
             logger.info("Time to reach the island!");
         }
-
-        // 
-        
-    
-       /* 
-       if (this.count == 0) {
-            decision.put("action", "scan");
-            this.count++;
-        } else if (this.count == 1 && this.islandFound == false) { // && this.islandFound == false
-            decision.put("action", "scan");
-            this.count++;
-            //this.islandFound = true;
-        } else if (this.count == 2 && this.islandFound == false) {
-            decision.put("action", "echo");
-            decision.put("parameters", parameters.put("direction", "E"));
-            this.count++;
-        } else if (this.count < 6) {
-            decision.put("action", "fly");
-            this.count++;
-        }
-        */
                 
         logger.info("** Decision: {}", decision.toString());
         return decision.toString();
