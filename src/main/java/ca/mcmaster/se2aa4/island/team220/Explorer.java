@@ -20,7 +20,7 @@ public class Explorer implements IExplorerRaid {
     private int count = 0;
     private String found = "";
     private int gridCount = 0;
-    private boolean islandFound = false;
+    private boolean isFound = false;
 
     @Override
     public void initialize(String s) {
@@ -44,28 +44,23 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
+    
         // echo to find land, fly, if echo finds land, change heading, fly, echo until you hit land, scan, gridmap 
-        
-        
         if (!(this.found).equals("GROUND")) {
             logger.info(this.count); // total fly count = like 106 idk lol
             if (this.count % 3 == 0) {
                 decision.put("action", "scan");
                 this.count++;
-            }
-            else if (this.count % 3 == 1) {
+            } else if (this.count % 3 == 1) {
                 decision.put("action", "fly");
                 this.count++;
-            }
-            else{
+            } else {
                 decision.put("action", "echo");
                 decision.put("parameters", parameters.put("direction", "S"));
                 this.count++;
             }
-        } else if ((this.found).equals("GROUND")) {
-            decision.put("action", "stop");
-        }else{
-            if (!islandFound) {
+        } else {
+            if (!isFound) {
                 switch (gridCount) {
                     case 0:
                         decision.put("action", "scan");
@@ -76,48 +71,26 @@ public class Explorer implements IExplorerRaid {
                         decision.put("parameters", parameters.put("direction", "W"));
                         gridCount++;
                         break;
+                    case 2: 
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", "W"));
+                        gridCount++;
+                        break;
+                    case 3: 
+                        decision.put("action", "echo");
+                        decision.put("parameters", parameters.put("direction", "N")); 
+                        gridCount++;
+                        break;
+                   
                 }
-            }
-
-        }
-
-
-        /* 
-        while (this.count < 4) {
-            if (this.count == 0) {
-                decision.put("action", "scan");
-                this.count++;
-                break;
-            } else if (this.count == 1) {
-                decision.put("action", "fly");
-                this.count++;
-                break;
-            } else if (this.count == 2) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "E"));
-                this.count++;
-                break;
             } else {
                 decision.put("action", "stop");
-                this.count++;
-                break;
             }
         }
-        */
-
-        //added
-        /* 
-        if (!groundFound) {
-            decision.put("action", "fly");
-        } else {
-            decision.put("action", "stop");
-        }
-        */
-                
-        logger.info("** Decision: {}",decision.toString());
+    
+        logger.info("** Decision: {}", decision.toString());
         return decision.toString();
     }
-    
 
     @Override
     public void acknowledgeResults(String s) {
@@ -130,14 +103,9 @@ public class Explorer implements IExplorerRaid {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
-        //results.readResults(response);
-
         if (!extraInfo.isNull("found")) {
             this.found = extraInfo.getString("found");
         }
-        
-        //groundFound = found.equals("GROUND");
-        
     }
 
     @Override
