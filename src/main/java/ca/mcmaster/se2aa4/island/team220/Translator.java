@@ -43,6 +43,13 @@ public class Translator {
         }
     }
 
+    public void processEcho(JSONObject response) {
+        JSONObject extras = response.getJSONObject("extras");
+        range = extras.getInt("range");
+        found = extras.getString("found");
+        status = response.getString("status");
+    }
+
 
 
 
