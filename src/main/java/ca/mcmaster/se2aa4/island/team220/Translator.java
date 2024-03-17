@@ -54,6 +54,18 @@ public class Translator {
         return status;
     }
 
+    public JSONArray getBiomes() {
+        return biomes;
+    }
+
+    public JSONArray getCreeks() {
+        return creeks;
+    }
+
+    public JSONArray getSites() {
+        return sites;
+    }
+
     public void processEcho(JSONObject response) {
         JSONObject extras = response.getJSONObject("extras");
         range = extras.getInt("range");
