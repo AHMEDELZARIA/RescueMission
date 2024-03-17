@@ -50,6 +50,13 @@ public class Translator {
         status = response.getString("status");
     }
 
+    public void processScan(JSONObject response) {
+        JSONObject extras = response.getJSONObject("extras");
+        biomes = extras.getJSONArray("biomes");
+        creeks = extras.getJSONArray("creeks");
+        sites = extras.getJSONArray("sites");
+    }
+
 
 
 
