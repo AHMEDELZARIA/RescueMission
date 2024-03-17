@@ -47,14 +47,38 @@ public class Explorer implements IExplorerRaid {
         JSONObject parameters = new JSONObject();
         GridSearch search = new GridSearch();
 
+
         
-        while (this.count < 2) {
+        if (this.count == 0) {
             decision.put("action", "scan");
             this.count++;
-            break;
+        } else if (this.count == 1 && this.islandFound == false) { // && this.islandFound == false
+            decision.put("action", "scan");
+            this.count++;
+            //this.islandFound = true;
+        } else if (this.count == 2 && this.islandFound == false) {
+            decision.put("action", "echo");
+            decision.put("parameters", parameters.put("direction", "E"));
+            this.count++;
+        } else if (this.count < 6) {
+            decision.put("action", "fly");
+            this.count++;
         }
 
-        /*
+        while (islandFound == false) {
+            if (this.count % 2 == 0) {
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "S"));
+                
+            }
+            else if (this.count % 2 == 1) {
+                decision.put("action", "fly");
+            }
+        }
+
+
+        
+       /* 
         while (this.count < 4) {
             if (this.count == 0) {
                 decision.put("action", "scan");
@@ -70,7 +94,7 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
                 break;
             } else {
-                decision.put("action", "stop");
+                decision.put("action", "scan");
                 this.count++;
                 break;
             }
