@@ -43,6 +43,10 @@ public class Translator {
         }
     }
 
+    public void setRange(int range) {
+        this.range = range;
+    }
+
     public void processEcho(JSONObject response) {
         JSONObject extras = response.getJSONObject("extras");
         range = extras.getInt("range");
@@ -56,8 +60,5 @@ public class Translator {
         creeks = extras.getJSONArray("creeks");
         sites = extras.getJSONArray("sites");
     }
-
-
-
 
 }
