@@ -48,7 +48,6 @@ public class Explorer implements IExplorerRaid {
         GridSearch search = new GridSearch();
 
 
-        
         if (this.count == 0) {
             decision.put("action", "scan");
             this.count++;
@@ -69,7 +68,6 @@ public class Explorer implements IExplorerRaid {
             if (this.count % 2 == 0) {
                 decision.put("action", "echo");
                 decision.put("parameters", parameters.put("direction", "S"));
-                
             }
             else if (this.count % 2 == 1) {
                 decision.put("action", "fly");
@@ -79,25 +77,20 @@ public class Explorer implements IExplorerRaid {
 
         
        /* 
-        while (this.count < 4) {
-            if (this.count == 0) {
-                decision.put("action", "scan");
-                this.count++;
-                break;
-            } else if (this.count == 1) { // && this.islandFound == false
-                decision.put("action", "fly");
-                this.count++;
-                break;
-            } else if (this.count == 2) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "E"));
-                this.count++;
-                break;
-            } else {
-                decision.put("action", "scan");
-                this.count++;
-                break;
-            }
+       if (this.count == 0) {
+            decision.put("action", "scan");
+            this.count++;
+        } else if (this.count == 1 && this.islandFound == false) { // && this.islandFound == false
+            decision.put("action", "scan");
+            this.count++;
+            //this.islandFound = true;
+        } else if (this.count == 2 && this.islandFound == false) {
+            decision.put("action", "echo");
+            decision.put("parameters", parameters.put("direction", "E"));
+            this.count++;
+        } else if (this.count < 6) {
+            decision.put("action", "fly");
+            this.count++;
         }
 
         /*
