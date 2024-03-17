@@ -19,6 +19,8 @@ public class Explorer implements IExplorerRaid {
     private ResponseProcessor results;
     private int count = 0;
     private String found = "";
+    private int gridCount = 0;
+    private boolean islandFound = false;
 
     @Override
     public void initialize(String s) {
@@ -48,20 +50,35 @@ public class Explorer implements IExplorerRaid {
         if (!(this.found).equals("GROUND")) {
             logger.info(this.count); // total fly count = like 106 idk lol
             if (this.count % 3 == 0) {
+                decision.put("action", "scan");
+                this.count++;
+            }
+            else if (this.count % 3 == 1) {
+                decision.put("action", "fly");
+                this.count++;
+            }
+            else{
                 decision.put("action", "echo");
                 decision.put("parameters", parameters.put("direction", "S"));
                 this.count++;
             }
-            else if (this.count % 3 == 1) {
-                decision.put("action", "scan");
-                this.count++;
-            }
-            else{
-                decision.put("action", "fly");
-                this.count++;
-            }
         } else if ((this.found).equals("GROUND")) {
             decision.put("action", "stop");
+        }else{
+            if (!islandFound) {
+                switch (gridCount) {
+                    case 0:
+                        decision.put("action", "scan");
+                        gridCount++;
+                        break;
+                    case 1: 
+                        decision.put("action", "echo");
+                        decision.put("parameters", parameters.put("direction", "W"));
+                        gridCount++;
+                        break;
+                }
+            }
+
         }
 
 
