@@ -21,7 +21,11 @@ public class Explorer implements IExplorerRaid {
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
     private int count = 0;
-    private String found = ""; // DELETE LATER
+    private String found = ""; // DELETE LATER, for echo results
+    private int range = 0; // DELETE LATER, for echo results
+
+    private boolean findIslandMode = true; // DELETE LATER, we always start with this mode
+    private boolean gridSearchMode = false; // DELETE LATER, we do this mode after findIsland mode is complete (aka false)
 
     @Override
     public void initialize(String s) {
@@ -49,20 +53,31 @@ public class Explorer implements IExplorerRaid {
         Translator echoTime = new Translator(); // DELETE LATER
 
 
-        if (!(this.found).equals("GROUND")) {
-            logger.info(this.count); // total fly count = like 106 idk lol
-            if (this.count % 2 == 0) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "S"));
-                this.count++;
+        // findIsland Mode
+        if (this.findIslandMode == true){
+            if (!(this.found).equals("GROUND")) {
+                logger.info(this.count); // total fly count = like 106 idk lol
+                if (this.count % 2 == 0) {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "S"));
+                    this.count++;
+                }
+                else if (this.count % 2 == 1) {
+                    decision.put("action", "fly");
+                    this.count++;
+                }
+            } else if ((this.found).equals("GROUND")) {
+                decision.put("action", "stop");
+                this.findIslandMode = false;
+                this.gridSearchMode = true;
             }
-            else if (this.count % 2 == 1) {
-                decision.put("action", "fly");
-                this.count++;
-            }
-        } else if ((this.found).equals("GROUND")) {
-            decision.put("action", "stop");
         }
+
+        if (this.gridSearchMode == true) {
+            logger.info("Grid searching time!");
+        }
+
+        // 
         
     
        /* 
@@ -101,8 +116,9 @@ public class Explorer implements IExplorerRaid {
         logger.info("Additional information received: {}", extraInfo);
         
         // DELETE THIS LATER
-        if (!extraInfo.isNull("found")) {
-            this.found = extraInfo.getString("found");
+        if (extraInfo.has("found")) { // if extraInfo has information ('fly' will yield no info so we skip it)
+            this.found = extraInfo.getString("found"); // (now this will contain either OUT_OF_RANGE or GROUND)
+            this.range = extraInfo.getInt("range"); // we get the range of GROUND
         }
         
     }
