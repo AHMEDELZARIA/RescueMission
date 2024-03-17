@@ -52,32 +52,54 @@ public class Explorer implements IExplorerRaid {
         GridSearch search = new GridSearch(); // DELETE LATER
         Translator echoTime = new Translator(); // DELETE LATER
 
+        boolean echoStraight = false;
+        boolean echoLeft = false;
+        boolean echoRight = false;
+
+
 
         // findIsland Mode
         if (this.findIslandMode == true) {
             if (!(this.found).equals("GROUND")) { // while the island is not found
                 logger.info(this.count); // total count = 106
-                if (this.count % 2 == 0) {
+                if (this.count % 4 == 0) {
                     decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "S"));
+                    decision.put("parameters", parameters.put("direction", "S")); // echo left
                     this.count++;
-                }
-                else if (this.count % 2 == 1) {
-                    decision.put("action", "fly");
+                } else if (this.count % 4 == 1) {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "N")); // echo right
+                    this.count++;
+                } else if (this.count % 4 == 2) {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "E")); // echo straight
+                    this.count++;
+                } else if (this.count % 4 == 3) {
+                    decision.put("action", "fly"); // fly
                     this.count++;
                 }
             } else if ((this.found).equals("GROUND")) {
                 decision.put("action", "stop");
-                this.count = 0;
+                this.count--;
                 this.findIslandMode = false;
                 this.reachIslandMode = true;
             }
         }
 
+        // reachIsland mode
         if (this.reachIslandMode == true) {
             logger.info("Time to reach the island!");
+            logger.info("This is the final count: {}", (count));
+            switch (this.count % 4) {
+                case 0:
+                    decision.put("action", "heading");
+                    // ____________________________________________
+            }
+            
         }
                 
+
+        // execute decision
         logger.info("** Decision: {}", decision.toString());
         return decision.toString();
     }
