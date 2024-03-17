@@ -59,8 +59,9 @@ public class Explorer implements IExplorerRaid {
             decision.put("action", "fly");
             this.count++;
         }
+        logger.info("----------------------->", found);
         logger.info(this.count); // total fly count = 106
-        logger.info(found);
+        
  
 
         // {"cost":6,"extras":{"found":"OUT_OF_RANGE","range":52},"status":"OK"}
@@ -105,7 +106,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public void acknowledgeResults(String s) {
-        found = s; // DELETE LATER
+        // found = s; // DELETE LATER
         logger.info(s); // DELETE LATER
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n"+response.toString(2));
@@ -115,11 +116,22 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
-        found = extraInfo.toString(); // DELETE LATER
+
+        logger.info("-----------------------------------------------------TEST I");
+        if (extraInfo.isNull("found")) {
+            logger.info("------------------------------------ This works");
+        }
+
+        /* 
+        if (extraInfo.isNull("found")) {
+            found = extraInfo.getString("found");
+        }
+        // found = extraInfo.toString(); // DELETE LATER
 
         // String yeehaw = extraInfo.getString("found"); // DELETE LATER
         // found = yeehaw; // DELETE LATER
         // logger.info(found); // DELETE LATER
+        */
     }
 
     @Override
