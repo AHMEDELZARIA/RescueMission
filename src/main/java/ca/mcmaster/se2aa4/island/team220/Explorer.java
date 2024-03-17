@@ -51,6 +51,7 @@ public class Explorer implements IExplorerRaid {
                 decision.put("parameters", parameters.put("direction", "S"));
                 this.count++;
             }
+            //scans before drone flys
             else if (this.count % 3 == 1) {
                 decision.put("action", "scan");
                 this.count++;
