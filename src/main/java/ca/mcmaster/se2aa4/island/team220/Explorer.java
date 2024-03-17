@@ -25,7 +25,7 @@ public class Explorer implements IExplorerRaid {
     private int range = 0; // DELETE LATER, for echo results
 
     private boolean findIslandMode = true; // DELETE LATER, we always start with this mode
-    private boolean gridSearchMode = false; // DELETE LATER, we do this mode after findIsland mode is complete (aka false)
+    private boolean reachIslandMode = false; // DELETE LATER, we do this mode after findIsland mode is complete (aka false)
 
     @Override
     public void initialize(String s) {
@@ -54,9 +54,9 @@ public class Explorer implements IExplorerRaid {
 
 
         // findIsland Mode
-        if (this.findIslandMode == true){
-            if (!(this.found).equals("GROUND")) {
-                logger.info(this.count); // total fly count = like 106 idk lol
+        if (this.findIslandMode == true) {
+            if (!(this.found).equals("GROUND")) { // while the island is not found
+                logger.info(this.count); // total count = 106
                 if (this.count % 2 == 0) {
                     decision.put("action", "echo");
                     decision.put("parameters", parameters.put("direction", "S"));
@@ -68,13 +68,14 @@ public class Explorer implements IExplorerRaid {
                 }
             } else if ((this.found).equals("GROUND")) {
                 decision.put("action", "stop");
+                this.count = 0;
                 this.findIslandMode = false;
-                this.gridSearchMode = true;
+                this.reachIslandMode = true;
             }
         }
 
-        if (this.gridSearchMode == true) {
-            logger.info("Grid searching time!");
+        if (this.reachIslandMode == true) {
+            logger.info("Time to reach the island!");
         }
 
         // 
