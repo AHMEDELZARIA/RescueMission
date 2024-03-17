@@ -109,7 +109,7 @@ public class Explorer implements IExplorerRaid {
         }
  
         if (this.reachIslandMode == true) {
-            if (this.count2 < 52) {
+            if (!(this.scan).equals("BEACH")) { // condition for finding land
                 logger.info(this.count2); // count for scan and fly
                 // add a condition for finding land
                 if (this.count2 % 2 == 0) {
