@@ -97,6 +97,11 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
+
+        // NEW
+        if (!extraInfo.isNull("found")) {
+            this.found = extraInfo.getString("found");
+        }
     }
 
     @Override
