@@ -265,8 +265,12 @@ public class GridSearch implements IDecisionHandler {
         return true; // change this is just a placeholder
     }
 
-    public void executeGridSearch(Compass compass) {
-        while 
+    public void executeGridSearch(Compass compass) { 
+
+        /* while condition: 
+         * 
+         * 
+         */
     }
 
 
