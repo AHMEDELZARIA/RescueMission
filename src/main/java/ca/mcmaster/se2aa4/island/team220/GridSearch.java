@@ -1,11 +1,20 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+// import java.util.LinkedList; // THIS IS FOR LATER 
+// import java.util.Queue; // THIS IS FOR LATER
 
 import org.json.JSONObject;
 
 public class GridSearch implements IDecisionHandler {
+
+    private final Logger logger = LogManager.getLogger(); // for logger instructions
+    private Compass compass; // creates a compass
+
+
+
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
 
@@ -15,7 +24,7 @@ public class GridSearch implements IDecisionHandler {
     Queue<Runnable> actionQueue = new LinkedList<>(); // PLZ WORK
 
     @Override
-    public void determineDecision(AreaMap map, Drone drone) {       
+    public void determineDecision(AreaMap map, Drone drone) {
 
     //--------------------------------------------------------------------------------------------------------
     }
@@ -63,7 +72,7 @@ public class GridSearch implements IDecisionHandler {
     }
 
     public void executeGridSearch(){
-        
+        while 
     }
 
 
