@@ -115,12 +115,12 @@ public class Explorer implements IExplorerRaid {
             if ((this.count-1) % 4 == 0) {
                 decision.put("action", "heading");
                 decision.put("parameters", parameters.put("direction", compass.turnRight().toString())); // "S"
-                this.headingDone = true;
+                // this.headingDone = true;
                 this.count = 3;
             } else if ((this.count-1) % 4 == 1) {
                 decision.put("action", "heading");
                 decision.put("parameters", parameters.put("direction", "N"));
-                this.headingDone = true;
+                // this.headingDone = true;
                 this.count = 3;
             } else {
                 this.changeHeading = false;
@@ -194,20 +194,17 @@ public class Explorer implements IExplorerRaid {
             }
         }
 
-        // interlaceTurn TIME -> flip around (Segments A, B, C1, C2)
+        // interlaceTurn -> flip around (Segments A, B, C1, C2)
         
         // interlaceA
         if (this.interlaceTurnA == true) {
-            // Segment A
             if (this.count < 2) {
                 if (this.down == true) {
                     decision.put("action", "heading");
                     decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    // this.count++;
                 } else { // if (this.down == false) 
                     decision.put("action", "heading");
                     decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                    // this.count++;
                 }
                 this.count++;
             } else {
@@ -231,18 +228,23 @@ public class Explorer implements IExplorerRaid {
                 }
                 this.count++;
             } else {
+                decision.clear();
                 this.interlaceTurnB = false;
+                logger.info(this.searchCount);
                 if ((this.found).equals("GROUND")) {
                     logger.info("christmas");
+                    // decision.put("action", "stop");
                     // this.reachIslandMode = true;
                 } else {
+                    decision.put("action", "stop");
+                    /* 
                     if (this.searchCount %2 == 1) {
                         this.interlaceTurnC1 = true; // CASE 1
                     } else {
                         this.interlaceTurnC2 = true; // CASE 2
                     }
+                    */
                 }
-                decision.clear();
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceB");
             }
