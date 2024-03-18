@@ -21,15 +21,15 @@ public class GridSearch implements IDecisionHandler {
     private String scanSites = ""; // returns the site if the site is found from 'scan' results 
     private boolean down = false; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
 
-    private boolean findIslandMode = true; // runs findIsland() (we always start with this mode)
-    private boolean changeHeading = false; // runs faceIsland()
-    private boolean reachIslandMode = false; // runs reachIsland()
-    private boolean searchSite = false; // runs searchSite()
-    private boolean intoPosition = false; // runs intoPosition()
-    private boolean interlaceTurnA = false; // runs interlaceTurnA()
-    private boolean interlaceTurnB = false; // runs interlaceTurnB()
-    private boolean interlaceTurnC1 = false; // runs interlaceTurnC1()
-    private boolean interlaceTurnC2 = false; // runs interlaceTurnC2()
+    //private boolean findIslandMode = true; // runs findIsland() (we always start with this mode)
+   // private boolean changeHeading = false; // runs faceIsland()
+    //private boolean reachIslandMode = false; // runs reachIsland()
+    //private boolean searchSite = false; // runs searchSite()
+    // private boolean intoPosition = false; // runs intoPosition()
+    // private boolean interlaceTurnA = false; // runs interlaceTurnA()
+    // private boolean interlaceTurnB = false; // runs interlaceTurnB()
+    // private boolean interlaceTurnC1 = false; // runs interlaceTurnC1()
+    // private boolean interlaceTurnC2 = false; // runs interlaceTurnC2()
 
 
     JSONObject decision = new JSONObject();
@@ -63,8 +63,8 @@ public class GridSearch implements IDecisionHandler {
                 }
                 this.count++;
             } else {
-                this.findIslandMode = false;
-                this.changeHeading = true;
+                //this.findIslandMode = false;
+                //this.changeHeading = true;
                 logger.info("This is the final count: {}", (this.count-1));
                 logger.info("THIS IS THE RANGE --------------------------------> {}", this.range); // 27 for map20
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 1 COMPLETE: findIsland Mode");
@@ -83,8 +83,8 @@ public class GridSearch implements IDecisionHandler {
                 decision.put("parameters", parameters.put("direction", "N"));
                 this.count = 3;
             } else {
-                this.changeHeading = false;
-                this.reachIslandMode = true;
+                //this.changeHeading = false;
+                //this.reachIslandMode = true;
                 decision.clear();
                 this.count = 0;
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 2 COMPLETE: changeHeading Mode");
@@ -102,8 +102,8 @@ public class GridSearch implements IDecisionHandler {
                 }
                 this.count++;
             } else {
-                this.reachIslandMode = false;
-                this.searchSite = true;
+                //this.reachIslandMode = false;
+                //this.searchSite = true;
                 decision.clear();
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 3 COMPLETE: reachIsland Mode");
@@ -123,8 +123,8 @@ public class GridSearch implements IDecisionHandler {
                 this.count++;
             } else {
                 this.searchCount++;
-                this.searchSite = false;
-                this.intoPosition = true;
+                //this.searchSite = false;
+                //this.intoPosition = true;
                 decision.clear();
                 this.count = 0; // reset counter
                 // this.found = null; // MIGHT NOT NEED THIS GOTTA DOUBLE CHECK THE LOGIC UGH
@@ -148,8 +148,8 @@ public class GridSearch implements IDecisionHandler {
                 if ((compass.getHeading().toString()).equals("S")) { // this.down is the initial direction of interlace turning
                     this.down = true;
                 }
-                this.intoPosition = false;
-                this.interlaceTurnA = true;
+                //this.intoPosition = false;
+                //this.interlaceTurnA = true;
                 decision.clear();
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 5 COMPLETE: intoPosition Mode");
@@ -168,8 +168,8 @@ public class GridSearch implements IDecisionHandler {
                 }
                 this.count++;
             } else {
-                this.interlaceTurnA = false;
-                this.interlaceTurnB = true;
+                //this.interlaceTurnA = false;
+                //this.interlaceTurnB = true;
                 decision.clear();
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceA");
