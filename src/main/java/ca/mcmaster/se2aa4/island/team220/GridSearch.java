@@ -18,5 +18,21 @@ public class GridSearch implements IDecisionHandler {
 
     //--------------------------------------------------------------------------------------------------------
     }
+
+    public void findIsland(){
+       
+    } 
+
+    public void faceIsland(){
+        
+    }
+
+    public boolean reachIsland(){
+        return true;
+    }
+
+    
+
+
     
 }
