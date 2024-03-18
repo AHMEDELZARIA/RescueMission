@@ -21,7 +21,8 @@ public class Explorer implements IExplorerRaid {
     private int count = 0;
     private String found = ""; // DELETE LATER: findIsland, for echo results
     private int range = 0; // DELETE LATER: findIsland, for echo results
-    private String scan = ""; // DELETE LATER: reachIsland, 
+    private String scanBiomes = ""; // DELETE LATER: reachIsland, 
+    private String scanSites = ""; // DELETE LATER: reachIsland, 
     private int count2 = 0; // DELETE LATER: reachIsland
     private boolean headingDone = false;
 
@@ -72,9 +73,7 @@ public class Explorer implements IExplorerRaid {
                 }
                 this.count++;
             } else {
-                // decision.put("action", "stop");
                 this.findIslandMode = false;
-                // this.reachIslandMode = true;
                 this.changeHeading = true;
                 logger.info("This is the final count: {}", (this.count-1));
                 logger.info("THIS IS THE RANGE --------------------------------> {}", this.range); // 27 for map20
@@ -99,31 +98,48 @@ public class Explorer implements IExplorerRaid {
                 this.changeHeading = false;
                 this.reachIslandMode = true;
                 decision.clear();
+                this.count = 0;
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 2");
             }
         }
  
         // reachIsland: REACH THE ISLAND
         if (this.reachIslandMode == true) {
-            if (!(this.scan).equals("BEACH")) { // condition for finding land
-                logger.info(this.count2); // count for scan and fly
-                // add a condition for finding land
-                if (this.count2 % 2 == 0) {
-                    decision.put("action", "fly");
-                    // this.count2++;
-                } else if (this.count2 % 2 == 1) {
+            if (!(this.scanBiomes).equals("BEACH")) { // condition for finding land
+                logger.info(this.count); // count for scan and fly
+                if (this.count % 2 == 0) {
                     decision.put("action", "scan");
-                    // this.count2++;
+                } else if (this.count % 2 == 1) {
+                    decision.put("action", "fly");
                 }
-                this.count2++;
+                this.count++;
             } else {
                 this.reachIslandMode = false;
                 decision.clear();
+                this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 3");
             }
         }
 
         //searchSite: FIND THE EMERGENCY SITE
+        /*
+        if (this.searchSite == true) {
+            if (!(this.scanBiomes).equals("BEACH")) { // condition for finding land
+                logger.info(this.count); // count for scan and fly
+                if (this.count % 2 == 0) {
+                    decision.put("action", "fly");
+                } else if (this.count % 2 == 1) {
+                    decision.put("action", "scan");
+                }
+                this.count++;
+            } else {
+                this.reachIslandMode = false;
+                decision.clear();
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 3");
+            }
+        }
+        */
 
         /* searchLine Algorithm:
         there are actually a lot of conditions, make a plan for it first
@@ -158,14 +174,20 @@ public class Explorer implements IExplorerRaid {
             this.range = extraInfo.getInt("range"); // we get the range of GROUND
         }
 
-        // DELETE THIS LATER: SCAN EXTRACT
+        // DELETE THIS LATER: SCAN EXTRACT BIOMES
         if (extraInfo.has("biomes")) {
             logger.info("heck yeah");
-            JSONArray smurf = extraInfo.getJSONArray("biomes");
-            this.scan = smurf.getString(0);
-            logger.info("-------------------------------------------> This is scan: {}", this.scan);
+            JSONArray biomes = extraInfo.getJSONArray("biomes");
+            this.scanBiomes = biomes.getString(0);
+            extraInfo.clear();
         }
         
+        // DELETE THIS LATER: SCAN EXTRACT SITES (worry about creeks later)
+        if (extraInfo.has("sites")) {
+            JSONArray sites = extraInfo.getJSONArray("sites");
+            this.scanSites = sites.getString(0);
+            extraInfo.clear();
+        }
     }
 
     @Override
