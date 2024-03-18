@@ -33,7 +33,7 @@ public class Explorer implements IExplorerRaid {
     private int range = 0; // DELETE LATER: findIsland, for echo results
     private String scanBiomes = ""; // DELETE LATER: reachIsland, 
     private String scanSites = ""; // DELETE LATER: reachIsland, 
-    private boolean headingDone = false;
+    private boolean headingDone = false; // MIGHT NOT NEED THIS LOL
     private boolean down = false; // for interlaceTurn
 
     private boolean findIslandMode = true; // DELETE LATER: round 1 (we always start with this mode)
@@ -44,6 +44,8 @@ public class Explorer implements IExplorerRaid {
     private boolean interlaceTurnA = false; // DELETE LATER: round 6
     private boolean interlaceTurnB = false; // DELETE LATER: round 6
     private boolean interlaceTurnC = false; // DELETE LATER: round 6
+    private boolean interlaceTurnC1 = false; // DELETE LATER: round 6
+    private boolean interlaceTurnC2 = false; // DELETE LATER: round 6
     
     
 
@@ -230,21 +232,23 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
             } else {
                 this.interlaceTurnB = false;
-                this.interlaceTurnC = true; // TEST COMMAND
-                /* 
-                if (this.searchCount %2 == 1) {
-                    this.interlaceTurnC1 = true; // CASE 1
+                if ((this.found).equals("GROUND")) {
+                    logger.info("christmas");
+                    // this.reachIslandMode = true;
                 } else {
-                    this.interlaceTurnC2 = true; // CASE 2
+                    if (this.searchCount %2 == 1) {
+                        this.interlaceTurnC1 = true; // CASE 1
+                    } else {
+                        this.interlaceTurnC2 = true; // CASE 2
+                    }
                 }
-                */
                 decision.clear();
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceB");
             }
         }
 
-        if (this.interlaceTurnC == true) {
+        if (this.interlaceTurnC1 == true) {
             if (this.count < 5) {
                 if (this.down == true) {
                     if (this.count % 5 == 3) {
@@ -253,8 +257,6 @@ public class Explorer implements IExplorerRaid {
                         decision.put("action", "heading");
                         decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
                     }
-                    // logger.info("Yep.");
-                    // this.count++;
                 } else {
                     if (this.count % 5 == 3) {
                         decision.put("action", "fly");
@@ -262,21 +264,42 @@ public class Explorer implements IExplorerRaid {
                         decision.put("action", "heading");
                         decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
                     }
-                    // logger.info("Yep.");
-                    // this.count++;
                 }
-                logger.info("Yep.");
                 this.count++;
             } else {
-                this.interlaceTurnC = false;
+                this.interlaceTurnC1 = false;
                 decision.clear();
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
             }
-            
         }
 
-       
+        if (this.interlaceTurnC2 == true) {
+            if (this.count < 7) {
+                if (this.down == true) {
+                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                    }
+                } else {
+                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                    }
+                }
+                this.count++;
+            } else {
+                this.interlaceTurnC2 = false;
+                decision.clear();
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 2 COMPLETE");
+            }
+        }
+
                 
 
         // execute decision
