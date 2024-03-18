@@ -39,6 +39,23 @@ public class GridSearch implements IDecisionHandler {
 
     }
 
+    public void interlaceA(){
+
+    }
+
+    public void interlaceB(){
+        
+    }
+
+    public boolean interlaceC1(){
+        return true;
+    }
+
+    //either call interlaceC1 or interlaceC2
+    public boolean interlaceC2(){
+        return true;
+    }
+
 
     
 }
