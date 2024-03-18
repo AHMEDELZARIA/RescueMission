@@ -1,10 +1,6 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-import static org.junit.Assert.fail;
-
 import java.io.StringReader;
-import java.lang.reflect.GenericDeclaration;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +28,7 @@ public class Explorer implements IExplorerRaid {
     private boolean findIslandMode = true; // DELETE LATER: round 1 (we always start with this mode)
     private boolean changeHeading = false; // DELETE LATER: round 2
     private boolean reachIslandMode = false; // DELETE LATER: round 3
+    private boolean searchSite = false; // DELETE LATER: round 4
     
 
     @Override
@@ -125,6 +122,8 @@ public class Explorer implements IExplorerRaid {
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 3");
             }
         }
+
+        //searchSite: FIND THE EMERGENCY SITE
 
         /* searchLine Algorithm:
         there are actually a lot of conditions, make a plan for it first
