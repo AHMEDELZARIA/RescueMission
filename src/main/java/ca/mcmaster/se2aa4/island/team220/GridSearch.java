@@ -31,7 +31,13 @@ public class GridSearch implements IDecisionHandler {
         return true;
     }
 
-    
+    public int searchSite(){
+        return 0;
+    }
+
+    public void intoPosition(){
+
+    }
 
 
     
