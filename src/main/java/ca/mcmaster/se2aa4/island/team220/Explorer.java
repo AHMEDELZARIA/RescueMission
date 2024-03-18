@@ -30,6 +30,7 @@ public class Explorer implements IExplorerRaid {
     private boolean changeHeading = false; // DELETE LATER: round 2
     private boolean reachIslandMode = false; // DELETE LATER: round 3
     private boolean searchSite = false; // DELETE LATER: round 4
+    private boolean interlaceTurn = false; // DELETE LATER: round 5
     
 
     @Override
@@ -77,7 +78,7 @@ public class Explorer implements IExplorerRaid {
                 this.changeHeading = true;
                 logger.info("This is the final count: {}", (this.count-1));
                 logger.info("THIS IS THE RANGE --------------------------------> {}", this.range); // 27 for map20
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 1");
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 1 COMPLETE: findIsland Mode");
                 logger.info("");
             }
         }
@@ -99,7 +100,7 @@ public class Explorer implements IExplorerRaid {
                 this.reachIslandMode = true;
                 decision.clear();
                 this.count = 0;
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 2");
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 2 COMPLETE: changeHeading Mode");
             }
         }
  
@@ -117,29 +118,44 @@ public class Explorer implements IExplorerRaid {
                 this.reachIslandMode = false;
                 decision.clear();
                 this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 3");
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 3 COMPLETE: reachIsland Mode");
             }
         }
 
         //searchSite: FIND THE EMERGENCY SITE
-        /*
         if (this.searchSite == true) {
-            if (!(this.scanBiomes).equals("BEACH")) { // condition for finding land
+            if (!(this.scanBiomes).equals("OCEAN")) { // condition for finding land
                 logger.info(this.count); // count for scan and fly
                 if (this.count % 2 == 0) {
-                    decision.put("action", "fly");
-                } else if (this.count % 2 == 1) {
                     decision.put("action", "scan");
+                } else if (this.count % 2 == 1) {
+                    decision.put("action", "fly");
                 }
                 this.count++;
             } else {
-                this.reachIslandMode = false;
+                this.searchSite = false;
                 decision.clear();
                 this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 3");
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 4");
             }
         }
-        */
+
+        //searchSite: FIND THE EMERGENCY SITE
+        if (this.interlaceTurn == true) {
+            if (!(this.found).equals("OCEAN")) { // condition for finding land
+                logger.info(this.count); // count for scan and fly
+                if (this.count % 2 == 0) {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "W")); // echo left
+                } else if (this.count % 2 == 1) {
+                    decision.put("action", "fly");
+                }
+                this.count++;
+            }
+
+
+        }
+        
 
         /* searchLine Algorithm:
         there are actually a lot of conditions, make a plan for it first
@@ -181,7 +197,7 @@ public class Explorer implements IExplorerRaid {
             this.scanBiomes = biomes.getString(0);
             extraInfo.clear();
         }
-        
+
         // DELETE THIS LATER: SCAN EXTRACT SITES (worry about creeks later)
         if (extraInfo.has("sites")) {
             JSONArray sites = extraInfo.getJSONArray("sites");
