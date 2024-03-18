@@ -21,10 +21,10 @@ public class GridSearch implements IDecisionHandler {
     private String scanSites = ""; // returns the site if the site is found from 'scan' results 
     private boolean down = false; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
 
-    //private boolean findIslandMode = true; // runs findIsland() (we always start with this mode)
-   // private boolean changeHeading = false; // runs faceIsland()
-    //private boolean reachIslandMode = false; // runs reachIsland()
-    //private boolean searchSite = false; // runs searchSite()
+    // private boolean findIslandMode = true; // runs findIsland() (we always start with this mode)
+    // private boolean changeHeading = false; // runs faceIsland()
+    // private boolean reachIslandMode = false; // runs reachIsland()
+    // private boolean searchSite = false; // runs searchSite()
     // private boolean intoPosition = false; // runs intoPosition()
     // private boolean interlaceTurnA = false; // runs interlaceTurnA()
     // private boolean interlaceTurnB = false; // runs interlaceTurnB()
@@ -39,10 +39,7 @@ public class GridSearch implements IDecisionHandler {
     Translator translator = new Translator();
 
     @Override
-    public void determineDecision(AreaMap map, Drone drone) {
-
-    //--------------------------------------------------------------------------------------------------------
-    }
+    public void determineDecision(AreaMap map, Drone drone) {}
 
     public void findIsland() {
        //called once in the beginning of the search
