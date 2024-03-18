@@ -31,7 +31,6 @@ public class GridSearch implements IDecisionHandler {
     private boolean interlaceTurnC1 = false; // runs interlaceTurnC1()
     private boolean interlaceTurnC2 = false; // runs interlaceTurnC2()
 
-
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
 
@@ -45,7 +44,7 @@ public class GridSearch implements IDecisionHandler {
     //--------------------------------------------------------------------------------------------------------
     }
 
-    public void findIsland(){
+    public void findIsland() {
        //called once in the beginning of the search
         if (this.findIslandMode == true) {
             if (!(this.found).equals("GROUND")) { // while the island is not found

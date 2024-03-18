@@ -59,7 +59,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
     }
-
+    
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
