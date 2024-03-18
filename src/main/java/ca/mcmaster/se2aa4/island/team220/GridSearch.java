@@ -10,6 +10,7 @@ public class GridSearch implements IDecisionHandler {
     JSONObject parameters = new JSONObject();
 
     boolean islandFound = false;
+    boolean halfComplete = false;
     Translator translator = new Translator();
     Queue<Runnable> actionQueue = new LinkedList<>(); // PLZ WORK
 
@@ -62,7 +63,7 @@ public class GridSearch implements IDecisionHandler {
     }
 
     public void executeGridSearch(){
-        
+        while 
     }
 
 
