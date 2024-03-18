@@ -20,11 +20,11 @@ public class GridSearch implements IDecisionHandler {
     }
 
     public void findIsland(){
-       
+       //called once in the beginning of the search
     } 
 
     public void faceIsland(){
-        
+        //called once in the beginning of the search
     }
 
     public boolean reachIsland(){
@@ -44,7 +44,7 @@ public class GridSearch implements IDecisionHandler {
     }
 
     public void interlaceB(){
-        
+
     }
 
     public boolean interlaceC1(){
@@ -54,6 +54,10 @@ public class GridSearch implements IDecisionHandler {
     //either call interlaceC1 or interlaceC2
     public boolean interlaceC2(){
         return true;
+    }
+
+    public void executeGridSearch(){
+
     }
 
 
