@@ -21,16 +21,6 @@ public class GridSearch implements IDecisionHandler {
     private String scanSites = ""; // returns the site if the site is found from 'scan' results 
     private boolean down = false; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
 
-    // private boolean findIslandMode = true; // runs findIsland() (we always start with this mode)
-    // private boolean changeHeading = false; // runs faceIsland()
-    // private boolean reachIslandMode = false; // runs reachIsland()
-    // private boolean searchSite = false; // runs searchSite()
-    // private boolean intoPosition = false; // runs intoPosition()
-    // private boolean interlaceTurnA = false; // runs interlaceTurnA()
-    // private boolean interlaceTurnB = false; // runs interlaceTurnB()
-    // private boolean interlaceTurnC1 = false; // runs interlaceTurnC1()
-    // private boolean interlaceTurnC2 = false; // runs interlaceTurnC2()
-
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
 
@@ -119,10 +109,6 @@ public class GridSearch implements IDecisionHandler {
             this.count++;
         } else {
             this.searchCount++;
-            //this.searchSite = false;
-            //this.intoPosition = true;
-            decision.clear();
-            this.count = 0; // reset counter
             // this.found = null; // MIGHT NOT NEED THIS GOTTA DOUBLE CHECK THE LOGIC UGH
             logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 4 COMPLETE: searchSite Mode");
         }
@@ -144,10 +130,6 @@ public class GridSearch implements IDecisionHandler {
             if ((compass.getHeading().toString()).equals("S")) { // this.down is the initial direction of interlace turning
                 this.down = true;
             }
-            //this.intoPosition = false;
-            //this.interlaceTurnA = true;
-            decision.clear();
-            this.count = 0; // reset counter
             logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 5 COMPLETE: intoPosition Mode");
         }
     }
@@ -164,10 +146,6 @@ public class GridSearch implements IDecisionHandler {
             }
             this.count++;
         } else {
-            //this.interlaceTurnA = false;
-            //this.interlaceTurnB = true;
-            decision.clear();
-            this.count = 0; // reset counter
             logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceA");
         }
     }
@@ -185,8 +163,6 @@ public class GridSearch implements IDecisionHandler {
             }
             this.count++;
         } else {
-            // decision.clear();
-            // this.interlaceTurnB = false;
             logger.info(this.searchCount);
             if ((this.found).equals("GROUND")) {
                 logger.info("christmas");
@@ -208,7 +184,7 @@ public class GridSearch implements IDecisionHandler {
     }
 
     public boolean interlaceC1(){
-        //occurs if the number of searchSitesCount is odd
+        //occurs if the number of searchCount is odd
         if (this.count < 5) {
             if (this.down == true) {
                 if (this.count % 5 == 3) {
@@ -227,9 +203,6 @@ public class GridSearch implements IDecisionHandler {
             }
             this.count++;
         } else {
-            // this.interlaceTurnC1 = false;
-            // decision.clear();
-            // this.count = 0; // reset counter
             logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
         }
         return true;
@@ -256,9 +229,6 @@ public class GridSearch implements IDecisionHandler {
             }
             this.count++;
         } else {
-            // this.interlaceTurnC2 = false;
-            // decision.clear();
-            // this.count = 0; // reset counter
             logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 2 COMPLETE");
         }
         return true; // change this is just a placeholder
