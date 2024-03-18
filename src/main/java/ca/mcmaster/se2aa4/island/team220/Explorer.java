@@ -33,7 +33,7 @@ public class Explorer implements IExplorerRaid {
     private int range = 0; // DELETE LATER: findIsland, for echo results
     private String scanBiomes = ""; // DELETE LATER: reachIsland, 
     private String scanSites = ""; // DELETE LATER: reachIsland, 
-    private boolean headingDone = false; // MIGHT NOT NEED THIS LOL
+    // private boolean headingDone = false; // MIGHT NOT NEED THIS LOL
     private boolean down = false; // for interlaceTurn
 
     private boolean findIslandMode = true; // DELETE LATER: round 1 (we always start with this mode)
@@ -238,7 +238,7 @@ public class Explorer implements IExplorerRaid {
                 } else {
                     decision.put("action", "stop");
                     /* 
-                    if (this.searchCount %2 == 1) {
+                    if (this.searchCount % 2 == 1) {
                         this.interlaceTurnC1 = true; // CASE 1
                     } else {
                         this.interlaceTurnC2 = true; // CASE 2
