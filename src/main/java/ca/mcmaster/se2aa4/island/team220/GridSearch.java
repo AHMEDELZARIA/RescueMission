@@ -119,8 +119,27 @@ public class GridSearch implements IDecisionHandler {
     }
 
     public int searchSite(){
-        return 0;
         //always happens after reachIsland is called
+        if (this.searchSite == true) {
+            if (!(this.scanBiomes).equals("OCEAN")) { // condition for finding land
+                logger.info(this.count); // count for scan and fly
+                if (this.count % 2 == 0) {
+                    decision.put("action", "scan");
+                } else if (this.count % 2 == 1) {
+                    decision.put("action", "fly");
+                }
+                this.count++;
+            } else {
+                this.searchCount++;
+                this.searchSite = false;
+                this.intoPosition = true;
+                decision.clear();
+                this.count = 0; // reset counter
+                // this.found = null; // MIGHT NOT NEED THIS GOTTA DOUBLE CHECK THE LOGIC UGH
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 4 COMPLETE: searchSite Mode");
+            }
+        }
+        return 0;
     }
 
     public void intoPosition(){
