@@ -28,7 +28,7 @@ public class Explorer implements IExplorerRaid {
     // String heading = ""; // holder for the heading (take from initial) 
 
     private int count = 0;
-    private int count2 = 0; // I RLLY DONT WANNA USE THIS
+    private int searchCount = 0;
     private String found = ""; // DELETE LATER: findIsland, for echo results
     private int range = 0; // DELETE LATER: findIsland, for echo results
     private String scanBiomes = ""; // DELETE LATER: reachIsland, 
@@ -41,7 +41,9 @@ public class Explorer implements IExplorerRaid {
     private boolean reachIslandMode = false; // DELETE LATER: round 3
     private boolean searchSite = false; // DELETE LATER: round 4
     private boolean intoPosition = false; // DELETE LATER: round 5
-    private boolean interlaceTurn = false; // DELETE LATER: round 6
+    private boolean interlaceTurnA = false; // DELETE LATER: round 6
+    private boolean interlaceTurnB = false; // DELETE LATER: round 6
+    private boolean interlaceTurnC = false; // DELETE LATER: round 6
     
     
 
@@ -108,17 +110,16 @@ public class Explorer implements IExplorerRaid {
         
         // changeHeading mode: TURN TOWARDS THE ISLAND
         if (this.changeHeading == true) {
-            if (this.headingDone == false) {
-                if ((this.count-1) % 4 == 0) {
-                    decision.put("action", "heading");
-                    decision.put("parameters", parameters.put("direction", compass.turnRight().toString())); // "S"
-
-                    this.headingDone = true;
-                } else if ((this.count-1) % 4 == 1) {
-                    decision.put("action", "heading");
-                    decision.put("parameters", parameters.put("direction", "N"));
-                    this.headingDone = true;
-                }
+            if ((this.count-1) % 4 == 0) {
+                decision.put("action", "heading");
+                decision.put("parameters", parameters.put("direction", compass.turnRight().toString())); // "S"
+                this.headingDone = true;
+                this.count = 3;
+            } else if ((this.count-1) % 4 == 1) {
+                decision.put("action", "heading");
+                decision.put("parameters", parameters.put("direction", "N"));
+                this.headingDone = true;
+                this.count = 3;
             } else {
                 this.changeHeading = false;
                 this.reachIslandMode = true;
@@ -158,6 +159,7 @@ public class Explorer implements IExplorerRaid {
                 }
                 this.count++;
             } else {
+                this.searchCount++;
                 this.searchSite = false;
                 this.intoPosition = true;
                 decision.clear();
@@ -179,27 +181,22 @@ public class Explorer implements IExplorerRaid {
                 }
                 this.count++;
             } else {
-                if ((compass.getHeading().toString()).equals("S")) { // this.up is the initial direction of interlace turning
+                if ((compass.getHeading().toString()).equals("S")) { // this.down is the initial direction of interlace turning
                     this.down = true;
-                    // logger.info("--------------------------------------------------------------------THIS WORKED {}", this.down);
                 }
                 this.intoPosition = false;
-                this.interlaceTurn = true;
+                this.interlaceTurnA = true;
                 decision.clear();
                 this.count = 0; // reset counter
-                // this.found = null;
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 5 COMPLETE: intoPosition Mode");
             }
         }
 
-
-        // LEFT OF HERE, TRY USING A SWITCH CASE STATEMENT!!!
+        // interlaceTurn TIME -> flip around (Segments A, B, C1, C2)
         
-        // Make this fricking work >:^[
-        if (this.interlaceTurn == true) {
-
-
-            // Segment A: Make a U-turn (depends if we're facing up or down)
+        // interlaceA
+        if (this.interlaceTurnA == true) {
+            // Segment A
             if (this.count < 2) {
                 if (this.down == true) {
                     decision.put("action", "heading");
@@ -211,27 +208,75 @@ public class Explorer implements IExplorerRaid {
                     // this.count++;
                 }
                 this.count++;
+            } else {
+                this.interlaceTurnA = false;
+                this.interlaceTurnB = true;
+                decision.clear();
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceA");
             }
+        }
 
-            
-
-            /* 
-            // Segment B: Check if there is land in front of us or ocean (GROUND or OUT_OF_RANGE)
-            // NOTE: this.down doesn't change, even when my heading changes (this.down represents my heading at intoPosition)
-            if (this.count == 3 && this.count2 == 0) {
-                logger.info("--------------------------------------------------> PART B");
-                logger.info(this.found);
+        // Segment B
+        if (this.interlaceTurnB == true) {
+            if (this.count == 0) {
                 if (this.down == false) { // reversed bc this.down is direction before all of interlaceTurn
-                    // this.found = null;
                     decision.put("action", "echo");
                     decision.put("parameters", parameters.put("direction", "S"));
                 } else if (this.down == true) {
-                    // this.found = null;
                     decision.put("action", "echo");
                     decision.put("parameters", parameters.put("direction", "N"));
                 }
-                this.count2 = 1;
+                this.count++;
+            } else {
+                this.interlaceTurnB = false;
+                // this.interlaceTurnC = true; // TEST COMMAND
+                /* 
+                if (this.searchCount %2 == 1) {
+                    this.interlaceTurnC1 = true; // CASE 1
+                } else {
+                    this.interlaceTurnC2 = true; // CASE 2
+                }
+                */
+                decision.clear();
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceB");
             }
+        }
+
+
+        /* 
+        if (this.interlaceTurnC == true) {
+            if (!(this.found).equals("OUT_OF_RANGE") && this.count < 3) {
+                // if (this.count < 3) {
+                logger.info(this.count);
+                if (this.count % 3 == 0) {
+                    decision.put("action", "heading");
+                    decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                    // compass.getHeading();
+                } else if (this.count % 3 == 1) {
+                    decision.clear();
+                    decision.put("action", "fly");
+                    // compass.getHeading();
+                } else if (this.count % 3 == 2) {
+                    logger.info("HUH");
+                    decision.put("action", "heading");
+                    decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                }
+                this.count++;
+                // }
+            } else {
+                this.count = 3;
+            }
+            if (this.count == 3) {
+                decision.clear();
+                this.interlaceTurnC = false;
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6 COMPLETE: interlaceTurn Mode");
+            }
+        }
+        */
+  
 
             /* 
             // Segment C UPDATED
@@ -259,68 +304,32 @@ public class Explorer implements IExplorerRaid {
             }
             */
 
-
-            /*
-            // Segment C: Either loop around (interlaceTurn) or not, then reachIsland again 
-            // I THINK THE PROBLEM WAS THAT IN HEADING, THE DRONE FALLS OFF THE MAP :^O
-            if (!(this.found).equals("OUT_OF_RANGE")) {
-                logger.info("SKIP THIS 2");
-                logger.info(this.found);
-                    if (this.count2 < 3) {
-                        if (this.down == false) {
-                            decision.put("action", "heading");
-                            decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                            this.count2++;
-                        } else if (this.down == true) {
-                            logger.info("progress");
-                            decision.put("action", "heading");
-                            decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                            this.count2++;
-                        }
-                        // this.count++;
-                        logger.info(this.count2);
-                    }
-            } else {
-                this.interlaceTurn = false;
-                // this.reachIslandMode = true;
-                decision.clear();
-                this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6 COMPLETE: interlaceTurn Mode");
-            }
-            */
-            
-
-
-        }
-
-        /*
-        //interlaceTurn: do the first U-turn
-        if (this.interlaceTurn == true && this.count > 3) {
-
-            // Segment C: Either loop around (interlaceTurn) or not, then reachIsland again 
+            // ---------------------------------------------------------
+            /* 
+            // Segment C UPDATED
             if ((this.found).equals("OUT_OF_RANGE")) {
-                logger.info("SKIP THIS 2");
-                if (this.count < 3) {
-                    if (this.down == false) {
+                logger.info("why doesz this work: {}", this.count);
+                if (this.count < 6) {
+                    if (this.count % 3 == 0) {
                         decision.put("action", "heading");
                         decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    } else if (this.down == true) {
+                    } else if (this.count % 3 == 1) {
+                        decision.put("action", "fly");
+                    } else if (this.count % 3 == 2) {
                         decision.put("action", "heading");
                         decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
                     }
                     this.count++;
-                } else {
-                    this.interlaceTurn = false;
-                    // this.reachIslandMode = true;
-                    decision.clear();
-                    this.count = 0; // reset counter
-                    logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6 COMPLETE: interlaceTurn Mode");
                 }
+            } else if (this.count == 3) {
+                decision.clear();
+                decision.put("action", "scan");
+                this.interlaceTurn = false;
+                // this.reachIslandMode = true;
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6 COMPLETE: interlaceTurn Mode");
             }
-        }
-        */
-        
-
+            */
        
                 
 
@@ -368,5 +377,4 @@ public class Explorer implements IExplorerRaid {
     public String deliverFinalReport() {
         return "no creek found";
     }
-
 }
