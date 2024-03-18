@@ -47,7 +47,6 @@ public class GridSearch implements IDecisionHandler {
 
     public void findIsland(){
        //called once in the beginning of the search
-        if (this.findIslandMode == true) {
             if (!(this.found).equals("GROUND")) { // while the island is not found
                 logger.info(this.count); // total count = 106
                 if (this.count % 4 == 0) {
@@ -71,12 +70,10 @@ public class GridSearch implements IDecisionHandler {
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 1 COMPLETE: findIsland Mode");
                 logger.info("");
             }
-        }
     } 
 
     public void faceIsland(){
         //called once in the beginning of the search
-        if (this.changeHeading == true) {
             if ((this.count-1) % 4 == 0) {
                 decision.put("action", "heading");
                 decision.put("parameters", parameters.put("direction", compass.turnRight().toString())); // "S"
@@ -92,7 +89,6 @@ public class GridSearch implements IDecisionHandler {
                 this.count = 0;
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 2 COMPLETE: changeHeading Mode");
             }
-        }
     }
 
     public boolean reachIsland(){
