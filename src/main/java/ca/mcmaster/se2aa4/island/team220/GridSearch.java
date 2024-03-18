@@ -257,8 +257,34 @@ public class GridSearch implements IDecisionHandler {
 
     //either call interlaceC1 or interlaceC2
     public boolean interlaceC2(){
-        return true;
         //occurs if the number of searchSitesCount is even
+        if (this.interlaceTurnC2 == true) {
+            if (this.count < 7) {
+                if (this.down == true) {
+                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                    }
+                } else {
+                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                    }
+                }
+                this.count++;
+            } else {
+                this.interlaceTurnC2 = false;
+                decision.clear();
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 2 COMPLETE");
+            }
+        }
+
+        return true; // change this is just a placeholder
     }
 
     public void executeGridSearch(Compass compass) {
