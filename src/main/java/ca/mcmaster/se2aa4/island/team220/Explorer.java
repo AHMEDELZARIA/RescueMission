@@ -16,8 +16,13 @@ public class Explorer implements IExplorerRaid {
     private Drone drone;
     private Translator translator;
     private AreaMap map;
+    private Compass compass;
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
+    Direction straight = compass.getHeading();
+    Direction left = compass.turnLeft();
+    Direction right = compass.turnRight();
+   
     private int count = 0;
     private String found = ""; // DELETE LATER: findIsland, for echo results
     private int range = 0; // DELETE LATER: findIsland, for echo results
@@ -46,6 +51,8 @@ public class Explorer implements IExplorerRaid {
         Direction heading = Direction.toDirection(context.getString("heading"));
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
+        compass = new Compass(heading);
+        compass.buildCompass();
         
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -62,10 +69,10 @@ public class Explorer implements IExplorerRaid {
                 logger.info(this.count); // total count = 106
                 if (this.count % 4 == 0) {
                     decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "S")); // echo left
+                    decision.put("parameters", parameters.put("direction", (left.toString()))); // echo left
                 } else if (this.count % 4 == 1) {
                     decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "N")); // echo right
+                    decision.put("parameters", parameters.put("direction", "S")); // echo right
                 } else if (this.count % 4 == 2) {
                     decision.put("action", "echo");
                     decision.put("parameters", parameters.put("direction", "E")); // echo straight
