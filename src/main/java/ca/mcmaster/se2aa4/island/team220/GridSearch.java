@@ -144,6 +144,27 @@ public class GridSearch implements IDecisionHandler {
 
     public void intoPosition(){
         //always follows searchSite
+        if (this.intoPosition == true) {
+            if (!(this.found).equals("OUT_OF_RANGE")) { // while we don't 'echo' find OUT_OF_RANGE 
+                logger.info(this.count);
+                if (this.count % 2 == 0) {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "E")); // echo East
+                } else if (this.count % 2 == 1) {
+                    decision.put("action", "fly");
+                }
+                this.count++;
+            } else {
+                if ((compass.getHeading().toString()).equals("S")) { // this.down is the initial direction of interlace turning
+                    this.down = true;
+                }
+                this.intoPosition = false;
+                this.interlaceTurnA = true;
+                decision.clear();
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 5 COMPLETE: intoPosition Mode");
+            }
+        }
     }
 
     public void interlaceA(){
