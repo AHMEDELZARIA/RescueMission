@@ -13,6 +13,24 @@ public class GridSearch implements IDecisionHandler {
     private final Logger logger = LogManager.getLogger(); // for logger instructions
     private Compass compass; // creates a compass
 
+    private int count = 0; // helps run different actions in a round, gets 'reset'
+    private int searchCount = 0; // keeps track of number of times searchSite() is run
+    private String found = ""; // returns "GROUND" or "OUT_OF_RANGE", aka 'echo' results
+    private int range = 0; // returns the range of the 'echo' result
+    private String scanBiomes = ""; // returns the first biome found from 'scan' results 
+    private String scanSites = ""; // returns the site if the site is found from 'scan' results 
+    private boolean down = false; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
+
+    private boolean findIslandMode = true; // DELETE LATER: round 1 (we always start with this mode)
+    private boolean changeHeading = false; // DELETE LATER: round 2
+    private boolean reachIslandMode = false; // DELETE LATER: round 3
+    private boolean searchSite = false; // DELETE LATER: round 4
+    private boolean intoPosition = false; // DELETE LATER: round 5
+    private boolean interlaceTurnA = false; // DELETE LATER: round 6
+    private boolean interlaceTurnB = false; // DELETE LATER: round 6
+    private boolean interlaceTurnC1 = false; // DELETE LATER: round 6
+    private boolean interlaceTurnC2 = false; // DELETE LATER: round 6
+
 
 
     JSONObject decision = new JSONObject();
@@ -21,7 +39,6 @@ public class GridSearch implements IDecisionHandler {
     boolean islandFound = false;
     boolean halfComplete = false;
     Translator translator = new Translator();
-    Queue<Runnable> actionQueue = new LinkedList<>(); // PLZ WORK
 
     @Override
     public void determineDecision(AreaMap map, Drone drone) {
