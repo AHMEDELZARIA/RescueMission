@@ -93,7 +93,6 @@ public class GridSearch implements IDecisionHandler {
 
     public boolean reachIsland(){
         //only repeated if in interlaceB interlaceC1 interlaceC2
-        if (this.reachIslandMode == true) {
             if (!(this.scanBiomes).equals("BEACH")) { // condition for finding land
                 logger.info(this.count); // count for scan and fly
                 if (this.count % 2 == 0) {
@@ -109,13 +108,11 @@ public class GridSearch implements IDecisionHandler {
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 3 COMPLETE: reachIsland Mode");
             }
-        }
         return true;
     }
 
     public int searchSite(){
         //always happens after reachIsland is called
-        if (this.searchSite == true) {
             if (!(this.scanBiomes).equals("OCEAN")) { // condition for finding land
                 logger.info(this.count); // count for scan and fly
                 if (this.count % 2 == 0) {
@@ -133,13 +130,11 @@ public class GridSearch implements IDecisionHandler {
                 // this.found = null; // MIGHT NOT NEED THIS GOTTA DOUBLE CHECK THE LOGIC UGH
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 4 COMPLETE: searchSite Mode");
             }
-        }
         return 0;
     }
 
     public void intoPosition(){
         //always follows searchSite
-        if (this.intoPosition == true) {
             if (!(this.found).equals("OUT_OF_RANGE")) { // while we don't 'echo' find OUT_OF_RANGE 
                 logger.info(this.count);
                 if (this.count % 2 == 0) {
@@ -159,12 +154,10 @@ public class GridSearch implements IDecisionHandler {
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 5 COMPLETE: intoPosition Mode");
             }
-        }
     }
 
     public void interlaceA(){
         //always follows intoPosition
-        if (this.interlaceTurnA == true) {
             if (this.count < 2) {
                 if (this.down == true) {
                     decision.put("action", "heading");
@@ -181,13 +174,11 @@ public class GridSearch implements IDecisionHandler {
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceA");
             }
-        }
     }
 
     public void interlaceB(){
         //always happens after interlaceA, and after excecuted, depending on what echo observes we either go interlaceC1, interlaceC2, go back to reachIsland or we stop
         //if condtion is met at interlaceB we stop
-        if (this.interlaceTurnB == true) {
             if (this.count == 0) {
                 if (this.down == false) { // reversed bc this.down is direction before all of interlaceTurn
                     decision.put("action", "echo");
@@ -218,7 +209,6 @@ public class GridSearch implements IDecisionHandler {
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceB");
             }
-        }
     }
 
     public boolean interlaceC1(){
