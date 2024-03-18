@@ -1,10 +1,13 @@
 package ca.mcmaster.se2aa4.island.team220;
 
 import java.io.StringReader;
+import java.lang.reflect.GenericDeclaration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import eu.ace_design.island.bot.IExplorerRaid;
+import scala.annotation.tailrec;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,23 +22,26 @@ public class Explorer implements IExplorerRaid {
     private Compass compass;
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
-    Direction straight = compass.getHeading();
-    Direction left = compass.turnLeft();
-    Direction right = compass.turnRight();
-   
+    // Direction straight = null;
+    // Direction right = null;
+    // Direction left = null;
+    // String heading = ""; // holder for the heading (take from initial) 
+
     private int count = 0;
     private String found = ""; // DELETE LATER: findIsland, for echo results
     private int range = 0; // DELETE LATER: findIsland, for echo results
     private String scanBiomes = ""; // DELETE LATER: reachIsland, 
     private String scanSites = ""; // DELETE LATER: reachIsland, 
-    private int count2 = 0; // DELETE LATER: reachIsland
     private boolean headingDone = false;
+    private boolean down = false; // for interlaceTurn
 
     private boolean findIslandMode = true; // DELETE LATER: round 1 (we always start with this mode)
     private boolean changeHeading = false; // DELETE LATER: round 2
     private boolean reachIslandMode = false; // DELETE LATER: round 3
     private boolean searchSite = false; // DELETE LATER: round 4
-    private boolean interlaceTurn = false; // DELETE LATER: round 5
+    private boolean intoPosition = false; // DELETE LATER: round 5
+    private boolean interlaceTurn = false; // DELETE LATER: round 6
+    
     
 
     @Override
@@ -51,8 +57,17 @@ public class Explorer implements IExplorerRaid {
         Direction heading = Direction.toDirection(context.getString("heading"));
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
-        compass = new Compass(heading);
-        compass.buildCompass();
+
+        // Design Compass!
+        compass = new Compass(heading); // ADDED
+        // this.heading = heading.toString();
+
+        // this.straight = compass.turnRight(); // DELETE LATER
+        // this.right = compass.getHeading(); // DELETE LATER
+        // this.left = compass.turnLeft(); // DELETE LATER
+        // logger.info(this.straight.toString()); // DELETE LATER
+        // logger.info(this.right.toString()); // DELETE LATER
+        // logger.info(this.left.toString()); // DELETE LATER
         
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -69,10 +84,10 @@ public class Explorer implements IExplorerRaid {
                 logger.info(this.count); // total count = 106
                 if (this.count % 4 == 0) {
                     decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", (left.toString()))); // echo left
+                    decision.put("parameters", parameters.put("direction", "S")); // echo right
                 } else if (this.count % 4 == 1) {
                     decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "S")); // echo right
+                    decision.put("parameters", parameters.put("direction", "N")); // echo left
                 } else if (this.count % 4 == 2) {
                     decision.put("action", "echo");
                     decision.put("parameters", parameters.put("direction", "E")); // echo straight
@@ -95,7 +110,8 @@ public class Explorer implements IExplorerRaid {
             if (this.headingDone == false) {
                 if ((this.count-1) % 4 == 0) {
                     decision.put("action", "heading");
-                    decision.put("parameters", parameters.put("direction", "S"));
+                    decision.put("parameters", parameters.put("direction", compass.turnRight().toString())); // "S"
+
                     this.headingDone = true;
                 } else if ((this.count-1) % 4 == 1) {
                     decision.put("action", "heading");
@@ -123,6 +139,7 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
             } else {
                 this.reachIslandMode = false;
+                this.searchSite = true;
                 decision.clear();
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 3 COMPLETE: reachIsland Mode");
@@ -141,36 +158,88 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
             } else {
                 this.searchSite = false;
+                this.intoPosition = true;
                 decision.clear();
                 this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII we have reached the end of round 4");
+                // this.found = null; // MIGHT NOT NEED THIS GOTTA DOUBLE CHECK THE LOGIC UGH
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 4 COMPLETE: searchSite Mode");
             }
         }
 
-        //searchSite: FIND THE EMERGENCY SITE
-        if (this.interlaceTurn == true) {
-            if (!(this.found).equals("OCEAN")) { // condition for finding land
-                logger.info(this.count); // count for scan and fly
+        // intoPosition: get ready to U-turn
+        if (this.intoPosition == true) {
+            if (!(this.found).equals("OUT_OF_RANGE")) { // while we don't 'echo' find OUT_OF_RANGE 
+                logger.info(this.count);
                 if (this.count % 2 == 0) {
                     decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "W")); // echo left
+                    decision.put("parameters", parameters.put("direction", "E")); // echo East
                 } else if (this.count % 2 == 1) {
                     decision.put("action", "fly");
                 }
                 this.count++;
+            } else {
+                if ((compass.getHeading().toString()).equals("S")) { // this.up is the initial direction of interlace turning
+                    this.down = true;
+                    logger.info("--------------------------------------------------------------------THIS WORKED {}", this.down);
+                }
+                this.intoPosition = false;
+                this.interlaceTurn = true;
+                decision.clear();
+                this.count = 0; // reset counter
+                this.found = null;
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 5 COMPLETE: intoPosition Mode");
+            }
+        }
+
+        //interlaceTurn: do the first U-turn
+        if (this.interlaceTurn == true) {
+            logger.info(this.count);
+            // Segment A: Make a U-turn (depends if we're facing up or down)
+            if (this.count < 2) {
+                if (this.down == true) {
+                    decision.put("action", "heading");
+                    decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                } else { // if (this.down == false) 
+                    decision.put("action", "heading");
+                    decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                }
+                this.count++;
             }
 
+            // Segment B: Check if there is land in front of us or ocean (GROUND or OUT_OF_RANGE)
+            if (this.count == 2) {
+                if (compass.getHeading().toString() == "S") {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "S"));
+                } else if (compass.getHeading().toString() == "N") {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "N"));
+                }
+                this.count = 3;
+            }
 
+            // Segment C: Either loop around (interlaceTurn) or not, then reachIsland again 
+            if ((this.found).equals("OUT_OF_RANGE")) {
+                if (this.count < 3) {
+                    if (this.down == true) {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                    } else if (this.down == false) {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                    }
+                } else {
+                    this.interlaceTurn = false;
+                    // this.reachIslandMode = true;
+                    decision.clear();
+                    this.count = 0; // reset counter
+                    logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6 COMPLETE: interlaceTurn Mode");
+                }
+            }
         }
         
 
-        /* searchLine Algorithm:
-        there are actually a lot of conditions, make a plan for it first
-         * 1. While end of island not reached (while ocean not found)
-        */
-
        
-
                 
 
         // execute decision
