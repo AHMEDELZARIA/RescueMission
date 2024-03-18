@@ -256,7 +256,7 @@ public class GridSearch implements IDecisionHandler {
                 }
                 this.count++;
             } else {
-                this.interlaceTurnC2 = false;
+                //this.interlaceTurnC2 = false;
                 decision.clear();
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 2 COMPLETE");
