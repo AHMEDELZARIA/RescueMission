@@ -229,8 +229,25 @@ public class GridSearch implements IDecisionHandler {
     }
 
     public void executeGridSearch(Compass compass) {
-        //findIsland();
-        //faceIsland();
+        findIsland();
+        faceIsland();
+        while (true){
+            reachIsland();
+            searchSite();
+            intoPosition();
+            interlaceA();
+            interlaceB();
+            if (!this.found.equals("OUT_OF_RANGE")){
+                if (!halfComplete){
+                    interlaceC();
+                }else{
+                    decision.put("action", "stop");
+                    break;
+                }
+            }else{
+                continue;
+            }
+        }
         /* while condition: loops until this.found = out_of_range(from interlaceB) && if halfComplete == true (from interlaceC1 or interlaceC2)
          *      reachIsland();
          *      searchSite();
@@ -243,7 +260,7 @@ public class GridSearch implements IDecisionHandler {
          *          else 
          *              decision.put("action", "stop")
          *      else 
-         *          reachIsland();
+         *          continue;
          */
     }
 }
