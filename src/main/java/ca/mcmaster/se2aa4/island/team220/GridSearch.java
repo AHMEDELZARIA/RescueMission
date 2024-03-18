@@ -239,10 +239,7 @@ public class GridSearch implements IDecisionHandler {
          *      interlaceB();
          *      if this.found = out_of_range(from interlaceB)
          *          if halfComplete == false
-         *              if this.searchSiteCount % 2 == 1
-         *                  interlaceC1();
-         *              else 
-         *                  interlaceC2();
+`        *              interlaceC();
          *          else 
          *              decision.put("action", "stop")
          *      else 
