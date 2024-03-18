@@ -40,7 +40,6 @@ public class Explorer implements IExplorerRaid {
     private boolean interlaceTurnC1 = false; // DELETE LATER: round 6
     private boolean interlaceTurnC2 = false; // DELETE LATER: round 6
     
-    
 
     @Override
     public void initialize(String s) {

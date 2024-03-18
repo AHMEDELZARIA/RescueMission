@@ -21,16 +21,15 @@ public class GridSearch implements IDecisionHandler {
     private String scanSites = ""; // returns the site if the site is found from 'scan' results 
     private boolean down = false; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
 
-    private boolean findIslandMode = true; // DELETE LATER: round 1 (we always start with this mode)
-    private boolean changeHeading = false; // DELETE LATER: round 2
-    private boolean reachIslandMode = false; // DELETE LATER: round 3
-    private boolean searchSite = false; // DELETE LATER: round 4
-    private boolean intoPosition = false; // DELETE LATER: round 5
-    private boolean interlaceTurnA = false; // DELETE LATER: round 6
-    private boolean interlaceTurnB = false; // DELETE LATER: round 6
-    private boolean interlaceTurnC1 = false; // DELETE LATER: round 6
-    private boolean interlaceTurnC2 = false; // DELETE LATER: round 6
-
+    private boolean findIslandMode = true; // runs findIsland() (we always start with this mode)
+    private boolean changeHeading = false; // runs faceIsland()
+    private boolean reachIslandMode = false; // runs reachIsland()
+    private boolean searchSite = false; // runs searchSite()
+    private boolean intoPosition = false; // runs intoPosition()
+    private boolean interlaceTurnA = false; // runs interlaceTurnA()
+    private boolean interlaceTurnB = false; // runs interlaceTurnB()
+    private boolean interlaceTurnC1 = false; // runs interlaceTurnC1()
+    private boolean interlaceTurnC2 = false; // runs interlaceTurnC2()
 
 
     JSONObject decision = new JSONObject();
@@ -88,7 +87,7 @@ public class GridSearch implements IDecisionHandler {
         //occurs if the number of searchSitesCount is even
     }
 
-    public void executeGridSearch(){
+    public void executeGridSearch(Compass compass) {
         while 
     }
 
