@@ -168,16 +168,91 @@ public class GridSearch implements IDecisionHandler {
 
     public void interlaceA(){
         //always follows intoPosition
+        if (this.interlaceTurnA == true) {
+            if (this.count < 2) {
+                if (this.down == true) {
+                    decision.put("action", "heading");
+                    decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                } else { // if (this.down == false) 
+                    decision.put("action", "heading");
+                    decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                }
+                this.count++;
+            } else {
+                this.interlaceTurnA = false;
+                this.interlaceTurnB = true;
+                decision.clear();
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceA");
+            }
+        }
     }
 
     public void interlaceB(){
         //always happens after interlaceA, and after excecuted, depending on what echo observes we either go interlaceC1, interlaceC2, go back to reachIsland or we stop
         //if condtion is met at interlaceB we stop
+        if (this.interlaceTurnB == true) {
+            if (this.count == 0) {
+                if (this.down == false) { // reversed bc this.down is direction before all of interlaceTurn
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "S"));
+                } else if (this.down == true) {
+                    decision.put("action", "echo");
+                    decision.put("parameters", parameters.put("direction", "N"));
+                }
+                this.count++;
+            } else {
+                decision.clear();
+                this.interlaceTurnB = false;
+                logger.info(this.searchCount);
+                if ((this.found).equals("GROUND")) {
+                    logger.info("christmas");
+                    // decision.put("action", "stop");
+                    // this.reachIslandMode = true;
+                } else {
+                    decision.put("action", "stop");
+                    /* 
+                    if (this.searchCount % 2 == 1) {
+                        this.interlaceTurnC1 = true; // CASE 1
+                    } else {
+                        this.interlaceTurnC2 = true; // CASE 2
+                    }
+                    */
+                }
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceB");
+            }
+        }
     }
 
     public boolean interlaceC1(){
-        return true;
         //occurs if the number of searchSitesCount is odd
+        if (this.interlaceTurnC1 == true) {
+            if (this.count < 5) {
+                if (this.down == true) {
+                    if (this.count % 5 == 3) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                    }
+                } else {
+                    if (this.count % 5 == 3) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                    }
+                }
+                this.count++;
+            } else {
+                this.interlaceTurnC1 = false;
+                decision.clear();
+                this.count = 0; // reset counter
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
+            }
+        }
+        return true;
     }
 
     //either call interlaceC1 or interlaceC2
