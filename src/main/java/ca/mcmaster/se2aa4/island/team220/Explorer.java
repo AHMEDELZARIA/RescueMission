@@ -230,7 +230,7 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
             } else {
                 this.interlaceTurnB = false;
-                // this.interlaceTurnC = true; // TEST COMMAND
+                this.interlaceTurnC = true; // TEST COMMAND
                 /* 
                 if (this.searchCount %2 == 1) {
                     this.interlaceTurnC1 = true; // CASE 1
@@ -244,92 +244,38 @@ public class Explorer implements IExplorerRaid {
             }
         }
 
-
-        /* 
         if (this.interlaceTurnC == true) {
-            if (!(this.found).equals("OUT_OF_RANGE") && this.count < 3) {
-                // if (this.count < 3) {
-                logger.info(this.count);
-                if (this.count % 3 == 0) {
-                    decision.put("action", "heading");
-                    decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    // compass.getHeading();
-                } else if (this.count % 3 == 1) {
-                    decision.clear();
-                    decision.put("action", "fly");
-                    // compass.getHeading();
-                } else if (this.count % 3 == 2) {
-                    logger.info("HUH");
-                    decision.put("action", "heading");
-                    decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+            if (this.count < 5) {
+                if (this.down == true) {
+                    if (this.count % 5 == 3) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                    }
+                    // logger.info("Yep.");
+                    // this.count++;
+                } else {
+                    if (this.count % 5 == 3) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                    }
+                    // logger.info("Yep.");
+                    // this.count++;
                 }
+                logger.info("Yep.");
                 this.count++;
-                // }
             } else {
-                this.count = 3;
-            }
-            if (this.count == 3) {
-                decision.clear();
                 this.interlaceTurnC = false;
+                decision.clear();
                 this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6 COMPLETE: interlaceTurn Mode");
+                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
             }
+            
         }
-        */
-  
 
-            /* 
-            // Segment C UPDATED
-            if ((this.found).equals("OUT_OF_RANGE")) {
-                logger.info("why doesz this work: {}", this.count);
-                if (this.count < 6) {
-                    if (this.count % 3 == 0) {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    } else if (this.count % 3 == 1) {
-                        decision.put("action", "fly");
-                    } else if (this.count % 3 == 2) {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                    }
-                    this.count++;
-                }
-            } else if (this.count == 3) {
-                decision.clear();
-                decision.put("action", "scan");
-                this.interlaceTurn = false;
-                // this.reachIslandMode = true;
-                this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6 COMPLETE: interlaceTurn Mode");
-            }
-            */
-
-            // ---------------------------------------------------------
-            /* 
-            // Segment C UPDATED
-            if ((this.found).equals("OUT_OF_RANGE")) {
-                logger.info("why doesz this work: {}", this.count);
-                if (this.count < 6) {
-                    if (this.count % 3 == 0) {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    } else if (this.count % 3 == 1) {
-                        decision.put("action", "fly");
-                    } else if (this.count % 3 == 2) {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                    }
-                    this.count++;
-                }
-            } else if (this.count == 3) {
-                decision.clear();
-                decision.put("action", "scan");
-                this.interlaceTurn = false;
-                // this.reachIslandMode = true;
-                this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6 COMPLETE: interlaceTurn Mode");
-            }
-            */
        
                 
 
