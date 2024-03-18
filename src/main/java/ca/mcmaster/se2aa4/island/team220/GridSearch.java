@@ -213,7 +213,6 @@ public class GridSearch implements IDecisionHandler {
 
     public boolean interlaceC1(){
         //occurs if the number of searchSitesCount is odd
-        if (this.interlaceTurnC1 == true) {
             if (this.count < 5) {
                 if (this.down == true) {
                     if (this.count % 5 == 3) {
@@ -237,14 +236,12 @@ public class GridSearch implements IDecisionHandler {
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
             }
-        }
         return true;
     }
 
     //either call interlaceC1 or interlaceC2
     public boolean interlaceC2(){
         //occurs if the number of searchSitesCount is even
-        if (this.interlaceTurnC2 == true) {
             if (this.count < 7) {
                 if (this.down == true) {
                     if (this.count % 7 >= 3 && this.count % 7 <= 5) {
@@ -268,7 +265,6 @@ public class GridSearch implements IDecisionHandler {
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 2 COMPLETE");
             }
-        }
 
         return true; // change this is just a placeholder
     }
