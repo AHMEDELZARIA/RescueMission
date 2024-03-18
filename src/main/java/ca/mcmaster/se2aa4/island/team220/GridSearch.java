@@ -97,7 +97,6 @@ public class GridSearch implements IDecisionHandler {
     }
 
     public boolean reachIsland(){
-        return true;
         //only repeated if in interlaceB interlaceC1 interlaceC2
         if (this.reachIslandMode == true) {
             if (!(this.scanBiomes).equals("BEACH")) { // condition for finding land
@@ -116,6 +115,7 @@ public class GridSearch implements IDecisionHandler {
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 3 COMPLETE: reachIsland Mode");
             }
         }
+        return true;
     }
 
     public int searchSite(){
