@@ -266,7 +266,7 @@ public class GridSearch implements IDecisionHandler {
 
     public void executeGridSearch(Compass compass) {
         /* while condition: loops until this.range = out_of_range(from interlaceB) && if halfComplete == true (from interlaceC1 or interlaceC2)
-         * 
+         *  findIsland();
          * 
          * 
          */
