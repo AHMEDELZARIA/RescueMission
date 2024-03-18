@@ -183,54 +183,48 @@ public class GridSearch implements IDecisionHandler {
         }
     }
 
-    public boolean interlaceC1(){
+    public boolean interlaceC() {
         //occurs if the number of searchCount is odd
-        if (this.count < 5) {
-            if (this.down == true) {
-                if (this.count % 5 == 3) {
-                    decision.put("action", "fly");
+        if (this.searchCount % 2 == 1) { // WE HAVE CASE 1
+            if (this.count < 5) {
+                if (this.down == true) {
+                    if (this.count % 5 == 3) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                    }
                 } else {
-                    decision.put("action", "heading");
-                    decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                    if (this.count % 5 == 3) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                    }
                 }
-            } else {
-                if (this.count % 5 == 3) {
-                    decision.put("action", "fly");
-                } else {
-                    decision.put("action", "heading");
-                    decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                }
+                this.count++;
             }
-            this.count++;
-        } else {
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
-        }
-        return true;
-    }
-
-    //either call interlaceC1 or interlaceC2
-    public boolean interlaceC2(){
-        //occurs if the number of searchSitesCount is even
-        if (this.count < 7) {
-            if (this.down == true) {
-                if (this.count % 7 >= 3 && this.count % 7 <= 5) {
-                    decision.put("action", "fly");
+        } else { // WE HAVE CASE 2
+            if (this.count < 7) {
+                if (this.down == true) {
+                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                    }
                 } else {
-                    decision.put("action", "heading");
-                    decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
+                        decision.put("action", "fly");
+                    } else {
+                        decision.put("action", "heading");
+                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+                    }
                 }
-            } else {
-                if (this.count % 7 >= 3 && this.count % 7 <= 5) {
-                    decision.put("action", "fly");
-                } else {
-                    decision.put("action", "heading");
-                    decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                }
+                this.count++;
             }
-            this.count++;
-        } else {
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 2 COMPLETE");
         }
+        logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
         return true; // change this is just a placeholder
     }
 
