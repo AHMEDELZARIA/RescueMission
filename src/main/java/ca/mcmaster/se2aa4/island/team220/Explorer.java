@@ -22,18 +22,12 @@ public class Explorer implements IExplorerRaid {
     private Compass compass;
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
-    // Direction straight = null;
-    // Direction right = null;
-    // Direction left = null;
-    // String heading = ""; // holder for the heading (take from initial) 
-
     private int count = 0;
     private int searchCount = 0;
     private String found = ""; // DELETE LATER: findIsland, for echo results
     private int range = 0; // DELETE LATER: findIsland, for echo results
     private String scanBiomes = ""; // DELETE LATER: reachIsland, 
     private String scanSites = ""; // DELETE LATER: reachIsland, 
-    // private boolean headingDone = false; // MIGHT NOT NEED THIS LOL
     private boolean down = false; // for interlaceTurn
 
     private boolean findIslandMode = true; // DELETE LATER: round 1 (we always start with this mode)
@@ -43,7 +37,6 @@ public class Explorer implements IExplorerRaid {
     private boolean intoPosition = false; // DELETE LATER: round 5
     private boolean interlaceTurnA = false; // DELETE LATER: round 6
     private boolean interlaceTurnB = false; // DELETE LATER: round 6
-    private boolean interlaceTurnC = false; // DELETE LATER: round 6
     private boolean interlaceTurnC1 = false; // DELETE LATER: round 6
     private boolean interlaceTurnC2 = false; // DELETE LATER: round 6
     
@@ -62,17 +55,7 @@ public class Explorer implements IExplorerRaid {
         Direction heading = Direction.toDirection(context.getString("heading"));
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
-
-        // Design Compass!
         compass = new Compass(heading); // ADDED
-        // this.heading = heading.toString();
-
-        // this.straight = compass.turnRight(); // DELETE LATER
-        // this.right = compass.getHeading(); // DELETE LATER
-        // this.left = compass.turnLeft(); // DELETE LATER
-        // logger.info(this.straight.toString()); // DELETE LATER
-        // logger.info(this.right.toString()); // DELETE LATER
-        // logger.info(this.left.toString()); // DELETE LATER
         
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -115,12 +98,10 @@ public class Explorer implements IExplorerRaid {
             if ((this.count-1) % 4 == 0) {
                 decision.put("action", "heading");
                 decision.put("parameters", parameters.put("direction", compass.turnRight().toString())); // "S"
-                // this.headingDone = true;
                 this.count = 3;
             } else if ((this.count-1) % 4 == 1) {
                 decision.put("action", "heading");
                 decision.put("parameters", parameters.put("direction", "N"));
-                // this.headingDone = true;
                 this.count = 3;
             } else {
                 this.changeHeading = false;
