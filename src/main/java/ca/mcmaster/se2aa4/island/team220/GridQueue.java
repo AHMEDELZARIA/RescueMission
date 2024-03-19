@@ -13,6 +13,20 @@ public class GridQueue {
         queue = new LinkedList<>();
     }
 
-    
+    public void enqueue(String action){
+        queue.add(action); 
+    }
+
+    public String dequeue(){
+        if (queue.isEmpty()){
+            refillQueue();
+        }
+
+        return queue.poll();
+    }
+
+    private void refillQueue(){
+        
+    }
     
 }
