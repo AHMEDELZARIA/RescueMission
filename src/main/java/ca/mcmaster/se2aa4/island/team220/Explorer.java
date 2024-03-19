@@ -16,6 +16,7 @@ public class Explorer implements IExplorerRaid {
     private Drone drone;
     private Translator translator;
     private AreaMap map;
+    private Compass compass;
     private CommandBook command; // ADDED 19/03
 
     private int count = 0;
@@ -34,6 +35,8 @@ public class Explorer implements IExplorerRaid {
         Direction heading = Direction.toDirection(context.getString("heading"));
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
+        compass = new Compass(heading); // ADDED 19/03
+        command = new CommandBook(compass); // ADDED 19/03
 
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -61,8 +64,8 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
             }
         } else if ((this.found).equals("GROUND")) {
-            // command.getStop();
-            decision.put("action", "stop");
+            command.getStop();
+            // decision.put("action", "stop");
         }
 
 
