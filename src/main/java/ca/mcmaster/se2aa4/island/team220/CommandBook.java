@@ -66,7 +66,7 @@ public class CommandBook {
         JSONObject parameters = new JSONObject();
 
         decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", 'S'));
+        decision.put("parameters", parameters.put("direction", Direction.SOUTH.toString())); // 'S'
 
         return decision.toString();
     }
@@ -99,7 +99,6 @@ public class CommandBook {
 
         decision.put("action", "fly");
         decision.put("parameters", parameters.put("direction", this.compass.turnRight().toString()));
-        parameters.clear();
 
         return decision.toString();
     }
