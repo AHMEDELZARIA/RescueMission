@@ -44,39 +44,27 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        // JSONObject decision = new JSONObject();
-        // JSONObject parameters = new JSONObject();
+        JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
 
         // NEW
         if (!(this.found).equals("GROUND")) {
             logger.info(this.count); 
             if (this.count % 3 == 0) {
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "S"));
                 this.count++;
-                logger.info(command.getEchoSouth());
-                return command.getEchoSouth();
-                // decision.put("action", "echo");
-                // decision.put("parameters", parameters.put("direction", "S"));
-                // this.count++;
             }
             //scans before drone flies
             else if (this.count % 3 == 1) {
-                // decision.put("action", "scan");
+                decision.put("action", "scan");
                 this.count++;
-                logger.info(command.getScan());
-                return command.getScan();
             } else{
+                decision.put("action", "fly");
                 this.count++;
-                logger.info(command.getFly());
-                return command.getFly();
-                // decision.put("action", "fly");
             }
         } else {
-            logger.info(command.getStop());
-            return command.getStop();
-            // decision.clear();
-            // logger.info(command.getTurnRight(compass));
-            // return command.getTurnRight(compass); // same as decision.put("action", "stop");
-            // decision.put("action", "stop");
+            decision.put("action", "stop");
         }
 
 
@@ -104,8 +92,8 @@ public class Explorer implements IExplorerRaid {
         }
         */
 
-        // logger.info("** Decision: {}", decision.toString());
-        // return decision.toString();
+        logger.info("** Decision: {}", decision.toString());
+        return decision.toString();
     }
 
     @Override
