@@ -16,6 +16,7 @@ public class Explorer implements IExplorerRaid {
     private Drone drone;
     private Translator translator;
     private AreaMap map;
+    private CommandBook command; // ADDED 19/03
 
     private int count = 0;
     private String found = ""; // NEW

@@ -5,22 +5,36 @@ import org.json.JSONObject;
 
 public class CommandBook {
 
-    private Action action;
+    // private Action action;
     private Direction heading;
     private Compass compass;
 
     private HashMap<Action, JSONObject> command;
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
+
+    JSONObject action = new JSONObject();
      
 
     public CommandBook() {
-
         this.command = new HashMap<>();
-        decision.put("action", "stop");
+        buildStop();
+        buildFly();
+        buildScan();
+        buildEchoNorth();
+        buildEchoEast();
+        buildEchoSouth();
+        buildEchoWest();
+        buildHeadingLeft();
+        buildHeadingRight();
         // this.command.put("stop", decision);
     }
 
+    public JSONObject getStop() {
+        this.action = command.get(Action.STOP);
+        return this.action;
+
+    }
 
     public void updateHeadingLeft() {
         compass.getHeading();
