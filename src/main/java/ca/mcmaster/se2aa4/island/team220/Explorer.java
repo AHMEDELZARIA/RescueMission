@@ -53,47 +53,6 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        // JSONObject decision = new JSONObject();
-        // JSONObject parameters = new JSONObject();
-        // String decision;
-
-        // NEW
-       /*  if (!(results.getFound()).equals("GROUND")) { // FIX IF DOESN'T WORK
-            logger.info(this.count);
-            if (this.count % 3 == 0) {
-                this.count++;
-                this.decision = command.getEchoSouth();
-            } else if (this.count % 3 == 1) { // scans before drone flies
-                this.count++;
-                this.decision = command.getScan();
-            } else {
-                this.count++;
-                this.decision = command.getFly();
-            }
-        } else {
-            this.decision = command.getStop();
-        }*/
-        
-
-        //attempt to implement queue
-        //CALL CLASS (GridQueue queue = new GridQueue();)
-        // String nextDecision;
-
-        //  if (!(results.getFound()).equals("GROUND")) 
-        //       if (queue.isEmpty()) 
-        //           queue.enqueue(command.getEchoSouth());
-        //           queue.enqueue(command.getScan());
-        //  *          queue.enqueue(command.getFly());
-        //  *      
-        //  *     nextDecision = queue.dequeue(); 
-        //  * else
-        //  *     nextDecision = command.getStop();
-        //  * 
-        //  * 
-        //  * logger.info(nextDecision);
-        //  * return nextDecision;
-        //  * 
-        //  */
 
         if (!(results.getFound()).equals("GROUND")) {
             if (queue.isEmpty()) {
