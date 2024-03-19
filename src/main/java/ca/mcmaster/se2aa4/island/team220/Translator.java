@@ -79,5 +79,4 @@ public class Translator {
         creeks = extras.getJSONArray("creeks");
         sites = extras.getJSONArray("sites");
     }
-
 }
