@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import org.json.JSONObject;
 
-public class GridSearch implements IDecisionHandler {
+public class GridSearch implements ISearchAlgorithm {
 
     private final Logger logger = LogManager.getLogger(); // for logger instructions
     private Compass compass; // creates a compass
@@ -29,7 +29,10 @@ public class GridSearch implements IDecisionHandler {
     Translator translator = new Translator();
 
     @Override
-    public void determineDecision(AreaMap map, Drone drone) {}
+    public void searchArea() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'determineDecision'");
+    }
 
     public void findIsland() {
         //called once in the beginning of the search

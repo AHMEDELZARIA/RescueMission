@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team220;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,6 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExampleTest {
+
+    private Compass compass;
+
+    @BeforeEach
+    public void setUp() {
+        this.compass = new Compass(Direction.EAST);
+    }
 
     @Test
     public void initialize() {
@@ -34,7 +42,7 @@ public class ExampleTest {
         String south = "S";
         String east = "E";
         String west = "W";
-        
+
         Direction expectedNorth = Direction.NORTH;
         Direction expectedSouth = Direction.SOUTH;
         Direction expectedEast = Direction.EAST;
@@ -67,7 +75,7 @@ public class ExampleTest {
         AreaMap map = new AreaMap();
         Point point = new Point(1, 1);
 
-        assertTrue(map.getPoint(point) == null); 
+        assertTrue(map.getPoint(point) == null);
     }
 
     @Test
@@ -78,6 +86,7 @@ public class ExampleTest {
         points.add(new Point(1, 2));
         points.add(new Point(1, 3));
         points.add(new Point(1, 4));
+        points.add(new Point(1, 5));
 
         for (Point p : points) {
             map.addPoint(p, MapFeature.OCEAN);
@@ -85,6 +94,53 @@ public class ExampleTest {
         }
     }
 
+    @Test
+    public void testTurn() {
+        this.compass.turnLeft();
+        assertNotEquals(Direction.EAST, this.compass.getHeading());
+    }
 
+    @Test
+    public void shouldTurnLeft() {
+        this.compass.turnLeft();
+        assertEquals(Direction.NORTH, this.compass.getHeading());
+        this.compass.turnLeft();
+        assertEquals(Direction.WEST, this.compass.getHeading());
+        this.compass.turnLeft();
+        assertEquals(Direction.SOUTH, this.compass.getHeading());
+        this.compass.turnLeft();
+        assertEquals(Direction.EAST, this.compass.getHeading());
+    }
 
+    @Test
+    public void shouldTurnRight() {
+        this.compass.turnRight();
+        assertEquals(Direction.SOUTH, this.compass.getHeading());
+        this.compass.turnRight();
+        assertEquals(Direction.WEST, this.compass.getHeading());
+        this.compass.turnRight();
+        assertEquals(Direction.NORTH, this.compass.getHeading());
+        this.compass.turnRight();
+        assertEquals(Direction.EAST, this.compass.getHeading());
+    }
+
+    @Test
+    public void shouldTurnAround() {
+        this.compass.turnRight();
+        this.compass.turnRight();
+        assertEquals(Direction.WEST, this.compass.getHeading());
+        this.compass.turnLeft();
+        this.compass.turnLeft();
+        assertEquals(Direction.EAST, this.compass.getHeading());
+    }
+
+    @Test
+    public void shouldTurnAndGoBack() {
+        this.compass.turnRight();
+        this.compass.turnLeft();
+        assertEquals(Direction.EAST, this.compass.getHeading());
+        this.compass.turnLeft();
+        this.compass.turnRight();
+        assertEquals(Direction.EAST, this.compass.getHeading());
+    }
 }
