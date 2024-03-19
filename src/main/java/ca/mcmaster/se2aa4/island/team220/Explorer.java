@@ -46,32 +46,27 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         // JSONObject decision = new JSONObject();
         // JSONObject parameters = new JSONObject();
+        String decision;
 
         // NEW
         if (!(this.found).equals("GROUND")) {
             logger.info(this.count); 
             if (this.count % 3 == 0) {
                 this.count++;
-                logger.info(command.getEchoSouth());
-                return command.getEchoSouth();
-            }
-            //scans before drone flies
-            else if (this.count % 3 == 1) {
+                decision = command.getEchoSouth();
+            } else if (this.count % 3 == 1) { // scans before drone flies
                 this.count++;
-                logger.info(command.getScan());
-                return command.getScan();
-            } else{
+                decision = command.getScan();
+            } else {
                 this.count++;
-                logger.info(command.getFly());
-                return command.getFly();
+                decision = command.getFly();
             }
         } else {
-            logger.info(command.getStop());
-            return command.getStop();
+            decision = command.getStop();
         }
-
-        // logger.info("** Decision: {}", decision.toString());
-        // return decision.toString();
+        
+        logger.info("** Decision: {}", decision);
+        return decision;
     }
 
     @Override
