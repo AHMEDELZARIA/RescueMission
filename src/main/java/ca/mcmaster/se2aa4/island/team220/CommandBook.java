@@ -9,39 +9,23 @@ public class CommandBook {
     // private Compass compass;
 
     private HashMap<Action, JSONObject> command;
-    JSONObject decision = new JSONObject();
-    JSONObject parameters = new JSONObject();
+    JSONObject decision = new JSONObject(); // DELETE LATER
+    JSONObject parameters = new JSONObject(); // DELETE LATER
 
-    JSONObject action = new JSONObject();
+    // JSONObject action = new JSONObject();
      
 
     public CommandBook(Compass compass) {
         this.command = new HashMap<>();
-        // buildStop();
-        buildFly();
-        buildStop();
-        buildScan();
-        buildEchoNorth();
-        buildEchoEast();
-        buildEchoSouth();
-        buildEchoWest();
-        buildHeadingLeft(compass);
-        buildHeadingRight(compass);
-        // this.command.put("stop", decision);
-    }
-
-    public void buildAction(Action action, String direction) { // Action are the enums
-        JSONObject decision = new JSONObject();
-        JSONObject parameters = new JSONObject();
-
-        decision.put("action", action.toString().toLowerCase()); // ex. Action.STOP becomes 'stop'
-
-        if (direction != null && !direction.isEmpty()) { // for echo and heading
-            parameters.put("direction", direction);
-            decision.put("parameters", parameters);
-        }
-
-        this.command.put(action, decision);
+        buildAction(Action.STOP, null);
+        buildAction(Action.FLY, null);
+        buildAction(Action.SCAN, null);
+        buildAction(Action.ECHO_NORTH, "N");
+        buildAction(Action.ECHO_EAST, "E");
+        buildAction(Action.ECHO_SOUTH, "S");
+        buildAction(Action.ECHO_WEST, "W");
+        buildAction(Action.HEADING_LEFT, compass.turnLeft().toString());
+        buildAction(Action.HEADING_RIGHT, compass.turnRight().toString());
     }
 
     public JSONObject getStop() {
@@ -50,21 +34,35 @@ public class CommandBook {
     }
 
     public void updateHeadingLeft(Compass compass) {
-        decision.clear();
-        compass.getHeading();
-        decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-        this.command.put(Action.HEADING_LEFT, decision);
+        // compass.getHeading();
+        // decision.put("action", "echo");
+        // decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+        // this.command.put(Action.HEADING_LEFT, decision);
+        buildAction(Action.HEADING_LEFT, compass.turnLeft().toString());
     }
     
     public void updateHeadingRight(Compass compass) {
-        decision.clear();
-        compass.getHeading();
-        decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-        this.command.put(Action.HEADING_RIGHT, decision);
+        // compass.getHeading();
+        // decision.put("action", "echo");
+        // decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+        // this.command.put(Action.HEADING_RIGHT, decision);
+        buildAction(Action.HEADING_RIGHT, compass.turnRight().toString());
     }
 
+    public void buildAction(Action action, String direction) { // Action are the enums
+        JSONObject decision = new JSONObject();
+        decision.put("action", action.toString().toLowerCase()); // ex. Action.STOP becomes 'stop'
+
+        if (direction != null && !direction.isEmpty()) { // for echo and heading
+            JSONObject parameters = new JSONObject();
+            parameters.put("direction", direction);
+            decision.put("parameters", parameters);
+        }
+
+        this.command.put(action, decision);
+    }
+
+    /*
     public void buildStop() {
         decision.clear();
         this.decision.put("action", "stop");
@@ -124,4 +122,5 @@ public class CommandBook {
         decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
         this.command.put(Action.HEADING_RIGHT, decision);
     }
+    */
 }
