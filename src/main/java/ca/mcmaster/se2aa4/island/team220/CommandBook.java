@@ -5,21 +5,21 @@ import org.json.JSONObject;
 
 public class CommandBook {
 
-    private HashMap<Action, JSONObject> command;
+    // private HashMap<Action, JSONObject> command;
     private Compass compass;
     
-    public CommandBook() {
-        this.compass = new Compass();
-        this.command = new HashMap<>();
-        buildAction(Action.STOP, null);
-        buildAction(Action.FLY, null);
-        buildAction(Action.SCAN, null);
-        buildAction(Action.ECHO_NORTH, "N");
-        buildAction(Action.ECHO_EAST, "E");
-        buildAction(Action.ECHO_SOUTH, "S");
-        buildAction(Action.ECHO_WEST, "W");
-        buildAction(Action.HEADING_LEFT, compass.turnLeft().toString());
-        buildAction(Action.HEADING_RIGHT, compass.turnRight().toString());
+    public CommandBook(Direction heading) {
+        this.compass = new Compass(heading);
+        // this.command = new HashMap<>();
+        // buildAction(Action.STOP, null);
+        // buildAction(Action.FLY, null);
+        // buildAction(Action.SCAN, null);
+        // buildAction(Action.ECHO_NORTH, "N");
+        // buildAction(Action.ECHO_EAST, "E");
+        // buildAction(Action.ECHO_SOUTH, "S");
+        // buildAction(Action.ECHO_WEST, "W");
+        // buildAction(Action.HEADING_LEFT, compass.turnLeft().toString());
+        // buildAction(Action.HEADING_RIGHT, compass.turnRight().toString());
     }
 
     public String getStop() {
@@ -46,6 +46,7 @@ public class CommandBook {
 
         decision.put("action", "echo");
         decision.put("parameters", parameters.put("direction", 'N'));
+        // parameters.clear();
 
         return decision.toString();
     }
@@ -85,30 +86,25 @@ public class CommandBook {
         JSONObject parameters = new JSONObject();
 
         decision.put("action", "fly");
-        decision.put("parameters", parameters.put("direction", this.compass.turnLeft()));
+        decision.put("parameters", parameters.put("direction", this.compass.turnLeft().toString()));
 
         return decision.toString();
     }
 
     public String getTurnRight(Compass compass) {
+        compass.getHeading();
+
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
         decision.put("action", "fly");
-        decision.put("parameters", parameters.put("direction", this.compass.turnRight()));
+        decision.put("parameters", parameters.put("direction", this.compass.turnRight().toString()));
+        parameters.clear();
 
         return decision.toString();
     }
 
-
-    public JSONObject getHeadingLeft() { return command.get(Action.HEADING_LEFT); }
-
-    public JSONObject getHeadingRight() { return command.get(Action.HEADING_RIGHT); }
-
-    public void updateHeadingLeft(Compass compass) { buildAction(Action.HEADING_LEFT, compass.turnLeft().toString()); } // MIGHT NOT NEED
-    
-    public void updateHeadingRight(Compass compass) { buildAction(Action.HEADING_RIGHT, compass.turnRight().toString()); } // MIGHT NOT NEED
-
+    /* 
     public void buildAction(Action action, String direction) { // Action are the enums
         JSONObject decision = new JSONObject();
 
@@ -125,6 +121,7 @@ public class CommandBook {
 
         this.command.put(action, decision); // putting decision into the HashMap, an ex. of action (the key) is Action.STOP
     }
+    */
 }
 
 /*
@@ -145,27 +142,6 @@ public class Drone {
 
     public Direction getHeading() {
         return this.compass.getHeading();
-    }
-
-
-    public String turnLeft() {
-        JSONObject decision = new JSONObject();
-        JSONObject parameters = new JSONObject();
-
-        decision.put("action", "fly");
-        decision.put("parameters", parameters.put("direction", this.compass.getLeft()));
-
-        return decision.toString();
-    }
-
-    public String turnRight() {
-        JSONObject decision = new JSONObject();
-        JSONObject parameters = new JSONObject();
-
-        decision.put("action", "fly");
-        decision.put("parameters", parameters.put("direction", this.compass.getRight()));
-
-        return decision.toString();
     }
 }
 */

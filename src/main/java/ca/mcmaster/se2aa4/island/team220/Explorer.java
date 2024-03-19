@@ -36,7 +36,7 @@ public class Explorer implements IExplorerRaid {
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
         compass = new Compass(heading); // ADDED 19/03
-        command = new CommandBook(compass); // ADDED 19/03
+        command = new CommandBook(heading); // ADDED 19/03
 
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -51,21 +51,30 @@ public class Explorer implements IExplorerRaid {
         if (!(this.found).equals("GROUND")) {
             logger.info(this.count); 
             if (this.count % 3 == 0) {
-                decision = command.getEchoSouth();
-                // decision.put("action", "echo");
-                // decision.put("parameters", parameters.put("direction", "S"));
+                // this.count++;
+                // return command.getEchoSouth();
+                decision.put("action", "echo");
+                decision.put("parameters", parameters.put("direction", "S"));
                 this.count++;
             }
             //scans before drone flies
             else if (this.count % 3 == 1) {
-                decision.put("action", "scan");
+                // decision.put("action", "scan");
                 this.count++;
-            }else{
-                decision.put("action", "fly");
+                logger.info(command.getScan());
+                return command.getScan();
+            } else{
                 this.count++;
+                logger.info(command.getFly());
+                return command.getFly();
+                // decision.put("action", "fly");
             }
         } else if ((this.found).equals("GROUND")) {
-            decision = command.getStop(); // same as decision.put("action", "stop");
+            // logger.info(command.getStop());
+            // return command.getStop();
+            decision.clear();
+            logger.info(command.getTurnRight(compass));
+            return command.getTurnRight(compass); // same as decision.put("action", "stop");
             // decision.put("action", "stop");
         }
 
