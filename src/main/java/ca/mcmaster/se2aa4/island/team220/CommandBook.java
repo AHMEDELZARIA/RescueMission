@@ -14,7 +14,6 @@ public class CommandBook {
 
     // JSONObject action = new JSONObject();
      
-
     public CommandBook(Compass compass) {
         this.command = new HashMap<>();
         buildAction(Action.STOP, null);

@@ -61,10 +61,12 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
             }else{
                 decision.put("action", "fly");
+                logger.info(decision);
                 this.count++;
             }
         } else if ((this.found).equals("GROUND")) {
-            command.getStop();
+            decision = command.getStop(); // command.getStop() = decision.put("action", "stop");
+            // logger.info(command.getStop());
             // decision.put("action", "stop");
         }
 
