@@ -73,6 +73,26 @@ public class Explorer implements IExplorerRaid {
         
         logger.info("** Decision: {}", this.decision);
         return this.decision;
+
+        //attempt to implement queue
+        //CALL CLASS (GridQueue queue = new GridQueue();)
+        // String nextDecision;
+
+        /* if (!(results.getFound()).equals("GROUND")) 
+         *      if (queue.isEmpty()) 
+         *          queue.enqueue(command.getEchoSouth());
+         *          queue.enqueue(command.getScan());
+         *          queue.enqueue(command.getFly());
+         *      
+         *     nextDecision = queue.dequeue(); 
+         * else
+         *     nextDecision = command.getStop();
+         * 
+         * 
+         * logger.info(nextDecision);
+         * return nextDecision;
+         * 
+         */
     }
 
     @Override

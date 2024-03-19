@@ -3,9 +3,6 @@ package ca.mcmaster.se2aa4.island.team220;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// import java.util.LinkedList; // THIS IS FOR LATER 
-// import java.util.Queue; // THIS IS FOR LATER
-
 import org.json.JSONObject;
 
 public class GridSearch implements ISearchAlgorithm {
@@ -27,6 +24,8 @@ public class GridSearch implements ISearchAlgorithm {
     boolean islandFound = false;
     boolean halfComplete = false;
     Translator translator = new Translator();
+
+    public GridQueue queue = new GridQueue();
 
     @Override
     public void searchArea() {
@@ -59,7 +58,20 @@ public class GridSearch implements ISearchAlgorithm {
             logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 1 COMPLETE: findIsland Mode");
             logger.info("");
         }
+
+        /* while ()
+         * 
+         */
+
+
+
+
+
+
     } 
+
+
+
 
     public void faceIsland(){
         //called once in the beginning of the search
