@@ -39,9 +39,32 @@ public class CommandBook {
     public void buildEchoNorth() {
         decision.put("action", "echo");
         decision.put("parameters", parameters.put("direction", "N"));
-        this.command.put(Action.ECHO, decision);
+        this.command.put(Action.ECHO_NORTH, decision);
     }
 
+    public void buildEchoEast() {
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", "N"));
+        this.command.put(Action.ECHO_EAST, decision);
+    }
+    
+    public void buildEchoSouth() {
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", "N"));
+        this.command.put(Action.ECHO_SOUTH, decision);
+    }
+
+    public void buildEchoWest() {
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", "N"));
+        this.command.put(Action.ECHO_WEST, decision);
+    }
+
+    public void buildHeadingLeft() {
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", "N"));
+        this.command.put(Action.ECHO_NORTH, decision);
+    }
     
     
 }
