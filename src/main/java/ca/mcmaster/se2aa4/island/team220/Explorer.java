@@ -53,14 +53,16 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-
         if (!(results.getFound()).equals("GROUND")) {
+            logger.info(this.count);
+            this.count++;
             if (queue.isEmpty()) {
                 queue.enqueue(command.getEchoSouth());
                 queue.enqueue(command.getScan());
                 queue.enqueue(command.getFly());
             }
             this.decision = queue.dequeue(); 
+
         } else {
             this.decision = command.getStop();
         }
