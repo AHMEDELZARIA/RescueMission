@@ -69,7 +69,6 @@ public class Explorer implements IExplorerRaid {
 
         logger.info("** Decision: {}", this.decision);
         return this.decision;
-        
     }
 
     @Override
