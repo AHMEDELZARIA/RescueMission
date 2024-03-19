@@ -55,18 +55,16 @@ public class Explorer implements IExplorerRaid {
                 decision.put("parameters", parameters.put("direction", "S"));
                 this.count++;
             }
-            //scans before drone flys
+            //scans before drone flies
             else if (this.count % 3 == 1) {
                 decision.put("action", "scan");
                 this.count++;
             }else{
                 decision.put("action", "fly");
-                logger.info(decision);
                 this.count++;
             }
         } else if ((this.found).equals("GROUND")) {
-            decision = command.getStop(); // command.getStop() = decision.put("action", "stop");
-            // logger.info(command.getStop());
+            decision = command.getStop(); // same as decision.put("action", "stop");
             // decision.put("action", "stop");
         }
 
