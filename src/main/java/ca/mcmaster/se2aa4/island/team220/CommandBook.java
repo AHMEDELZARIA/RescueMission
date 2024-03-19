@@ -10,32 +10,25 @@ public class CommandBook {
     
     public CommandBook(Direction heading) {
         this.compass = new Compass(heading);
-        // this.command = new HashMap<>();
-        // buildAction(Action.STOP, null);
-        // buildAction(Action.FLY, null);
-        // buildAction(Action.SCAN, null);
-        // buildAction(Action.ECHO_NORTH, "N");
-        // buildAction(Action.ECHO_EAST, "E");
-        // buildAction(Action.ECHO_SOUTH, "S");
-        // buildAction(Action.ECHO_WEST, "W");
-        // buildAction(Action.HEADING_LEFT, compass.turnLeft().toString());
-        // buildAction(Action.HEADING_RIGHT, compass.turnRight().toString());
     }
 
     public String getStop() {
         JSONObject decision = new JSONObject();
+
         decision.put("action", "stop");
         return decision.toString();
     }
 
     public String getFly() {
         JSONObject decision = new JSONObject();
+
         decision.put("action", "fly");
         return decision.toString();
     }
     
     public String getScan() {
         JSONObject decision = new JSONObject();
+
         decision.put("action", "scan");
         return decision.toString();
     }
@@ -46,8 +39,6 @@ public class CommandBook {
 
         decision.put("action", "echo");
         decision.put("parameters", parameters.put("direction", Direction.NORTH.toString()));
-        // parameters.clear();
-
         return decision.toString();
     }
 
@@ -57,7 +48,6 @@ public class CommandBook {
 
         decision.put("action", "echo");
         decision.put("parameters", parameters.put("direction", Direction.EAST.toString()));
-
         return decision.toString();
     }
 
@@ -67,7 +57,6 @@ public class CommandBook {
 
         decision.put("action", "echo");
         decision.put("parameters", parameters.put("direction", Direction.SOUTH.toString())); // 'S'
-
         return decision.toString();
     }
 
@@ -77,29 +66,26 @@ public class CommandBook {
 
         decision.put("action", "echo");
         decision.put("parameters", parameters.put("direction", Direction.WEST.toString()));
-
         return decision.toString();
     }
 
     public String getTurnLeft(Compass compass) {
+        compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
         decision.put("action", "fly");
         decision.put("parameters", parameters.put("direction", this.compass.turnLeft().toString()));
-
         return decision.toString();
     }
 
     public String getTurnRight(Compass compass) {
         compass.getHeading();
-
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
         decision.put("action", "fly");
         decision.put("parameters", parameters.put("direction", this.compass.turnRight().toString()));
-
         return decision.toString();
     }
 

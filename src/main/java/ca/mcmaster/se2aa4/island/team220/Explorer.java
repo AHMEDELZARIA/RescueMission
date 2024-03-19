@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import eu.ace_design.island.bot.IExplorerRaid;
 import scala.annotation.tailrec;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -21,6 +22,8 @@ public class Explorer implements IExplorerRaid {
 
     private int count = 0;
     private String found = ""; // NEW
+    private String scanBiomes = "";
+    private String scanSites = ""; 
 
     @Override
     public void initialize(String s) {
@@ -83,6 +86,21 @@ public class Explorer implements IExplorerRaid {
         // NEW
         if (!extraInfo.isNull("found")) {
             this.found = extraInfo.getString("found");
+        }
+
+        // DELETE THIS LATER: SCAN EXTRACT BIOMES
+        if (extraInfo.has("biomes")) {
+            logger.info("heck yeah");
+            JSONArray biomes = extraInfo.getJSONArray("biomes");
+            this.scanBiomes = biomes.getString(0);
+            extraInfo.clear();
+        }
+
+        // DELETE THIS LATER: SCAN EXTRACT SITES (worry about creeks later)
+        if (extraInfo.has("sites")) {
+            JSONArray sites = extraInfo.getJSONArray("sites");
+            this.scanSites = sites.getString(0);
+            extraInfo.clear();
         }
     }
 
