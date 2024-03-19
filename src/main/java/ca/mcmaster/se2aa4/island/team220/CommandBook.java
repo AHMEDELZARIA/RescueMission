@@ -5,14 +5,7 @@ import org.json.JSONObject;
 
 public class CommandBook {
 
-    // private Direction heading;
-    // private Compass compass;
-
     private HashMap<Action, JSONObject> command;
-    JSONObject decision = new JSONObject(); // DELETE LATER
-    JSONObject parameters = new JSONObject(); // DELETE LATER
-
-    // JSONObject action = new JSONObject();
     
     public CommandBook(Compass compass) {
         this.command = new HashMap<>();
@@ -27,59 +20,27 @@ public class CommandBook {
         buildAction(Action.HEADING_RIGHT, compass.turnRight().toString());
     }
 
-    public JSONObject getStop() {
-        return command.get(Action.STOP);
-    }
+    public JSONObject getStop() { return command.get(Action.STOP); }
 
-    public JSONObject getFly() {
-        return command.get(Action.FLY);
-    }
+    public JSONObject getFly() { return command.get(Action.FLY); }
     
-    public JSONObject getScan() {
-        return command.get(Action.SCAN);
-    }
+    public JSONObject getScan() { return command.get(Action.SCAN); }
 
-    public JSONObject getEchoNorth() {
-        return command.get(Action.ECHO_NORTH);
-    }
+    public JSONObject getEchoNorth() { return command.get(Action.ECHO_NORTH); }
 
-    public JSONObject getEchoEast() {
-        return command.get(Action.ECHO_EAST);
-    }
+    public JSONObject getEchoEast() { return command.get(Action.ECHO_EAST); }
 
-    public JSONObject getEchoSouth() {
-        return command.get(Action.ECHO_SOUTH);
-    }
+    public JSONObject getEchoSouth() { return command.get(Action.ECHO_SOUTH); }
 
-    public JSONObject getEchoWest() {
-        return command.get(Action.ECHO_WEST);
-    }
+    public JSONObject getEchoWest() { return command.get(Action.ECHO_WEST); }
 
-    public JSONObject getHeadingLeft(Compass compass) {
-        updateHeadingLeft(compass);
-        return command.get(Action.HEADING_LEFT);
-    }
+    public JSONObject getHeadingLeft() { return command.get(Action.HEADING_LEFT); }
 
-    public JSONObject getHeadingRight(Compass compass) {
-        updateHeadingRight(compass);
-        return command.get(Action.HEADING_RIGHT);
-    }
+    public JSONObject getHeadingRight() { return command.get(Action.HEADING_RIGHT); }
 
-    public void updateHeadingLeft(Compass compass) {
-        // compass.getHeading();
-        // decision.put("action", "echo");
-        // decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-        // this.command.put(Action.HEADING_LEFT, decision);
-        buildAction(Action.HEADING_LEFT, compass.turnLeft().toString());
-    }
+    public void updateHeadingLeft(Compass compass) { buildAction(Action.HEADING_LEFT, compass.turnLeft().toString()); }
     
-    public void updateHeadingRight(Compass compass) {
-        // compass.getHeading();
-        // decision.put("action", "echo");
-        // decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-        // this.command.put(Action.HEADING_RIGHT, decision);
-        buildAction(Action.HEADING_RIGHT, compass.turnRight().toString());
-    }
+    public void updateHeadingRight(Compass compass) { buildAction(Action.HEADING_RIGHT, compass.turnRight().toString()); }
 
     public void buildAction(Action action, String direction) { // Action are the enums
         JSONObject decision = new JSONObject();
