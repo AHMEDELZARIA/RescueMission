@@ -20,6 +20,8 @@ public class Explorer implements IExplorerRaid {
     private Compass compass;
     private CommandBook command; // ADDED 19/03
     private Information results; // added 19/03
+    private GridQueue queue; // ADDED 19/03
+   
 
     private int count = 0;
     private String decision;
@@ -36,6 +38,7 @@ public class Explorer implements IExplorerRaid {
         map = new AreaMap();
         translator = new Translator();
         results = new Information(context.getInt("budget"), "OK"); // initialize budget/battery and status (always starts off 'OK') 
+        queue = new GridQueue();
 
         // Initialize the drone's heading and battery level
         Direction heading = Direction.toDirection(context.getString("heading"));
@@ -55,7 +58,7 @@ public class Explorer implements IExplorerRaid {
         // String decision;
 
         // NEW
-        if (!(results.getFound()).equals("GROUND")) { // FIX IF DOESN'T WORK
+       /*  if (!(results.getFound()).equals("GROUND")) { // FIX IF DOESN'T WORK
             logger.info(this.count);
             if (this.count % 3 == 0) {
                 this.count++;
@@ -69,30 +72,44 @@ public class Explorer implements IExplorerRaid {
             }
         } else {
             this.decision = command.getStop();
-        }
+        }*/
         
-        logger.info("** Decision: {}", this.decision);
-        return this.decision;
 
         //attempt to implement queue
         //CALL CLASS (GridQueue queue = new GridQueue();)
         // String nextDecision;
 
-        /* if (!(results.getFound()).equals("GROUND")) 
-         *      if (queue.isEmpty()) 
-         *          queue.enqueue(command.getEchoSouth());
-         *          queue.enqueue(command.getScan());
-         *          queue.enqueue(command.getFly());
-         *      
-         *     nextDecision = queue.dequeue(); 
-         * else
-         *     nextDecision = command.getStop();
-         * 
-         * 
-         * logger.info(nextDecision);
-         * return nextDecision;
-         * 
-         */
+        //  if (!(results.getFound()).equals("GROUND")) 
+        //       if (queue.isEmpty()) 
+        //           queue.enqueue(command.getEchoSouth());
+        //           queue.enqueue(command.getScan());
+        //  *          queue.enqueue(command.getFly());
+        //  *      
+        //  *     nextDecision = queue.dequeue(); 
+        //  * else
+        //  *     nextDecision = command.getStop();
+        //  * 
+        //  * 
+        //  * logger.info(nextDecision);
+        //  * return nextDecision;
+        //  * 
+        //  */
+
+
+        if (!(results.getFound()).equals("GROUND")) {
+            if (queue.isEmpty()) {
+                queue.enqueue(command.getEchoSouth());
+                queue.enqueue(command.getScan());
+                queue.enqueue(command.getFly());
+            }
+            this.decision = queue.dequeue(); 
+        } else {
+            this.decision = command.getStop();
+        }
+
+        logger.info("** Decision: {}", this.decision);
+        return this.decision;
+        
     }
 
     @Override
