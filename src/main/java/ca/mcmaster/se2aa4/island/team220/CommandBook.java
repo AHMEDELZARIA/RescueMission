@@ -45,7 +45,7 @@ public class CommandBook {
         JSONObject parameters = new JSONObject();
 
         decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", 'N'));
+        decision.put("parameters", parameters.put("direction", Direction.NORTH.toString()));
         // parameters.clear();
 
         return decision.toString();
@@ -56,7 +56,7 @@ public class CommandBook {
         JSONObject parameters = new JSONObject();
 
         decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", 'E'));
+        decision.put("parameters", parameters.put("direction", Direction.EAST.toString()));
 
         return decision.toString();
     }
@@ -76,7 +76,7 @@ public class CommandBook {
         JSONObject parameters = new JSONObject();
 
         decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", 'W'));
+        decision.put("parameters", parameters.put("direction", Direction.WEST.toString()));
 
         return decision.toString();
     }
