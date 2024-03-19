@@ -54,13 +54,9 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
                 logger.info(command.getEchoSouth());
                 return command.getEchoSouth();
-                // decision.put("action", "echo");
-                // decision.put("parameters", parameters.put("direction", "S"));
-                // this.count++;
             }
             //scans before drone flies
             else if (this.count % 3 == 1) {
-                // decision.put("action", "scan");
                 this.count++;
                 logger.info(command.getScan());
                 return command.getScan();
@@ -68,41 +64,11 @@ public class Explorer implements IExplorerRaid {
                 this.count++;
                 logger.info(command.getFly());
                 return command.getFly();
-                // decision.put("action", "fly");
             }
         } else {
             logger.info(command.getStop());
             return command.getStop();
-            // decision.clear();
-            // logger.info(command.getTurnRight(compass));
-            // return command.getTurnRight(compass); // same as decision.put("action", "stop");
-            // decision.put("action", "stop");
         }
-
-
-        /*
-        Original Code:
-        while (this.count < 4) {
-            if (this.count == 0) {
-                decision.put("action", "scan");
-                this.count++;
-                break;
-            } else if (this.count == 1) {
-                decision.put("action", "fly");
-                this.count++;
-                break;
-            } else if (this.count == 2) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "E"));
-                this.count++;
-                break;
-            } else {
-                decision.put("action", "stop");
-                this.count++;
-                break;
-            }
-        }
-        */
 
         // logger.info("** Decision: {}", decision.toString());
         // return decision.toString();
