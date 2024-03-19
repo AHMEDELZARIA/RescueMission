@@ -21,12 +21,17 @@ public class GridQueue {
         if (queue.isEmpty()){
             refillQueue();
         }
-
         return queue.poll();
     }
 
-    private void refillQueue(){
-        
+    public void refillQueue(){
     }
     
+    public Boolean isEmpty() {
+        if (queue.isEmpty() == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

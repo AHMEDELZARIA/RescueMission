@@ -95,7 +95,6 @@ public class Explorer implements IExplorerRaid {
         //  * 
         //  */
 
-
         if (!(results.getFound()).equals("GROUND")) {
             if (queue.isEmpty()) {
                 queue.enqueue(command.getEchoSouth());
