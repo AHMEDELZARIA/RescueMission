@@ -58,21 +58,7 @@ public class GridSearch implements ISearchAlgorithm {
             logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 1 COMPLETE: findIsland Mode");
             logger.info("");
         }
-
-        /* while ()
-         * 
-         */
-
-
-
-
-
-
     } 
-
-
-
-
     public void faceIsland(){
         //called once in the beginning of the search
         if ((this.count-1) % 4 == 0) {
