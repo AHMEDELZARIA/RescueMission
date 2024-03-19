@@ -21,6 +21,21 @@ public class CommandBook {
         // this.command.put("stop", decision);
     }
 
+
+    public void updateHeadingLeft() {
+        compass.getHeading();
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+        this.command.put(Action.HEADING_LEFT, decision);
+    }
+    
+    public void updateHeadingRight() {
+        compass.getHeading();
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+        this.command.put(Action.HEADING_RIGHT, decision);
+    }
+
     public void buildStop() {
         this.decision.put("action", "stop");
         this.command.put(Action.STOP, decision);
@@ -62,8 +77,14 @@ public class CommandBook {
 
     public void buildHeadingLeft() {
         decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", "N"));
-        this.command.put(Action.ECHO_NORTH, decision);
+        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+        this.command.put(Action.HEADING_LEFT, decision);
+    }
+
+    public void buildHeadingRight() {
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+        this.command.put(Action.HEADING_RIGHT, decision);
     }
     
     

@@ -7,7 +7,8 @@ public enum Action {
     ECHO_SOUTH,
     ECHO_EAST,
     ECHO_WEST,
-    HEADING,
+    HEADING_LEFT,
+    HEADING_RIGHT,
     SCAN,
     STOP;
 }
