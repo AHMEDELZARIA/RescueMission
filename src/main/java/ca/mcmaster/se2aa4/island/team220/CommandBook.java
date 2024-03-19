@@ -44,6 +44,10 @@ public class CommandBook {
 
     public void buildAction(Action action, String direction) { // Action are the enums
         JSONObject decision = new JSONObject();
+
+        if (action == Action.ECHO_EAST)
+
+
         decision.put("action", action.toString().toLowerCase()); // ex. Action.STOP becomes 'stop'
 
         if (direction != null && !direction.isEmpty()) { // for echo and heading

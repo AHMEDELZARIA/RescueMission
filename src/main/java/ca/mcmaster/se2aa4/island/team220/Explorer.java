@@ -51,8 +51,9 @@ public class Explorer implements IExplorerRaid {
         if (!(this.found).equals("GROUND")) {
             logger.info(this.count); 
             if (this.count % 3 == 0) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "S"));
+                decision = command.getEchoSouth();
+                // decision.put("action", "echo");
+                // decision.put("parameters", parameters.put("direction", "S"));
                 this.count++;
             }
             //scans before drone flies
