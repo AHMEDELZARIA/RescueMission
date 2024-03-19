@@ -25,7 +25,7 @@ public class Translator {
         }
 
         // PLACEHOLDER
-        return new Information(action, cost, null, status);
+        return new Information(cost, null, status);
     }
 
     private Action determineAction(JSONObject extraInfo) {
@@ -80,3 +80,56 @@ public class Translator {
         sites = extras.getJSONArray("sites");
     }
 }
+
+/*
+package ca.mcmaster.se2aa4.island.team220;
+
+public class Information {
+    private Action actionTaken;
+    private Integer cost;
+    private Boolean status;
+
+    private String found;
+    private String biome;
+    private String site;
+
+    public Information(Integer cost, String biome, Boolean status) {
+        // this.actionTaken = actionTaken;
+        this.cost = cost;
+        this.status = status;
+    }
+
+    /*
+    public Action getActionTaken() {
+        return this.actionTaken;
+    }
+    */
+
+    /*
+    // Added 19/03
+    public void getFound(String found) {
+        this.found = found;
+    }
+
+    public void getBiome(String biome) {
+        this.biome = biome;
+    }
+
+    public void getSite(String site) {
+        if (site == null) {
+            this.site = "N/A";
+        } else {
+            this.site = site;
+        }
+    }
+
+
+    public Integer getCost() {
+        return this.cost;
+    }
+
+    public Boolean status() {
+        return this.status;
+    }
+}
+*/

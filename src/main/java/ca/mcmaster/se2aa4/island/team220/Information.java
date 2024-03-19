@@ -1,19 +1,35 @@
 package ca.mcmaster.se2aa4.island.team220;
 
 public class Information {
-    private Action actionTaken;
     private Integer cost;
     private Boolean status;
 
-    public Information(Action actionTaken, Integer cost, String biome, Boolean status) {
-        this.actionTaken = actionTaken;
+    private String found;
+    private String biome;
+    private String site;
+
+    public Information(Integer cost, String biome, Boolean status) {
         this.cost = cost;
         this.status = status;
     }
 
-    public Action getActionTaken() {
-        return this.actionTaken;
+    // Added 19/03
+    public void setFound(String found) {
+        this.found = found;
     }
+
+    public void setBiome(String biome) {
+        this.biome = biome;
+    }
+
+    public void setSite(String site) {
+        if (site == null) {
+            this.site = "N/A";
+        } else {
+            this.site = site;
+        }
+    }
+
 
     public Integer getCost() {
         return this.cost;
