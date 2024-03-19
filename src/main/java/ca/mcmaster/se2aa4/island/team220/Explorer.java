@@ -19,11 +19,13 @@ public class Explorer implements IExplorerRaid {
     private AreaMap map;
     private Compass compass;
     private CommandBook command; // ADDED 19/03
+    private Information results; // added 19/03
 
     private int count = 0;
-    private String found = ""; // NEW
-    private String scanBiomes = "";
-    private String scanSites = ""; 
+    private String decision;
+    // private String found = "";
+    // private String scanBiomes = "";
+    // private String scanSites = ""; 
 
     @Override
     public void initialize(String s) {
@@ -33,6 +35,7 @@ public class Explorer implements IExplorerRaid {
 
         map = new AreaMap();
         translator = new Translator();
+        results = new Information(context.getInt("budget"), "OK"); // initialize budget/battery and status (always starts off 'OK') 
 
         // Initialize the drone's heading and battery level
         Direction heading = Direction.toDirection(context.getString("heading"));
@@ -49,27 +52,27 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         // JSONObject decision = new JSONObject();
         // JSONObject parameters = new JSONObject();
-        String decision;
+        // String decision;
 
         // NEW
-        if (!(this.found).equals("GROUND")) {
-            logger.info(this.count); 
+        if (!(results.getFound()).equals("GROUND")) { // FIX IF DOESN'T WORK
+            logger.info(this.count);
             if (this.count % 3 == 0) {
                 this.count++;
-                decision = command.getEchoSouth();
+                this.decision = command.getEchoSouth();
             } else if (this.count % 3 == 1) { // scans before drone flies
                 this.count++;
-                decision = command.getScan();
+                this.decision = command.getScan();
             } else {
                 this.count++;
-                decision = command.getFly();
+                this.decision = command.getFly();
             }
         } else {
-            decision = command.getStop();
+            this.decision = command.getStop();
         }
         
-        logger.info("** Decision: {}", decision);
-        return decision;
+        logger.info("** Decision: {}", this.decision);
+        return this.decision;
     }
 
     @Override
@@ -85,21 +88,27 @@ public class Explorer implements IExplorerRaid {
 
         // NEW
         if (!extraInfo.isNull("found")) {
-            this.found = extraInfo.getString("found");
+            // this.found = extraInfo.getString("found");
+            results.setFound(extraInfo.getString("found"));
+            logger.info(results.getFound());
         }
 
-        // DELETE THIS LATER: SCAN EXTRACT BIOMES
         if (extraInfo.has("biomes")) {
-            logger.info("heck yeah");
             JSONArray biomes = extraInfo.getJSONArray("biomes");
-            this.scanBiomes = biomes.getString(0);
+            // this.scanBiomes = biomes.getString(0);
+            
+            results.setBiome(biomes.getString(0));
+            logger.info(results.getBiome());
             extraInfo.clear();
         }
 
-        // DELETE THIS LATER: SCAN EXTRACT SITES (worry about creeks later)
+        // SCAN EXTRACT SITES (worry about creeks later)
         if (extraInfo.has("sites")) {
             JSONArray sites = extraInfo.getJSONArray("sites");
-            this.scanSites = sites.getString(0);
+            // this.scanSites = sites.getString(0);
+
+            results.setSite(sites.getString(0));
+            logger.info(results.getSite());
             extraInfo.clear();
         }
     }

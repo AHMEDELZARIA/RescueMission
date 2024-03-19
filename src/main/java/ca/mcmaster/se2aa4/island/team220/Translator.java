@@ -11,21 +11,21 @@ public class Translator {
     JSONArray creeks = null;
     JSONArray sites = null;
 
-    public Information translate(JSONObject response) {
+    public void translate(JSONObject response) {
 
         Action action = determineAction(response.getJSONObject("extras"));
 
         Integer cost = response.getInt("cost");
 
-        Boolean status;
+        String status;
         if (response.getString("status").equals("OK")) {
-            status = true;
+            status = "true";
         } else {
-            status = false;
+            status = "false";
         }
 
         // PLACEHOLDER
-        return new Information(cost, null, status);
+        //return new Information(cost, status);
     }
 
     private Action determineAction(JSONObject extraInfo) {
