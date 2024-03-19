@@ -53,5 +53,6 @@ public class CommandBook {
         }
 
         this.command.put(action, decision); // putting decision into the HashMap, an ex. of action (the key) is Action.STOP
+        logger.info("yippee");
     }
 }
