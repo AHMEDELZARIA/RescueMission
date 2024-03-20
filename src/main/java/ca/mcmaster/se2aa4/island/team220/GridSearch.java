@@ -251,7 +251,7 @@ public class GridSearch implements ISearchAlgorithm {
         return true; // change this is just a placeholder
     }
 
-    public void executeGridSearch(Compass compass) {
+    /*public void executeGridSearch(Compass compass) {
         findIsland();
         faceIsland();
         while (true){
@@ -270,7 +270,7 @@ public class GridSearch implements ISearchAlgorithm {
             }else{
                 continue;
             }
-        }
+        }*/
         /* while condition: loops until this.found = out_of_range(from interlaceB) && if halfComplete == true (from interlaceC1 or interlaceC2)
          *      reachIsland();
          *      searchSite();
