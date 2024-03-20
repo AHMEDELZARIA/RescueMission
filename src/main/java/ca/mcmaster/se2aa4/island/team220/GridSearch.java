@@ -131,25 +131,16 @@ public class GridSearch implements ISearchAlgorithm {
         queue.enqueue(command.getTurnRight(compass));
     }
 
-    public boolean reachIsland(){
-        //only repeated if in interlaceB interlaceC1 interlaceC2
-        if (!(this.scanBiomes).equals("BEACH")) { // condition for finding land
-            logger.info(this.count); // count for scan and fly
-            if (this.count % 2 == 0) {
-                decision.put("action", "scan");
-            } else if (this.count % 2 == 1) {
-                decision.put("action", "fly");
-            }
-            this.count++;
-        } else {
-            //this.reachIslandMode = false;
-            //this.searchSite = true;
-            decision.clear();
-            this.count = 0; // reset counter
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 3 COMPLETE: reachIsland Mode");
-        }
-        return true;
+    public void refillReachIsland() {
+        queue.enqueue(command.getScan());
+        queue.enqueue(command.getFly());
     }
+
+    public void refillSearchSite() {
+        queue.enqueue(command.getScan());
+        queue.enqueue(command.getFly());
+    }
+
 
     public int searchSite(){
         //always happens after reachIsland is called
