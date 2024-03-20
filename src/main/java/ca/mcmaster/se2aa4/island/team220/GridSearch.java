@@ -41,11 +41,29 @@ public class GridSearch implements ISearchAlgorithm {
     // Main generic code, to be called from Explorer
     public String makeDecision(String found, String biome, Compass compass, Boolean interlaceChecked) {
         if (queue.isEmpty()) {
-            refillQueue(found, biome, compass, interlaceChecked);
+            testRefill(found, biome, compass, interlaceChecked); // if works, replace with refillQueue();
         }
         return queue.dequeue(); // dequeue and run command
     }
 
+
+    // TEST REFILL
+    public void testRefill(String found, String biome, Compass compass, Boolean interlaceChecked) {
+        switch (this.currentMode) {
+            case 0:
+                if (found.equals("GROUND")) {
+                    this.currentMode = 1;
+                } else {
+                    refillFindIsland(); // execute mode0
+                }
+                break;
+            case 1:
+                queue.enqueue(command.getStop()); // use stop command, end gridSearch
+                break;
+        }
+    }
+
+    // OFFICIAL REFILL METHOD
     public void refillQueue(String found, String biome, Compass compass, Boolean interlaceChecked) {
         switch (this.currentMode) {
             case 0:

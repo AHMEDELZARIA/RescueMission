@@ -17,7 +17,6 @@ public class Explorer implements IExplorerRaid {
     private Drone drone;
     private Translator translator;
     private AreaMap map;
-    private Compass compass;
     private CommandBook command; // ADDED 19/03
     private Information results; // added 19/03
     private GridQueue queue; // ADDED 19/03
@@ -27,8 +26,12 @@ public class Explorer implements IExplorerRaid {
     private int count = 0;
     private String decision;
     private String output = "";
-   
     private int method = 1; // ADDED 19/03
+
+    // private String found = ""; // ADDED 20/03
+    // private String biome = ""; // ADDED 20/03
+    private Compass compass; // ADDED 20/03
+    private Boolean interlaceChecked = false; // ADDED 20/03
 
     @Override
     public void initialize(String s) {
@@ -55,8 +58,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
+        results.getFound();
 
-        this.decision = search.findIsland(results.getFound());    
+        this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass, this.interlaceChecked);    
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }
