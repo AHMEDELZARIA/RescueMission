@@ -39,6 +39,12 @@ public class GridSearch implements ISearchAlgorithm {
         if (this.currentMode == 5 && found.equals("GROUND")) {
             this.currentMode = 2;
             biome = "OCEAN";
+        } else if (this.currentMode == 5 && !found.equals("GROUND")){
+            if (this.interlaceCheck == true){
+                this.currentMode = 7; 
+            }else{
+                this.currentMode = 6;
+            }
         }
         if (this.currentMode == 6) {
             this.currentMode = 2;
@@ -82,12 +88,12 @@ public class GridSearch implements ISearchAlgorithm {
             case 5: // INTERLACE A + INTERLACE B
                 refillInterlaceA(compass); // execute mode5
                 this.down = !this.down;
-                if (this.interlaceCheck) {
-                    this.currentMode = 7;
-                } else {
-                    logger.info("------------------------------------------------------------ok i pull up");
-                    this.currentMode = 6;
-                }
+                // if (this.interlaceCheck == true) {
+                //     this.currentMode = 7;
+                // } else {
+                //     logger.info("------------------------------------------------------------ok i pull up");
+                //     this.currentMode = 6;
+                // }
                 break;
             case 6: // INTERLACE C
             logger.info("--------------------------------------------------------------------reach here");

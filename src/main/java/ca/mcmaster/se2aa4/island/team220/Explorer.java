@@ -62,7 +62,7 @@ public class Explorer implements IExplorerRaid {
         // SOLUTION?: UHH IDK LOL BUT WE'LL FIGURE IT OUT >:^]
 
         if ((results.getSite()).equals("N/A")) { // if the site isn't found
-            if (count < 810) {
+            if (count < 850) {
                 this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
                 this.count++;
             } else {
