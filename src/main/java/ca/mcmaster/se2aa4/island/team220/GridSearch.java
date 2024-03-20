@@ -39,18 +39,17 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     // Main generic code, to be called from Explorer
-    public String makeDecision() {
+    public String makeDecision(String found, String biome, Compass compass, Boolean interlaceChecked) {
         if (queue.isEmpty()) {
-            // refill queue
+            refillQueue(found, biome, compass, interlaceChecked);
         }
-        queue.dequeue(); // dequeue and run command
-        return null;
+        return queue.dequeue(); // dequeue and run command
     }
 
-    public void refillQueue(String found, String biome, Compass compass, boolean interlaceCheck) {
+    public void refillQueue(String found, String biome, Compass compass, Boolean interlaceChecked) {
         switch (this.currentMode) {
             case 0:
-                if (found == "GROUND") {
+                if (found.equals("GROUND")) {
                     this.currentMode = 1;
                 } else {
                     refillFindIsland(); // execute mode0
@@ -61,21 +60,21 @@ public class GridSearch implements ISearchAlgorithm {
                 this.currentMode = 2;
                 break;
             case 2:
-                if (biome != "OCEAN") {
+                if (!biome.equals("OCEAN")) {
                     this.currentMode = 3;
                 } else {
                     refillReachIsland(); // execute mode2
                 }
                 break;
             case 3:
-                if (biome == "OCEAN") {
+                if (biome.equals("OCEAN")) {
                     this.currentMode = 4;
                 } else {
                     refillSearchSite(); // execute mode3
                 }
                 break;
             case 4:
-                if (found == "OUT_OF_RANGE") {
+                if (found.equals("OUT_OF_RANGE")) {
                     this.currentMode = 5;
                 } else {
                     refillIntoPosition(); // execute mode4
@@ -88,10 +87,10 @@ public class GridSearch implements ISearchAlgorithm {
             case 6:
                 refillInterlaceB(); // execute mode6
                 // return found
-                if (found == "GROUND") {
+                if (found.equals("GROUND")) {
                     this.currentMode = 2;
                 } else {
-                    if (interlaceCheck == true) {
+                    if (interlaceChecked) {
                         this.currentMode = 8;
                     } else {
                         this.currentMode = 7;
