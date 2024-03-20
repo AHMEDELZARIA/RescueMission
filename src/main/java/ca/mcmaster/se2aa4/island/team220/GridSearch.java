@@ -35,7 +35,7 @@ public class GridSearch implements ISearchAlgorithm {
         throw new UnsupportedOperationException("Unimplemented method 'determineDecision'");
     }
 
-    public String findIsland() {
+    public String findIsland(String found) {
         //called once in the beginning of the search
         /*if (!(this.found).equals("GROUND")) { // while the island is not found
             logger.info(this.count); // total count = 106
@@ -64,7 +64,7 @@ public class GridSearch implements ISearchAlgorithm {
         // ---------------------------------------------------------------------------------LOOK HERE HEHE
         String decision;
 
-        if (!(results.getFound()).equals("GROUND")) {
+        if (!found.equals("GROUND")) {
             logger.info(this.count);
             this.count++;
             if (queue.isEmpty()) {
