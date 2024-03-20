@@ -35,16 +35,18 @@ public class GridSearch implements ISearchAlgorithm {
 
     // OFFICIAL REFILL METHOD
     public void refillQueue(String found, String biome, Compass compass) {
-        if (this.currentMode == 5 && found.equals("GROUND")) { 
+        if (this.currentMode == 5 && found.equals("GROUND")) {
+            this.down = !this.down;
             this.currentMode = 2;
-        } else if (this.currentMode == 5 && found.equals("OUT_OF_RANGE")) {
-            if (this.interlaceCheck){
-                this.currentMode = 7; 
-            }else {
-                this.currentMode = 6;
+        } else if (this.currentMode == 5 && found.equals("OUT_OF_RANGE")) { // If in front of island and echo = out of range
+            if (this.interlaceCheck) {
+                this.currentMode = 7; // stop, we're done
+            } else {
+                this.down = !this.down;
+                this.currentMode = 6; // go to interLace C and loop around
             }
         }
-        if (this.currentMode == 6 && this.interlaceCheck) { // ok basically if interlacecheck = true then go to 2 and then another varible so that if 
+        if (this.currentMode == 6 && this.interlaceCheck) { // if interlaceCheck true and interlaceC done, go back to reachisland 
             this.currentMode = 2;
         }
         switch (this.currentMode) {
@@ -84,15 +86,21 @@ public class GridSearch implements ISearchAlgorithm {
                 }
 
             case 5: // INTERLACE A + INTERLACE B
+                logger.info(this.interlaceCheck);
+                logger.info(this.down);
+                logger.info(found);
+                logger.info(biome);
                 refillInterlaceA(compass); // execute mode5
-                this.down = !this.down;
                 break;
             case 6: // INTERLACE C
             logger.info("--------------------------------------------------------------------reach here");
                 refillInterlaceC(compass); // execute mode7
                 this.interlaceCheck = true;
-                // this.down = !this.down;
-                found = "GROUND";
+                logger.info("#########################################");
+                logger.info("#########################################");
+                logger.info("#########################################");
+                logger.info("#########################################");
+                logger.info("######################################### {}", found);
                 break;
             case 7:
                 logger.info("yipee");
@@ -166,19 +174,21 @@ public class GridSearch implements ISearchAlgorithm {
         logger.info("--------------------------------------------INTERLACE C HAPPENED");
         logger.info(this.searchCount);
         if (this.searchCount % 2 == 1) {
-            if (this.down == false) {
+            if (this.down == true) {
                 logger.info("this.down is false");
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getEchoNorth());
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getEchoSouth());
             }
         } else {
             if (this.down == true) {
@@ -189,7 +199,8 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
-                queue.enqueue(command.getTurnRight(compass));        
+                queue.enqueue(command.getTurnRight(compass));  
+                queue.enqueue(command.getEchoNorth());      
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
@@ -198,6 +209,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getEchoSouth());
             }
         }
     }
