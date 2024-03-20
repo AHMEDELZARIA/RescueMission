@@ -147,24 +147,12 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     public void refillInterlaceA() {
-        
-    }
-
-   
-
-    public void interlaceA(){
-        //always follows intoPosition
-        if (this.count < 2) {
-            if (this.down == true) {
-                decision.put("action", "heading");
-                decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-            } else { // if (this.down == false) 
-                decision.put("action", "heading");
-                decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-            }
-            this.count++;
+        if (this.down == true) {
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
         } else {
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceA");
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
         }
     }
 
