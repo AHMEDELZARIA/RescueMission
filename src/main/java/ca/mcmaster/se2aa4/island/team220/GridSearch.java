@@ -35,6 +35,20 @@ public class GridSearch implements ISearchAlgorithm {
         throw new UnsupportedOperationException("Unimplemented method 'determineDecision'");
     }
 
+    public String testIsland(String found) { // TESTING STUFF
+        //called once in the beginning of the search
+        logger.info(count);
+        count++; //FOR OUR UNDERSTANDING DELETE LATER
+        if (queue.isEmpty()) {
+            queue.enqueue(command.getEchoSouth());
+            queue.enqueue(command.getEchoEast());
+            queue.enqueue(command.getEchoNorth());
+            queue.enqueue(command.getScan());
+            queue.enqueue(command.getFly());
+        }
+        return queue.dequeue(); 
+    }
+    
     //THIS METHOD WORKS 
     public String findIsland(String found) {
         //called once in the beginning of the search
@@ -49,11 +63,11 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getFly());
             }
             return queue.dequeue(); 
-        }
-        else {
+        } else {
             return command.getStop();
         }
-    } 
+    }
+
     public void faceIsland(){
         //called once in the beginning of the search
         if ((this.count-1) % 4 == 0) {

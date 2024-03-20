@@ -55,7 +55,17 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        this.decision = search.findIsland(results.getFound());    
+
+        /*
+        if (!(results.getFound()).equals("GROUND")) {
+            this.decision = search.testIsland(results.getFound());
+        } else {
+            this.decision = command.getStop();
+        }
+        */
+        this.decision = search.testIsland(results.getFound());
+
+        // this.decision = search.findIsland(results.getFound());    
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }
