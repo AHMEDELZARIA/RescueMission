@@ -35,51 +35,22 @@ public class GridSearch implements ISearchAlgorithm {
         throw new UnsupportedOperationException("Unimplemented method 'determineDecision'");
     }
 
+    //THIS METHOD WORKS 
     public String findIsland(String found) {
         //called once in the beginning of the search
-        /*if (!(this.found).equals("GROUND")) { // while the island is not found
-            logger.info(this.count); // total count = 106
-            if (this.count % 4 == 0) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "S")); // echo right
-            } else if (this.count % 4 == 1) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "N")); // echo left
-            } else if (this.count % 4 == 2) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "E")); // echo straight
-            } else if (this.count % 4 == 3) {
-                decision.put("action", "fly"); // fly
-            }
-            this.count++;
-        } else {
-            //this.findIslandMode = false;
-            //this.changeHeading = true;
-            logger.info("This is the final count: {}", (this.count-1));
-            logger.info("THIS IS THE RANGE --------------------------------> {}", this.range); // 27 for map20
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 1 COMPLETE: findIsland Mode");
-            logger.info("");
-        }*/
-
-        // ---------------------------------------------------------------------------------LOOK HERE HEHE
-        String decision;
-
         if (!found.equals("GROUND")) {
             logger.info(count);
-            count++;
+            count++; //FOR OUR UNDERSTANDING DELETE LATER
             if (queue.isEmpty()) {
                 queue.enqueue(command.getEchoSouth());
                 queue.enqueue(command.getScan());
                 queue.enqueue(command.getFly());
             }
-            decision = queue.dequeue(); 
+            return queue.dequeue(); 
 
         } else {
-            decision = command.getStop();
+            return command.getStop();
         }
-
-        return decision;
-
     } 
     public void faceIsland(){
         //called once in the beginning of the search
