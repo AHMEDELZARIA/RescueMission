@@ -47,7 +47,7 @@ public class CommandBook {
         return decision.toString();
     }
 
-    public String EchoWest() {
+    public String getEchoWest() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");

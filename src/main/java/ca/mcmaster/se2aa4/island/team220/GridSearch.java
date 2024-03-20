@@ -125,7 +125,12 @@ public class GridSearch implements ISearchAlgorithm {
 
     public void refillIntoPosition() { // decide what this.down is here, if it is true or false
         queue.enqueue(command.getFly());
-        queue.enqueue(command.getEchoEast());
+        if (this.interlaceCheck == true) {
+            queue.enqueue(command.getEchoWest());
+        } else {
+            queue.enqueue(command.getEchoEast());
+        }
+        
     }
 
     public void refillInterlaceA(Compass compass) { // INTERLACE A AND INTERLACE B COMBINED
