@@ -8,7 +8,7 @@ import org.json.JSONObject;
 public class GridSearch implements ISearchAlgorithm {
 
     private final Logger logger = LogManager.getLogger(); // for logger instructions
-    private Compass compass; // creates a compass
+    private Compass compass; // creates a compass DELETE LATER
     private CommandBook command; // ADDED 19/03
     private Information results; // added 19/03
 
@@ -35,9 +35,9 @@ public class GridSearch implements ISearchAlgorithm {
         throw new UnsupportedOperationException("Unimplemented method 'determineDecision'");
     }
 
-    public void findIsland() {
+    public String findIsland() {
         //called once in the beginning of the search
-        if (!(this.found).equals("GROUND")) { // while the island is not found
+        /*if (!(this.found).equals("GROUND")) { // while the island is not found
             logger.info(this.count); // total count = 106
             if (this.count % 4 == 0) {
                 decision.put("action", "echo");
@@ -59,9 +59,10 @@ public class GridSearch implements ISearchAlgorithm {
             logger.info("THIS IS THE RANGE --------------------------------> {}", this.range); // 27 for map20
             logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 1 COMPLETE: findIsland Mode");
             logger.info("");
-        }
+        }*/
 
         // ---------------------------------------------------------------------------------LOOK HERE HEHE
+        String decision;
 
         if (!(results.getFound()).equals("GROUND")) {
             logger.info(this.count);
@@ -71,22 +72,13 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getScan());
                 queue.enqueue(command.getFly());
             }
-            this.decision = queue.dequeue(); 
+            decision = queue.dequeue(); 
 
         } else {
-            this.decision = command.getStop();
+            decision = command.getStop();
         }
 
-        logger.info("** Decision: {}", this.decision);
-        return this.decision;
-
-
-
-
-
-
-
-
+        return decision;
 
     } 
     public void faceIsland(){

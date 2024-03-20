@@ -21,6 +21,7 @@ public class Explorer implements IExplorerRaid {
     private CommandBook command; // ADDED 19/03
     private Information results; // added 19/03
     private GridQueue queue; // ADDED 19/03
+    private GridSearch search;
    
 
     private int count = 0;
@@ -39,13 +40,14 @@ public class Explorer implements IExplorerRaid {
         translator = new Translator();
         results = new Information(context.getInt("budget"), "OK"); // initialize budget/battery and status (always starts off 'OK') 
         queue = new GridQueue();
+        search = new GridSearch();
 
         // Initialize the drone's heading and battery level
         Direction heading = Direction.toDirection(context.getString("heading"));
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
         compass = new Compass(heading); // ADDED 19/03
-        command = new CommandBook(heading); // ADDED 19/03
+        command = new CommandBook(); // ADDED 19/03
 
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -53,7 +55,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        if (!(results.getFound()).equals("GROUND")) {
+        /*if (!(results.getFound()).equals("GROUND")) {
             logger.info(this.count);
             this.count++;
             if (queue.isEmpty()) {
@@ -67,6 +69,9 @@ public class Explorer implements IExplorerRaid {
             this.decision = command.getStop();
         }
 
+        logger.info("** Decision: {}", this.decision);
+        return this.decision; */
+        this.decision = search.findIsland();
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }
