@@ -53,15 +53,6 @@ public class Explorer implements IExplorerRaid {
         // this.count++;
         logger.info(this.count);
 
-        // BAD NEWS: FOR SOME REASON THIS IS NOT WORKING FOR MORE THAN 200 ACTIONS
-        // GOOD NEWS: IT'S NOT A BATTERY ISSUE, SO THERE'S STILL HOPE
-        // IDEA: REVIEW THE STATE SWITCH METHOD FOR ERRORS + THE MAP
-        // LOL PSYCHE I KNOW THE ANSWER ITS BECAUSE I DIDNT ACCOUNT FOR THIS.DOWN == FALSE, FIX THAT TOMORROW :^D
-
-        // PROBLEM 2: INTERLACE C NEVER GETS REACHED
-        // SOLUTION?: UHH IDK LOL BUT WE'LL FIGURE IT OUT >:^]
-        //if ((results.getSite()).equals("N/A")) {}
-
         if (count < 831) { //853
             this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
             this.count++;
