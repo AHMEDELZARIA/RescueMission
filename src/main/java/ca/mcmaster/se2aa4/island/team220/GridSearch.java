@@ -35,17 +35,17 @@ public class GridSearch implements ISearchAlgorithm {
 
     // OFFICIAL REFILL METHOD
     public void refillQueue(String found, String biome, Compass compass) {
-        // logger.info(this.currentMode);
-        if (this.currentMode == 5 && found.equals("GROUND")) {
+        logger.info("########################################### {}", this.currentMode);
+        if (this.currentMode == 5 && found.equals("GROUND")) { 
             this.currentMode = 2;
-        } else if (this.currentMode == 5 && found.equals("OUT_OF_RANGE")){
-            if (this.interlaceCheck == true){
+        } else if (this.currentMode == 5 && found.equals("OUT_OF_RANGE")) {
+            if (this.interlaceCheck){
                 this.currentMode = 7; 
-            }else{
+            }else {
                 this.currentMode = 6;
             }
         }
-        if (this.currentMode == 6) {
+        if (this.currentMode == 6 && this.interlaceCheck) { // ok basically if interlacecheck = true then go to 2 and then another varible so that if 
             this.currentMode = 2;
         }
         switch (this.currentMode) {
@@ -69,6 +69,7 @@ public class GridSearch implements ISearchAlgorithm {
                 }
             case 3: // SEARCH SITE
                 if (biome.equals("OCEAN")) {
+                    this.searchCount++;
                     this.currentMode = 4;
                 } else {
                     refillSearchSite(); // execute mode3
@@ -86,12 +87,6 @@ public class GridSearch implements ISearchAlgorithm {
             case 5: // INTERLACE A + INTERLACE B
                 refillInterlaceA(compass); // execute mode5
                 this.down = !this.down;
-                // if (this.interlaceCheck == true) {
-                //     this.currentMode = 7;
-                // } else {
-                //     logger.info("------------------------------------------------------------ok i pull up");
-                //     this.currentMode = 6;
-                // }
                 break;
             case 6: // INTERLACE C
             logger.info("--------------------------------------------------------------------reach here");
@@ -145,8 +140,11 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     public void refillInterlaceC(Compass compass) {
+        logger.info("--------------------------------------------INTERLACE C HAPPENED");
+        logger.info(this.searchCount);
         if (this.searchCount % 2 == 1) {
-            if (this.down == true) {
+            if (this.down == false) {
+                logger.info("this.down is false");
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
@@ -161,6 +159,7 @@ public class GridSearch implements ISearchAlgorithm {
             }
         } else {
             if (this.down == true) {
+                logger.info("this.down is true");
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
