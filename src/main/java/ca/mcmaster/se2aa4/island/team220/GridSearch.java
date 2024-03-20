@@ -10,7 +10,7 @@ public class GridSearch implements ISearchAlgorithm {
     private final Logger logger = LogManager.getLogger(); // for logger instructions
     private Compass compass; // creates a compass DELETE LATER
     private CommandBook command = new CommandBook(); // ADDED 19/03
-    private Information results; // added 19/03
+    private Information results; // added 19/03 DELETE LATER
 
     private int count = 0; // helps run different actions in a round, gets 'reset'
     private int searchCount = 0; // keeps track of number of times searchSite() is run
@@ -43,6 +43,8 @@ public class GridSearch implements ISearchAlgorithm {
             count++; //FOR OUR UNDERSTANDING DELETE LATER
             if (queue.isEmpty()) {
                 queue.enqueue(command.getEchoSouth());
+                queue.enqueue(command.getEchoEast());
+                queue.enqueue(command.getEchoNorth());
                 queue.enqueue(command.getScan());
                 queue.enqueue(command.getFly());
             }
