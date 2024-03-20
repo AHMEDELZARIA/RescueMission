@@ -164,49 +164,40 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 
-    public boolean interlaceC() {
-        //occurs if the number of searchCount is odd
-        if (this.searchCount % 2 == 1) { // WE HAVE CASE 1
-            if (this.count < 5) {
-                if (this.down == true) {
-                    if (this.count % 5 == 3) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                    }
-                } else {
-                    if (this.count % 5 == 3) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    }
-                }
-                this.count++;
+    public void refillInterlaceC() {
+        if (this.searchCount % 2 == 1) {
+            if (this.down == true) {
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getTurnRight(compass));
+            } else {
+                queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getTurnLeft(compass));
             }
-        } else { // WE HAVE CASE 2
-            if (this.count < 7) {
-                if (this.down == true) {
-                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                    }
-                } else {
-                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    }
-                }
-                this.count++;
+        } else {
+            if (this.down == true) {
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getTurnRight(compass));        
+            } else {
+                queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getTurnLeft(compass));
             }
         }
-        logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
-        return true; // change this is just a placeholder
     }
 
     /*public void executeGridSearch(Compass compass) {
@@ -229,19 +220,5 @@ public class GridSearch implements ISearchAlgorithm {
                 continue;
             }
         }*/
-        /* while condition: loops until this.found = out_of_range(from interlaceB) && if halfComplete == true (from interlaceC1 or interlaceC2)
-         *      reachIsland();
-         *      searchSite();
-         *      intoPosition();
-         *      interlaceA();
-         *      interlaceB();
-         *      if this.found = out_of_range(from interlaceB)
-         *          if halfComplete == false
-`        *              interlaceC();
-         *          else 
-         *              decision.put("action", "stop")
-         *      else 
-         *          continue;
-         */
     }
 
