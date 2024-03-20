@@ -92,6 +92,7 @@ public class GridSearch implements ISearchAlgorithm {
             logger.info("--------------------------------------------------------------------reach here");
                 refillInterlaceC(compass); // execute mode7
                 this.interlaceCheck = true;
+                this.down = !this.down;
                 break;
             case 7:
                 logger.info("yipee");
