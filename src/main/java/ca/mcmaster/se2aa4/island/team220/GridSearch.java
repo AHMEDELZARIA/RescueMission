@@ -69,7 +69,6 @@ public class GridSearch implements ISearchAlgorithm {
             case 3: // SEARCH SITE
                 if (biome.equals("OCEAN")) {
                     this.searchCount++;
-                    found = "GROUND";
                     this.currentMode = 4;
                 } else {
                     refillSearchSite(); // execute mode3
@@ -93,6 +92,7 @@ public class GridSearch implements ISearchAlgorithm {
                 refillInterlaceC(compass); // execute mode7
                 this.interlaceCheck = true;
                 this.down = !this.down;
+                found = "GROUND";
                 break;
             case 7:
                 logger.info("yipee");
