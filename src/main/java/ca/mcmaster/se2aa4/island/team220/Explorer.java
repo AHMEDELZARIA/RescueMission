@@ -27,9 +27,8 @@ public class Explorer implements IExplorerRaid {
     private int count = 0;
     private String decision;
     private String output = "";
-    // private String found = "";
-    // private String scanBiomes = "";
-    // private String scanSites = ""; 
+   
+    private int method = 1; // ADDED 19/03
 
     @Override
     public void initialize(String s) {
@@ -56,7 +55,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        this.decision = search.findIsland(results.getFound());
+        this.decision = search.findIsland(results.getFound());    
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }

@@ -47,8 +47,8 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getFly());
             }
             return queue.dequeue(); 
-
-        } else {
+        }
+        else {
             return command.getStop();
         }
     } 
