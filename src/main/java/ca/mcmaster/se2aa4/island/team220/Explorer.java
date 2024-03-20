@@ -71,7 +71,7 @@ public class Explorer implements IExplorerRaid {
 
         logger.info("** Decision: {}", this.decision);
         return this.decision; */
-        this.decision = search.findIsland();
+        this.decision = search.findIsland(results.getFound());
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }
