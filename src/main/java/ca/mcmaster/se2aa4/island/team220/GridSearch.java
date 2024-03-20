@@ -286,4 +286,4 @@ public class GridSearch implements ISearchAlgorithm {
          *          continue;
          */
     }
-}
+
