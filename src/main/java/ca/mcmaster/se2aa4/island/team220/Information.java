@@ -39,9 +39,7 @@ public class Information {
     }
 
     public void setSite(String site) {
-        if (site.isEmpty()) {
-            this.site = "N/A";
-        } else {
+        if (!site.isEmpty()) {
             this.site = site;
         }
     }

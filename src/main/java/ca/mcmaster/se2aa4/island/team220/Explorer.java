@@ -19,7 +19,7 @@ public class Explorer implements IExplorerRaid {
     private AreaMap map;
     private CommandBook command; // ADDED 19/03
     private Information results; // added 19/03
-    private GridQueue queue; // ADDED 19/03
+    // private GridQueue queue; // ADDED 19/03
     private GridSearch search;
    
 
@@ -42,7 +42,7 @@ public class Explorer implements IExplorerRaid {
         map = new AreaMap();
         translator = new Translator();
         results = new Information(context.getInt("budget"), "OK"); // initialize budget/battery and status (always starts off 'OK') 
-        queue = new GridQueue();
+        // queue = new GridQueue();
         search = new GridSearch();
 
         // Initialize the drone's heading and battery level
@@ -58,8 +58,10 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        results.getFound();
+        // results.getFound();
 
+        this.count++;
+        logger.info(this.count);
         this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass, this.interlaceChecked);    
         logger.info("** Decision: {}", this.decision);
         return this.decision;

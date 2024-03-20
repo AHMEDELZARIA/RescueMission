@@ -55,9 +55,10 @@ public class GridSearch implements ISearchAlgorithm {
                     this.currentMode = 1;
                 } else {
                     refillFindIsland(); // execute mode0
+                    break;
                 }
-                break;
             case 1:
+                logger.info("yipee");
                 queue.enqueue(command.getStop()); // use stop command, end gridSearch
                 break;
         }
@@ -127,8 +128,8 @@ public class GridSearch implements ISearchAlgorithm {
 
     public void refillFindIsland() {
         queue.enqueue(command.getEchoSouth());
-        queue.enqueue(command.getEchoEast());
-        queue.enqueue(command.getEchoNorth());
+        // queue.enqueue(command.getEchoEast());
+        // queue.enqueue(command.getEchoNorth());
         queue.enqueue(command.getScan());
         queue.enqueue(command.getFly());
     }
