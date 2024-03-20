@@ -24,6 +24,7 @@ public class Explorer implements IExplorerRaid {
     private String decision;
 
     private Compass compass; // ADDED 20/03
+    private CommandBook command; // ADDED 20/03
     private Boolean interlaceChecked = false; // ADDED 20/03
 
     @Override
@@ -42,6 +43,7 @@ public class Explorer implements IExplorerRaid {
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
         compass = new Compass(heading); // ADDED 19/03
+        command = new CommandBook();
 
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -49,10 +51,19 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        this.count++;
+        // this.count++;
         logger.info(this.count);
 
-        this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass, this.interlaceChecked);    
+        // BAD NEWS: FOR SOME REASON THIS IS NOT WORKING FOR MORE THAN 200 ACTIONS
+        // GOOD NEWS: IT'S NOT A BATTERY ISSUE, SO THERE'S STILL HOPE
+
+        if (count < 210) {
+            this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass, this.interlaceChecked);
+            this.count++;
+        } else {
+            this.decision = command.getStop();
+        }
+
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }

@@ -59,7 +59,7 @@ public class CommandBook {
         compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
-        decision.put("action", "fly");
+        decision.put("action", "heading");
         decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
         return decision.toString();
     }
@@ -68,7 +68,7 @@ public class CommandBook {
         compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
-        decision.put("action", "fly");
+        decision.put("action", "heading");
         decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
         return decision.toString();
     }
