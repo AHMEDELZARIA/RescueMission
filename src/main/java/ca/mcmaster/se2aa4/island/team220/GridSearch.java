@@ -88,13 +88,13 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
 
-    /* public void faceIsland() {
+    /* public void faceIsland() { for not just map 3
     if (compass.getHeading() == Direction.NORTH) {
-        queue.enqueue(command.getTurnLeft(compass));  // Enqueue the action to turn left if facing north
+        queue.enqueue(command.getTurnLeft(compass));  
     } else {
-        queue.enqueue(command.getTurnRight(compass)); // Enqueue the action to turn right if facing south
+        queue.enqueue(command.getTurnRight(compass)); 
     }
-    queue.enqueue(command.getStop()); // Enqueue the action to stop
+    queue.enqueue(command.getStop()); 
     }
      */
 
