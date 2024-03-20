@@ -125,6 +125,7 @@ public class GridSearch implements ISearchAlgorithm {
 
     public void refillIntoPosition() { // decide what this.down is here, if it is true or false
         queue.enqueue(command.getFly());
+        logger.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA {}", this.interlaceCheck); 
         if (this.interlaceCheck == true) {
             queue.enqueue(command.getEchoWest());
         } else {
