@@ -127,11 +127,11 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     public void refillFindIsland() {
+        queue.enqueue(command.getFly());
         queue.enqueue(command.getEchoSouth());
         // queue.enqueue(command.getEchoEast());
         // queue.enqueue(command.getEchoNorth());
-        queue.enqueue(command.getScan());
-        queue.enqueue(command.getFly());
+        // queue.enqueue(command.getScan());
     }
 
     /*
@@ -159,18 +159,18 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     public void refillReachIsland() {
-        queue.enqueue(command.getScan());
         queue.enqueue(command.getFly());
+        queue.enqueue(command.getScan());
     }
 
     public void refillSearchSite() {
-        queue.enqueue(command.getScan());
         queue.enqueue(command.getFly());
+        queue.enqueue(command.getScan());
     }
 
     public void refillIntoPosition() { // decide what this.down is here, if it is true or false
-        queue.enqueue(command.getEchoEast());
         queue.enqueue(command.getFly());
+        queue.enqueue(command.getEchoEast());
     }
 
     public void refillInterlaceA(Compass compass) {

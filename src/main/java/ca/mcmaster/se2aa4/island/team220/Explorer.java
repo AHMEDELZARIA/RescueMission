@@ -17,19 +17,12 @@ public class Explorer implements IExplorerRaid {
     private Drone drone;
     private Translator translator;
     private AreaMap map;
-    private CommandBook command; // ADDED 19/03
     private Information results; // added 19/03
-    // private GridQueue queue; // ADDED 19/03
     private GridSearch search;
-   
 
     private int count = 0;
     private String decision;
-    private String output = "";
-    private int method = 1; // ADDED 19/03
 
-    // private String found = ""; // ADDED 20/03
-    // private String biome = ""; // ADDED 20/03
     private Compass compass; // ADDED 20/03
     private Boolean interlaceChecked = false; // ADDED 20/03
 
@@ -41,8 +34,7 @@ public class Explorer implements IExplorerRaid {
 
         map = new AreaMap();
         translator = new Translator();
-        results = new Information(context.getInt("budget"), "OK"); // initialize budget/battery and status (always starts off 'OK') 
-        // queue = new GridQueue();
+        results = new Information(context.getInt("budget"), "OK"); // initialize budget(battery) and status (always starts 'OK') 
         search = new GridSearch();
 
         // Initialize the drone's heading and battery level
@@ -50,7 +42,6 @@ public class Explorer implements IExplorerRaid {
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
         compass = new Compass(heading); // ADDED 19/03
-        command = new CommandBook(); // ADDED 19/03
 
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -58,10 +49,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        // results.getFound();
-
         this.count++;
         logger.info(this.count);
+
         this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass, this.interlaceChecked);    
         logger.info("** Decision: {}", this.decision);
         return this.decision;
@@ -80,15 +70,12 @@ public class Explorer implements IExplorerRaid {
 
         // NEW
         if (!extraInfo.isNull("found")) {
-            // this.found = extraInfo.getString("found");
             results.setFound(extraInfo.getString("found"));
             logger.info(results.getFound());
         }
 
         if (extraInfo.has("biomes")) {
             JSONArray biomes = extraInfo.getJSONArray("biomes");
-            // this.scanBiomes = biomes.getString(0);
-            
             results.setBiome(biomes.getString(0));
             logger.info(results.getBiome());
             extraInfo.clear();
@@ -97,8 +84,6 @@ public class Explorer implements IExplorerRaid {
         // SCAN EXTRACT SITES (worry about creeks later)
         if (extraInfo.has("sites")) {
             JSONArray sites = extraInfo.getJSONArray("sites");
-            // this.scanSites = sites.getString(0);
-
             results.setSite(sites.getString(0));
             logger.info(results.getSite());
             extraInfo.clear();
