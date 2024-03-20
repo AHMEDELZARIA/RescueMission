@@ -62,7 +62,7 @@ public class Explorer implements IExplorerRaid {
         // SOLUTION?: UHH IDK LOL BUT WE'LL FIGURE IT OUT >:^]
         //if ((results.getSite()).equals("N/A")) {}
 
-        if (count < 847) { //830
+        if (count < 853) { //853
             this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
             this.count++;
         } else {
