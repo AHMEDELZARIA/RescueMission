@@ -35,7 +35,6 @@ public class GridSearch implements ISearchAlgorithm {
 
     // OFFICIAL REFILL METHOD
     public void refillQueue(String found, String biome, Compass compass) {
-        logger.info("########################################### {}", this.currentMode);
         if (this.currentMode == 5 && found.equals("GROUND")) { 
             this.currentMode = 2;
         } else if (this.currentMode == 5 && found.equals("OUT_OF_RANGE")) {
@@ -70,6 +69,7 @@ public class GridSearch implements ISearchAlgorithm {
             case 3: // SEARCH SITE
                 if (biome.equals("OCEAN")) {
                     this.searchCount++;
+                    found = "GROUND";
                     this.currentMode = 4;
                 } else {
                     refillSearchSite(); // execute mode3
@@ -99,6 +99,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getStop()); // use stop command, end gridSearch
                 break;
         }
+        logger.info("########################################### {}", this.currentMode);
     }
 
     public void refillFindIsland() {
