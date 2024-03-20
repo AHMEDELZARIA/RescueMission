@@ -5,13 +5,6 @@ import org.json.JSONObject;
 
 public class CommandBook {
 
-    // private HashMap<Action, JSONObject> command;
-    private Compass compass;
-    
-    public CommandBook(Direction heading) {
-        this.compass = new Compass(heading);
-    }
-
     public String getStop() {
         JSONObject decision = new JSONObject();
         decision.put("action", "stop");
@@ -67,7 +60,7 @@ public class CommandBook {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "fly");
-        decision.put("parameters", parameters.put("direction", this.compass.turnLeft().toString()));
+        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
         return decision.toString();
     }
 
@@ -76,7 +69,7 @@ public class CommandBook {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "fly");
-        decision.put("parameters", parameters.put("direction", this.compass.turnRight().toString()));
+        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
         return decision.toString();
     }
 }

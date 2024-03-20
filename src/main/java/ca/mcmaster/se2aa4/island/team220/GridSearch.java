@@ -9,6 +9,8 @@ public class GridSearch implements ISearchAlgorithm {
 
     private final Logger logger = LogManager.getLogger(); // for logger instructions
     private Compass compass; // creates a compass
+    private CommandBook command; // ADDED 19/03
+    private Information results; // added 19/03
 
     private int count = 0; // helps run different actions in a round, gets 'reset'
     private int searchCount = 0; // keeps track of number of times searchSite() is run
@@ -58,6 +60,34 @@ public class GridSearch implements ISearchAlgorithm {
             logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 1 COMPLETE: findIsland Mode");
             logger.info("");
         }
+
+        // ---------------------------------------------------------------------------------LOOK HERE HEHE
+
+        if (!(results.getFound()).equals("GROUND")) {
+            logger.info(this.count);
+            this.count++;
+            if (queue.isEmpty()) {
+                queue.enqueue(command.getEchoSouth());
+                queue.enqueue(command.getScan());
+                queue.enqueue(command.getFly());
+            }
+            this.decision = queue.dequeue(); 
+
+        } else {
+            this.decision = command.getStop();
+        }
+
+        logger.info("** Decision: {}", this.decision);
+        return this.decision;
+
+
+
+
+
+
+
+
+
     } 
     public void faceIsland(){
         //called once in the beginning of the search
