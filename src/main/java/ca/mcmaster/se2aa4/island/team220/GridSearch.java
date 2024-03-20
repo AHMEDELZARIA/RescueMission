@@ -182,26 +182,5 @@ public class GridSearch implements ISearchAlgorithm {
             }
         }
     }
-
-    /*public void executeGridSearch(Compass compass) {
-        findIsland();
-        faceIsland();
-        while (true){
-            reachIsland();
-            searchSite();
-            intoPosition();
-            interlaceA();
-            interlaceB();
-            if (!this.found.equals("OUT_OF_RANGE")){
-                if (!halfComplete){
-                    interlaceC();
-                }else{
-                    decision.put("action", "stop");
-                    break;
-                }
-            }else{
-                continue;
-            }
-        }*/
-    }
+}
 
