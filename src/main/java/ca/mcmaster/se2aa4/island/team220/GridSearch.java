@@ -141,43 +141,16 @@ public class GridSearch implements ISearchAlgorithm {
         queue.enqueue(command.getFly());
     }
 
-
-    public int searchSite(){
-        //always happens after reachIsland is called
-        if (!(this.scanBiomes).equals("OCEAN")) { // condition for finding land
-            logger.info(this.count); // count for scan and fly
-            if (this.count % 2 == 0) {
-                decision.put("action", "scan");
-            } else if (this.count % 2 == 1) {
-                decision.put("action", "fly");
-            }
-            this.count++;
-        } else {
-            this.searchCount++;
-            // this.found = null; // MIGHT NOT NEED THIS GOTTA DOUBLE CHECK THE LOGIC UGH
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 4 COMPLETE: searchSite Mode");
-        }
-        return 0;
+    public void refillIntoPosition() { // decide what this.down is here, if it is true or false
+        queue.enqueue(command.getEchoEast());
+        queue.enqueue(command.getFly());
     }
 
-    public void intoPosition(){
-        //always follows searchSite
-        if (!(this.found).equals("OUT_OF_RANGE")) { // while we don't 'echo' find OUT_OF_RANGE 
-            logger.info(this.count);
-            if (this.count % 2 == 0) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "E")); // echo East
-            } else if (this.count % 2 == 1) {
-                decision.put("action", "fly");
-            }
-            this.count++;
-        } else {
-            if ((compass.getHeading().toString()).equals("S")) { // this.down is the initial direction of interlace turning
-                this.down = true;
-            }
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 5 COMPLETE: intoPosition Mode");
-        }
+    public void refillInterlaceA() {
+        
     }
+
+   
 
     public void interlaceA(){
         //always follows intoPosition
