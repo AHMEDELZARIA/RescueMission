@@ -25,7 +25,6 @@ public class Explorer implements IExplorerRaid {
 
     private Compass compass; // ADDED 20/03
     private CommandBook command; // ADDED 20/03
-    private Boolean interlaceChecked = false; // ADDED 20/03
 
     @Override
     public void initialize(String s) {
@@ -59,9 +58,13 @@ public class Explorer implements IExplorerRaid {
         // IDEA: REVIEW THE STATE SWITCH METHOD FOR ERRORS + THE MAP
         // LOL PSYCHE I KNOW THE ANSWER ITS BECAUSE I DIDNT ACCOUNT FOR THIS.DOWN == FALSE, FIX THAT TOMORROW :^D
 
-        if (count < 210) {
-            this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass, this.interlaceChecked);
-            this.count++;
+        if ((results.getSite()).equals("N/A")) { // if the site isn't found
+            if (count < 810) {
+                this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
+                this.count++;
+            } else {
+                this.decision = command.getStop();
+            }
         } else {
             this.decision = command.getStop();
         }
@@ -91,15 +94,18 @@ public class Explorer implements IExplorerRaid {
             JSONArray biomes = extraInfo.getJSONArray("biomes");
             results.setBiome(biomes.getString(0));
             logger.info(results.getBiome());
-            extraInfo.clear();
+            // extraInfo.clear();
         }
 
         // SCAN EXTRACT SITES (worry about creeks later)
-        if (extraInfo.has("sites")) {
-            JSONArray sites = extraInfo.getJSONArray("sites");
-            results.setSite(sites.getString(0));
-            logger.info(results.getSite());
-            extraInfo.clear();
+        if (extraInfo.has("sites")) { // extraInfo.has("sites")
+            if (!extraInfo.getJSONArray("sites").isNull(0)) {
+                logger.info("YO THE SITE");
+                JSONArray sites = extraInfo.getJSONArray("sites");
+                results.setSite(sites.getString(0));
+                logger.info(results.getSite());
+                // extraInfo.clear();
+            }
         }
     }
 
