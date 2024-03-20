@@ -56,6 +56,8 @@ public class Explorer implements IExplorerRaid {
 
         // BAD NEWS: FOR SOME REASON THIS IS NOT WORKING FOR MORE THAN 200 ACTIONS
         // GOOD NEWS: IT'S NOT A BATTERY ISSUE, SO THERE'S STILL HOPE
+        // IDEA: REVIEW THE STATE SWITCH METHOD FOR ERRORS + THE MAP
+        // LOL PSYCHE I KNOW THE ANSWER ITS BECAUSE I DIDNT ACCOUNT FOR THIS.DOWN == FALSE, FIX THAT TOMORROW :^D
 
         if (count < 210) {
             this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass, this.interlaceChecked);
