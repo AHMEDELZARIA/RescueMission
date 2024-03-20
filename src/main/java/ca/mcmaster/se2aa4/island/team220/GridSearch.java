@@ -156,36 +156,11 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 
-    public void interlaceB() {
-        //always happens after interlaceA, and after excecuted, depending on what echo observes we either go interlaceC1, interlaceC2, go back to reachIsland or we stop
-        //if condtion is met at interlaceB we stop
-        if (this.count == 0) {
-            if (this.down == false) { // reversed bc this.down is direction before all of interlaceTurn
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "S"));
-            } else if (this.down == true) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "N"));
-            }
-            this.count++;
+    public void refillInterlaceB() {
+        if (this.down == true) {
+            queue.enqueue(command.getEchoNorth());
         } else {
-            logger.info(this.searchCount);
-            if ((this.found).equals("GROUND")) {
-                logger.info("christmas");
-                // decision.put("action", "stop");
-                // this.reachIslandMode = true;
-            } else {
-                decision.put("action", "stop");
-                /* 
-                if (this.searchCount % 2 == 1) {
-                    this.interlaceTurnC1 = true; // CASE 1
-                } else {
-                    this.interlaceTurnC2 = true; // CASE 2
-                }
-                */
-            }
-            this.count = 0; // reset counter
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceB");
+            queue.enqueue(command.getEchoSouth());
         }
     }
 
