@@ -7,7 +7,7 @@ public class GridQueue {
 
     private Queue<String> queue;
 
-    private CommandBook commands;
+    // private CommandBook commands;
 
     public GridQueue() {
         queue = new LinkedList<>();

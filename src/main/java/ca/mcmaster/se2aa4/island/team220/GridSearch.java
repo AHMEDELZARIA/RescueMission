@@ -9,7 +9,7 @@ public class GridSearch implements ISearchAlgorithm {
 
     private final Logger logger = LogManager.getLogger(); // for logger instructions
     private Compass compass; // creates a compass DELETE LATER
-    private CommandBook command; // ADDED 19/03
+    private CommandBook command = new CommandBook(); // ADDED 19/03
     private Information results; // added 19/03
 
     private int count = 0; // helps run different actions in a round, gets 'reset'
@@ -27,7 +27,7 @@ public class GridSearch implements ISearchAlgorithm {
     boolean halfComplete = false;
     Translator translator = new Translator();
 
-    public GridQueue queue = new GridQueue();
+    private GridQueue queue = new GridQueue();
 
     @Override
     public void searchArea() {
@@ -65,8 +65,8 @@ public class GridSearch implements ISearchAlgorithm {
         String decision;
 
         if (!found.equals("GROUND")) {
-            logger.info(this.count);
-            this.count++;
+            logger.info(count);
+            count++;
             if (queue.isEmpty()) {
                 queue.enqueue(command.getEchoSouth());
                 queue.enqueue(command.getScan());

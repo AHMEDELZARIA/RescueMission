@@ -26,6 +26,7 @@ public class Explorer implements IExplorerRaid {
 
     private int count = 0;
     private String decision;
+    private String output = "";
     // private String found = "";
     // private String scanBiomes = "";
     // private String scanSites = ""; 
@@ -71,6 +72,7 @@ public class Explorer implements IExplorerRaid {
 
         logger.info("** Decision: {}", this.decision);
         return this.decision; */
+        // this.output = results.getFound();
         this.decision = search.findIsland(results.getFound());
         logger.info("** Decision: {}", this.decision);
         return this.decision;
