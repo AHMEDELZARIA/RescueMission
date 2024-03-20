@@ -19,6 +19,7 @@ public class GridSearch implements ISearchAlgorithm {
     private String scanBiomes = ""; // returns the first biome found from 'scan' results 
     private String scanSites = ""; // returns the site if the site is found from 'scan' results 
     private boolean down = false; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
+    private boolean interlaceCheck = false;
 
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
@@ -29,11 +30,75 @@ public class GridSearch implements ISearchAlgorithm {
 
     private GridQueue queue = new GridQueue();
 
+    private Integer currentMode = 0;
+
     @Override
     public void searchArea() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'determineDecision'");
     }
+
+    // Main generic code, to be called from Explorer
+    public String makeDecision() {
+        if (queue.isEmpty()) {
+            // refill queue
+        }
+        // dequeue and run command
+        return null;
+    }
+
+    public void refillQueue() {
+        switch (this.currentMode) {
+            case 0:
+                if (this.found == "GROUND") {
+                    this.currentMode = 1;
+                } else {
+                    // execute mode0
+                }
+            case 1:
+                //execute mode1
+                this.currentMode = 2;
+            case 2:
+                if (this.scanBiomes != "OCEAN") {
+                    this.currentMode = 3;
+                } else {
+                    // execute mode2
+                }
+            case 3:
+                if (this.scanBiomes == "OCEAN") {
+                    this.currentMode = 4;
+                } else {
+                    // execute mode3
+                }
+            case 4:
+                if (this.found == "OUT_OF_RANGE") {
+                    this.currentMode = 5;
+                } else {
+                    // execute mode4
+                }
+            case 5:
+                // execute mode5
+                this.currentMode = 6;
+            case 6:
+                // execute mode6
+                // return found
+                if (this.found == "GROUND") {
+                    this.currentMode = 2;
+                } else {
+                    if (this.interlaceCheck == true) {
+                        this.currentMode = 8;
+                    } else {
+                        this.currentMode = 7;
+                    }
+                }
+            case 7:
+                // execute mode7
+                this.currentMode = 2;
+            case 8:
+                // execute stop
+        }
+    }
+
 
     public String testIsland(String found) { // TESTING STUFF
         //called once in the beginning of the search
@@ -160,7 +225,7 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 
-    public void interlaceB(){
+    public void interlaceB() {
         //always happens after interlaceA, and after excecuted, depending on what echo observes we either go interlaceC1, interlaceC2, go back to reachIsland or we stop
         //if condtion is met at interlaceB we stop
         if (this.count == 0) {
