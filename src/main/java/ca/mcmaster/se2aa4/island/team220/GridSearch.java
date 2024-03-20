@@ -38,8 +38,7 @@ public class GridSearch implements ISearchAlgorithm {
         // logger.info(this.currentMode);
         if (this.currentMode == 5 && found.equals("GROUND")) {
             this.currentMode = 2;
-            biome = "OCEAN";
-        } else if (this.currentMode == 5 && !found.equals("GROUND")){
+        } else if (this.currentMode == 5 && found.equals("OUT_OF_RANGE")){
             if (this.interlaceCheck == true){
                 this.currentMode = 7; 
             }else{
@@ -48,7 +47,6 @@ public class GridSearch implements ISearchAlgorithm {
         }
         if (this.currentMode == 6) {
             this.currentMode = 2;
-            biome = "OCEAN";
         }
         switch (this.currentMode) {
             case 0: // FIND ISLAND

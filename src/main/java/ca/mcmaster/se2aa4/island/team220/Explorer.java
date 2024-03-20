@@ -60,18 +60,15 @@ public class Explorer implements IExplorerRaid {
 
         // PROBLEM 2: INTERLACE C NEVER GETS REACHED
         // SOLUTION?: UHH IDK LOL BUT WE'LL FIGURE IT OUT >:^]
+        //if ((results.getSite()).equals("N/A")) {}
 
-        if ((results.getSite()).equals("N/A")) { // if the site isn't found
-            if (count < 850) {
-                this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
-                this.count++;
-            } else {
-                this.decision = command.getStop();
-            }
+        if (count < 830) {
+            this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
+            this.count++;
         } else {
             this.decision = command.getStop();
         }
-
+        
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }
@@ -90,7 +87,7 @@ public class Explorer implements IExplorerRaid {
         // NEW
         if (!extraInfo.isNull("found")) {
             results.setFound(extraInfo.getString("found"));
-            logger.info(results.getFound());
+            logger.info("-------------------------------------------- {}", results.getFound());
         }
 
         if (extraInfo.has("biomes")) {
