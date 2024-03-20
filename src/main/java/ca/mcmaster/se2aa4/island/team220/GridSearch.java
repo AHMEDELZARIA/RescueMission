@@ -43,7 +43,7 @@ public class GridSearch implements ISearchAlgorithm {
         if (queue.isEmpty()) {
             // refill queue
         }
-        // dequeue and run command
+        queue.dequeue(); // dequeue and run command
         return null;
     }
 
@@ -99,21 +99,15 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 
-
-    public String testIsland(String found) { // TESTING STUFF
-        //called once in the beginning of the search
-        logger.info(count);
-        count++; //FOR OUR UNDERSTANDING DELETE LATER
-        if (queue.isEmpty()) {
-            queue.enqueue(command.getEchoSouth());
-            queue.enqueue(command.getEchoEast());
-            queue.enqueue(command.getEchoNorth());
-            queue.enqueue(command.getScan());
-            queue.enqueue(command.getFly());
-        }
-        return queue.dequeue(); 
+    public void refillFindIsland() {
+        queue.enqueue(command.getEchoSouth());
+        queue.enqueue(command.getEchoEast());
+        queue.enqueue(command.getEchoNorth());
+        queue.enqueue(command.getScan());
+        queue.enqueue(command.getFly());
     }
-    
+
+    /*
     //THIS METHOD WORKS 
     public String findIsland(String found) {
         //called once in the beginning of the search
@@ -132,24 +126,9 @@ public class GridSearch implements ISearchAlgorithm {
             return command.getStop();
         }
     }
-
-    public void faceIsland(){
-        //called once in the beginning of the search
-        if ((this.count-1) % 4 == 0) {
-            decision.put("action", "heading");
-            decision.put("parameters", parameters.put("direction", compass.turnRight().toString())); // "S"
-            this.count = 3;
-        } else if ((this.count-1) % 4 == 1) {
-            decision.put("action", "heading");
-            decision.put("parameters", parameters.put("direction", "N"));
-            this.count = 3;
-        } else {
-            //this.changeHeading = false;
-            //this.reachIslandMode = true;
-            decision.clear();
-            this.count = 0;
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 2 COMPLETE: changeHeading Mode");
-        }
+    */
+    public void refillFaceIsland(Compass compass) {
+        queue.enqueue(command.getTurnRight(compass));
     }
 
     public boolean reachIsland(){
