@@ -87,6 +87,17 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 
+
+    /* public void faceIsland() {
+    if (compass.getHeading() == Direction.NORTH) {
+        queue.enqueue(command.getTurnLeft(compass));  // Enqueue the action to turn left if facing north
+    } else {
+        queue.enqueue(command.getTurnRight(compass)); // Enqueue the action to turn right if facing south
+    }
+    queue.enqueue(command.getStop()); // Enqueue the action to stop
+    }
+     */
+
     public boolean reachIsland(){
         //only repeated if in interlaceB interlaceC1 interlaceC2
         if (!(this.scanBiomes).equals("BEACH")) { // condition for finding land
