@@ -51,11 +51,13 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         logger.info(this.count);
-
+        /*
         if (this.count == 0) {
             this.decision = command.testEchoForward(compass); // test new echo functions
             this.count++;
-        } else if (this.count > 0 && this.count < 10) { //1608
+        } else
+        */
+        if (this.count < 5000) { //1608 // this.count > 0 && 
             this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
             this.count++;
         } else {

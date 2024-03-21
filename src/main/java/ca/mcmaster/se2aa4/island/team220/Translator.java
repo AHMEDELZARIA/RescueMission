@@ -80,7 +80,7 @@ public class Translator {
         sites = extras.getJSONArray("sites");
     }
 
-    public void 
+    // public void 
 
 
 
