@@ -86,5 +86,4 @@ public class CommandBookTest {
         assertEquals(expectedString, resultString);
     }
     
-
 }
