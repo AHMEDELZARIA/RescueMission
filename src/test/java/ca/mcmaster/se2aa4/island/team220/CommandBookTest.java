@@ -9,13 +9,12 @@ public class CommandBookTest {
     private Compass compass;
 
     @BeforeEach
-    public void setup() {
-        Commnad
+    public void setup() { 
     }
 
     @Test
     public void testGetStop(){
-        CommandBook testCommand = new CommandBook(); 
+        CommandBook testCommand = new CommandBook();
 
         //lets test the string we should be returned when we stop the actions
         String expectedString = "{\"action\":\"stop\"}";
