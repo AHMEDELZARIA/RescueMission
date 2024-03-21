@@ -53,7 +53,7 @@ public class Explorer implements IExplorerRaid {
         // this.count++;
         logger.info(this.count);
 
-        if (count < 1650) { //853
+        if (count < 1608) { //853
             this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
             this.count++;
         } else {
