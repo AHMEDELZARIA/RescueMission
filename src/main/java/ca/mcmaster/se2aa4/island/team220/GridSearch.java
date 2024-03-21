@@ -175,12 +175,20 @@ public class GridSearch implements ISearchAlgorithm {
         logger.info(this.searchCount);
         if (this.searchCount % 2 == 1) {
             if (this.down == true) {
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
+                // queue.enqueue(command.getTurnLeft(compass));
+                // queue.enqueue(command.getTurnLeft(compass));
+                // queue.enqueue(command.getTurnLeft(compass));
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getTurnLeft(compass));
+                // queue.enqueue(command.getEchoSouth());
+
+                queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getFly());
-                queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getEchoSouth());
+
             } else {
                 // queue.enqueue(command.getTurnRight(compass));
                 // queue.enqueue(command.getTurnRight(compass));
@@ -199,22 +207,39 @@ public class GridSearch implements ISearchAlgorithm {
         } else {
             if (this.down == true) {
                 logger.info("this.down is true");
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
+                // queue.enqueue(command.getTurnLeft(compass));
+                // queue.enqueue(command.getTurnLeft(compass));
+                // queue.enqueue(command.getTurnLeft(compass));
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getTurnLeft(compass));  
+                // queue.enqueue(command.getEchoSouth());      
+
+                queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getTurnLeft(compass));  
-                queue.enqueue(command.getEchoSouth());      
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getEchoSouth());
+
             } else {
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getEchoNorth());
+
+                queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getEchoNorth());
             }
         }
