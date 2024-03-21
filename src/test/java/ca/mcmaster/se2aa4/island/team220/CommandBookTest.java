@@ -13,9 +13,9 @@ public class CommandBookTest {
         CommandBook testCommand = new CommandBook(); 
 
         //lets test the string we should be returned when we stop the actions
-        String correct = "{\"action\":\"stop\"}";
-        String output = testCommand.getStop();
-        assertEquals(correct, output);
+        String expectedString = "{\"action\":\"stop\"}";
+        String resultString = testCommand.getStop();
+        assertEquals(expectedString, resultString);
     }
 
     @Test
@@ -23,6 +23,8 @@ public class CommandBookTest {
         CommandBook testCommand = new CommandBook();
 
         //testing the string returned when getFly is called from CommandBook
-        
+        String expectedString = "{\"action\":\"fly\"}";
+        String resultString = testCommand.getFly();
+        assertEquals(expectedString, resultString);
     }
 }
