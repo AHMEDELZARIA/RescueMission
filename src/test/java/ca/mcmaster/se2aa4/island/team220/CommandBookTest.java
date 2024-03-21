@@ -43,4 +43,31 @@ public class CommandBookTest {
         String resultString = commandBook.getEchoNorth();
         assertEquals(expectedString, resultString);
     }
+
+    @Test
+    public void testGetEchoEast() {
+        CommandBook commandBook = new CommandBook();
+        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}";
+        String resultString = commandBook.getEchoEast();
+        assertEquals(expectedString, resultString);
+    }
+
+    @Test
+    public void testGetEchoSouth() {
+        CommandBook commandBook = new CommandBook();
+        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}";
+        String resultString = commandBook.getEchoSouth();
+        assertEquals(expectedString, resultString);
+    }
+
+    @Test
+    public void testGetEchoWest() {
+        CommandBook commandBook = new CommandBook();
+        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"W\"}}";
+        String resultString = commandBook.getEchoWest();
+        assertEquals(expectedString, resultString);
+    }
+    
+
+
 }
