@@ -8,6 +8,11 @@ public class CommandBookTest {
     
     private Compass compass;
 
+    @BeforeEach
+    public void setup() {
+        Commnad
+    }
+
     @Test
     public void testGetStop(){
         CommandBook testCommand = new CommandBook(); 
