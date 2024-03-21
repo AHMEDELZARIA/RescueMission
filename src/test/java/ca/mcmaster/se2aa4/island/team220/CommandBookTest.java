@@ -67,7 +67,24 @@ public class CommandBookTest {
         String resultString = commandBook.getEchoWest();
         assertEquals(expectedString, resultString);
     }
-    
 
+    @Test
+    public void testGetTurnLeft() {
+        CommandBook commandBook = new CommandBook();
+        Compass compass = new Compass(Direction.NORTH); // initial pos
+        String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"W\"}}";
+        String resultString = commandBook.getTurnLeft(compass);
+        assertEquals(expectedString, resultString);
+    }
+
+    @Test
+    public void testGetTurnRight() {
+        CommandBook commandBook = new CommandBook();
+        Compass compass = new Compass(Direction.SOUTH); // initial pos change i think
+        String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"E\"}}";
+        String resultString = commandBook.getTurnRight(compass);
+        assertEquals(expectedString, resultString);
+    }
+    
 
 }
