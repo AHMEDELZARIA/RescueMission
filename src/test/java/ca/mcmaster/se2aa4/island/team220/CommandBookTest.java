@@ -27,4 +27,20 @@ public class CommandBookTest {
         String resultString = testCommand.getFly();
         assertEquals(expectedString, resultString);
     }
+
+    @Test
+    public void testGetScan(){
+        CommandBook testCommand = new CommandBook();
+        String expectedString = "{\"action\":\"scan\"}";
+        String resultString = testCommand.getFly();
+        assertEquals(expectedString, resultString);
+    }
+
+    @Test
+    public void testGetEchoNorth() {
+        CommandBook commandBook = new CommandBook();
+        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}";
+        String resultString = commandBook.getEchoNorth();
+        assertEquals(expectedString, resultString);
+    }
 }
