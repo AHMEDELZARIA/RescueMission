@@ -219,6 +219,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
+                queue.enqueue(command.getFly());
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
@@ -235,6 +236,7 @@ public class GridSearch implements ISearchAlgorithm {
                 // queue.enqueue(command.getEchoNorth());
 
                 queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getTurnLeft(compass));
