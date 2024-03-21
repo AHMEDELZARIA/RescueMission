@@ -168,8 +168,6 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getEchoSouth());
             }
         }
-
-        
     }
 
     public void refillInterlaceC(Compass compass) {

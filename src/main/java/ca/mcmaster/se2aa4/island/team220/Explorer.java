@@ -59,7 +59,6 @@ public class Explorer implements IExplorerRaid {
         } else {
             this.decision = command.getStop();
         }
-        
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }
