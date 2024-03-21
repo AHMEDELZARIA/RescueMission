@@ -8,6 +8,7 @@ public class CommandBookTest {
     
     private Compass compass;
 
+    @Test
     public void testGetStop(){
         CommandBook testCommand = new CommandBook(); 
 
@@ -15,5 +16,13 @@ public class CommandBookTest {
         String correct = "{\"action\":\"stop\"}";
         String output = testCommand.getStop();
         assertEquals(correct, output);
+    }
+
+    @Test
+    public void testGetFly(){
+        CommandBook testCommand = new CommandBook();
+
+        //testing the string returned when getFly is called from CommandBook
+        
     }
 }
