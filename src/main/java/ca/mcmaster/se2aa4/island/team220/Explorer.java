@@ -50,10 +50,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        // this.count++;
         logger.info(this.count);
 
-        if (count < 5500) { //1608
+        if (count < 1608) { //1608
             this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
             this.count++;
         } else {
@@ -77,24 +76,21 @@ public class Explorer implements IExplorerRaid {
         // NEW
         if (!extraInfo.isNull("found")) {
             results.setFound(extraInfo.getString("found"));
-            logger.info("-------------------------------------------- {}", results.getFound());
+            logger.info(results.getFound());
         }
 
         if (extraInfo.has("biomes")) {
             JSONArray biomes = extraInfo.getJSONArray("biomes");
             results.setBiome(biomes.getString(0));
             logger.info(results.getBiome());
-            // extraInfo.clear();
         }
 
         // SCAN EXTRACT SITES (worry about creeks later)
         if (extraInfo.has("sites")) { // extraInfo.has("sites")
             if (!extraInfo.getJSONArray("sites").isNull(0)) {
-                logger.info("YO THE SITE");
                 JSONArray sites = extraInfo.getJSONArray("sites");
                 results.setSite(sites.getString(0));
                 logger.info(results.getSite());
-                // extraInfo.clear();
             }
         }
     }

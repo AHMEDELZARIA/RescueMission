@@ -7,26 +7,20 @@ public class GridQueue {
 
     private Queue<String> queue;
 
-    // private CommandBook commands;
-
     public GridQueue() {
         queue = new LinkedList<>();
     }
-
     public void enqueue(String action){
         queue.add(action); 
     }
-
     public String dequeue(){
         if (queue.isEmpty()){
             refillQueue();
         }
         return queue.poll();
     }
-
-    public void refillQueue(){
+    public void refillQueue(){ //DELETE LATER
     }
-    
     public Boolean isEmpty() {
         if (queue.isEmpty() == true) {
             return true;
