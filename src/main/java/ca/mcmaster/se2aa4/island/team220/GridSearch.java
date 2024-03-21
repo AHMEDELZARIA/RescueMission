@@ -215,4 +215,3 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 }
-
