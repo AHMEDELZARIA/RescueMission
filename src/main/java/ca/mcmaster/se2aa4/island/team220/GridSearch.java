@@ -23,13 +23,24 @@ public class GridSearch implements ISearchAlgorithm {
         throw new UnsupportedOperationException("Unimplemented method 'determineDecision'");
     }
 
-    // Main generic code, to be called from Explorer
+    // Determines next decision to make (called from Explorer)
     public String makeDecision(String found, String biome, Compass compass) {
         if (queue.isEmpty()) {
             refillQueue(found, biome, compass);
         }
-        return queue.dequeue(); // dequeue and run command
+        return queue.dequeue();
     }
+
+    /* MODE GUIDE:
+     * findIsland = 0
+     * changeHeading = 1
+     * reachIsland = 2
+     * searchSite = 3
+     * intoPosition = 4
+     * interlaceA&B = 5
+     * interlaceC = 6
+     * Stop = 7
+    */
 
     // OFFICIAL REFILL METHOD
     public void refillQueue(String found, String biome, Compass compass) {

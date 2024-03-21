@@ -52,7 +52,10 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         logger.info(this.count);
 
-        if (count < 1608) { //1608
+        if (this.count == 0) {
+            this.decision = command.testEchoForward(compass); // test new echo functions
+            this.count++;
+        } else if (this.count > 0 && this.count < 10) { //1608
             this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
             this.count++;
         } else {
