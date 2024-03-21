@@ -50,7 +50,7 @@ public class GridSearch implements ISearchAlgorithm {
             if (this.interlaceCheck) {
                 this.currentMode = 7; // stop, we're done
             } else {
-                this.currentMode = 6; // go to interLace C and loop around
+                this.currentMode = 6; // go to interlaceC and loop around
             }
         }
         if (this.currentMode == 6 && this.interlaceCheck) { // if interlaceCheck true and interlaceC done, go back to reachisland 
@@ -105,9 +105,10 @@ public class GridSearch implements ISearchAlgorithm {
         logger.info("########################################### {}", this.currentMode);
     }
 
+    // find the Island
     public void refillFindIsland() {
         queue.enqueue(command.getFly());
-        queue.enqueue(command.getEchoSouth());
+        queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoRight(compass)); - set parameter to Compass compass
         // queue.enqueue(command.getEchoEast());
         // queue.enqueue(command.getEchoNorth());
         // queue.enqueue(command.getScan());
@@ -134,29 +135,45 @@ public class GridSearch implements ISearchAlgorithm {
         } else {
             queue.enqueue(command.getEchoEast());
         }
+        /* REPLACE INNER CODE WITH THIS: (parameter is Compass compass)
+
+        if (this.interlaceCheck == false) { // we have done zero/two interlaces - going left to right
+            if (this.down = true) {
+                queue.enqueue(command.testEchoLeft(compass));
+            } else {
+                queue.enqueue(command.testEchoRight(compass));
+            }
+        } else { // we have done one interlace - going right to left
+            if (this.down = true) {
+                queue.enqueue(command.testEchoRight(compass));
+            } else {
+                queue.enqueue(command.testEchoLeft(compass));
+            }
+        } 
+        */
         
     }
 
     public void refillInterlaceA(Compass compass) { // INTERLACE A AND INTERLACE B COMBINED
-        if (!this.interlaceCheck) {
+        if (this.interlaceCheck == false) { // we have done zero/two interlaces - going left to right
             if (this.down == true) {
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getEchoNorth());
+                queue.enqueue(command.getEchoNorth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
             } else {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getEchoSouth());
+                queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
             }
-        } else {
+        } else { // we have done one interlace - going right to left
             if (this.down == true) {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getEchoNorth());
+                queue.enqueue(command.getEchoNorth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getEchoSouth());
+                queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
             }
         }
     }
@@ -169,7 +186,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getEchoSouth());
+                queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
 
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
@@ -177,7 +194,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getEchoNorth());
+                queue.enqueue(command.getEchoNorth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
             }
         } else {
             if (this.down == true) { 
@@ -188,7 +205,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getEchoSouth());
+                queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
 
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
@@ -198,7 +215,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getEchoNorth());
+                queue.enqueue(command.getEchoNorth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
             }
         }
     }
