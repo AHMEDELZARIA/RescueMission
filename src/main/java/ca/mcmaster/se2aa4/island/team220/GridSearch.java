@@ -239,7 +239,7 @@ public class GridSearch implements ISearchAlgorithm {
                 break;
             case "caseAPart1":
                 logger.info("###################################################### {}", this.mode);
-                caseAPart1(range);
+                caseAPart1(range, compass);
                 this.mode = "caseAPart2";
                 break;
             case "caseAPart2":
@@ -249,7 +249,7 @@ public class GridSearch implements ISearchAlgorithm {
                 this.start = true;
                 found = "OUT_OF_RANGE";
                 range = 0;
-                // break;
+                break;
             case "caseBPart1":
                 logger.info("###################################################### {}", this.mode);
                 caseBPart1(compass);
@@ -276,14 +276,15 @@ public class GridSearch implements ISearchAlgorithm {
         queue.enqueue(command.testEchoForward(compass));
     }
 
-    public void caseAPart1(Integer range) {
-        for (int i = 0; i < (range-1); i++) {
+    public void caseAPart1(Integer range, Compass compass) {
+        for (int i = 0; i < (range - 1); i++) {
             queue.enqueue(command.getFly());
         }
+        queue.enqueue(command.testEchoLeft(compass));
     }
 
     public void caseAPart2(Integer range, Compass compass) {
-        if (range == 0) {
+        if (range <= 2) {
             queue.enqueue(command.getTurnRight(compass));
         } else {
             queue.enqueue(command.getTurnLeft(compass));
