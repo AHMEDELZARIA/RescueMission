@@ -24,9 +24,13 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     // Determines next decision to make (called from Explorer)
-    public String makeDecision(String found, Integer range, String biome, Compass compass) {
+    public String makeDecision(Boolean start, String found, Integer range, String biome, Compass compass) {
         if (queue.isEmpty()) {
-            refillQueue(found, range, biome, compass);
+            if (!start) {
+                refillStart(range, compass);
+            } else {
+                refillQueue(found, range, biome, compass);
+            }
         }
         return queue.dequeue();
     }
@@ -205,4 +209,53 @@ public class GridSearch implements ISearchAlgorithm {
             }
         }
     }
+
+    // ------------------------------------------------------------------------------------------ DRONE START CASE!!!
+
+    public Boolean checkStart(String found, Integer range, Compass compass) {
+        queue.enqueue(command.testEchoForward(compass));
+        if (found.equals("OUT_OF_RANGE")) {
+            if (range == 52) {
+                return true; // cornerlike found, start gridSearch
+            } else {
+                caseAPart1(range);
+                return caseAPart2(range, compass);
+            }
+        } else {
+            caseBPart1(compass);
+            return caseAPart2(range, compass);
+        }
+    }
+
+    public void caseAPart1(Integer range) {
+        for (int i = 0; i < (range-1); i++) {
+            queue.enqueue(command.getFly());
+        }
+    }
+
+    public Boolean caseAPart2(Integer range, Compass compass) {
+        if (range == 0) {
+            queue.enqueue(command.getTurnRight(compass));
+        } else {
+            queue.enqueue(command.getTurnLeft(compass));
+        }
+        return true;
+
+    }
+
+    public void caseBPart1(Compass compass) {
+        queue.enqueue(command.testEchoLeft(compass));
+        queue.enqueue(command.getTurnLeft(compass));
+
+    }
+
+    public Boolean caseBPart2(Integer range, Compass compass) {
+        for (int i = 0; i < (range - 2); i++) {
+            queue.enqueue(command.getFly());
+        }
+        queue.enqueue(command.getTurnRight(compass));
+        return true;
+
+    }
+
 }
