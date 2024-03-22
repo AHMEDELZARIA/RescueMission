@@ -28,7 +28,6 @@ public class GridQueue {
             return false;
         }
     }
-
     public Queue<String> getQueue() {
         return this.queue;
     } //ADDED THIS RETURNS THE QUEUE (for testing)

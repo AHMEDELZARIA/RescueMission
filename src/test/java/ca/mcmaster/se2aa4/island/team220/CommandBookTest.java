@@ -5,18 +5,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CommandBookTest {
-    
-    private Compass compass;
 
+    private CommandBook testCommand;
     @BeforeEach
     public void setup() { 
+        CommandBook testCommand = new CommandBook();
     }
 
     @Test
     public void testGetStop(){
-        CommandBook testCommand = new CommandBook();
-
-        //lets test the string we should be returned when we stop the actions
+        CommandBook testCommand = new CommandBook(); // added these back bc we get null pointer error without it FIX LATER
         String expectedString = "{\"action\":\"stop\"}";
         String resultString = testCommand.getStop();
         assertEquals(expectedString, resultString);
@@ -25,8 +23,6 @@ public class CommandBookTest {
     @Test
     public void testGetFly(){
         CommandBook testCommand = new CommandBook();
-
-        //testing the string returned when getFly is called from CommandBook
         String expectedString = "{\"action\":\"fly\"}";
         String resultString = testCommand.getFly();
         assertEquals(expectedString, resultString);
@@ -36,7 +32,7 @@ public class CommandBookTest {
     public void testGetScan(){
         CommandBook testCommand = new CommandBook();
         String expectedString = "{\"action\":\"scan\"}";
-        String resultString = testCommand.getFly();
+        String resultString = testCommand.getScan();
         assertEquals(expectedString, resultString);
     }
 
@@ -76,19 +72,19 @@ public class CommandBookTest {
 
     @Test
     public void testGetTurnLeft() {
-        CommandBook commandBook = new CommandBook();
+        CommandBook testCommand = new CommandBook();
         Compass compass = new Compass(Direction.NORTH); // initial pos
         String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"W\"}}";
-        String resultString = commandBook.getTurnLeft(compass);
+        String resultString = testCommand.getTurnLeft(compass);
         assertEquals(expectedString, resultString);
     }
 
     @Test
     public void testGetTurnRight() {
-        CommandBook commandBook = new CommandBook();
-        Compass compass = new Compass(Direction.SOUTH); // initial pos change i think
+        CommandBook testCommand = new CommandBook();
+        Compass compass = new Compass(Direction.NORTH); // initial pos change i think
         String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"E\"}}";
-        String resultString = commandBook.getTurnRight(compass);
+        String resultString = testCommand.getTurnRight(compass);
         assertEquals(expectedString, resultString);
     }
     
