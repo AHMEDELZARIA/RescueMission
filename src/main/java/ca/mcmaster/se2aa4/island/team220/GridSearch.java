@@ -15,7 +15,7 @@ public class GridSearch implements ISearchAlgorithm {
 
     Translator translator = new Translator();
     private GridQueue queue = new GridQueue();
-    private String mode = "findIsland";
+    private String mode = "checkStart"; // replace "findIsland" as start mode (testing for various dron start conditions)
 
     @Override
     public void searchArea() {
@@ -27,7 +27,7 @@ public class GridSearch implements ISearchAlgorithm {
     public String makeDecision(Boolean start, String found, Integer range, String biome, Compass compass) {
         if (queue.isEmpty()) {
             if (!start) {
-                refillStart(range, compass);
+                start = refillStart(found, range, compass);
             } else {
                 refillQueue(found, range, biome, compass);
             }
@@ -212,19 +212,58 @@ public class GridSearch implements ISearchAlgorithm {
 
     // ------------------------------------------------------------------------------------------ DRONE START CASE!!!
 
-    public Boolean checkStart(String found, Integer range, Compass compass) {
-        queue.enqueue(command.testEchoForward(compass));
-        if (found.equals("OUT_OF_RANGE")) {
-            if (range == 52) {
-                return true; // cornerlike found, start gridSearch
-            } else {
-                caseAPart1(range);
-                return caseAPart2(range, compass);
-            }
-        } else {
-            caseBPart1(compass);
-            return caseAPart2(range, compass);
+    public Boolean refillStart(String found, Integer range, Compass compass) {
+        logger.info(range);
+
+        if (this.mode == "caseAPart1") {
+
         }
+
+        if (this.mode == "startCheck") {
+            if (found.equals("OUT_OF_RANGE")) {
+                if (range == 52) {
+                    this.mode = "done"; // cornerlike found, start gridSearch
+                } else {
+                    this.mode = "caseAPart1";
+                }
+            } else {
+                this.mode = "caseBPart1";
+            }
+        }
+
+
+
+        switch(this.mode) {
+            case "checkStart":
+                checkStart(compass);
+                break;
+            case "caseAPart1":
+                caseAPart1(range);
+                this.mode = "caseAPart2";
+                break;
+            case "caseAPart2":
+                caseAPart2(range, compass);
+                this.mode = "done";
+                break;
+            case "caseBPart1":
+                caseBPart1(compass);
+                this.mode = "caseBPart2";
+                break;
+            case "caseBPart2":
+                caseBPart2(range, compass);
+                this.mode = "done";
+                break;
+            case "done":
+                return true;
+        }
+        return false;
+
+    }
+
+
+
+    public void checkStart(Compass compass) {
+        queue.enqueue(command.testEchoForward(compass));
     }
 
     public void caseAPart1(Integer range) {
@@ -233,14 +272,12 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 
-    public Boolean caseAPart2(Integer range, Compass compass) {
+    public void caseAPart2(Integer range, Compass compass) {
         if (range == 0) {
             queue.enqueue(command.getTurnRight(compass));
         } else {
             queue.enqueue(command.getTurnLeft(compass));
         }
-        return true;
-
     }
 
     public void caseBPart1(Compass compass) {
@@ -249,13 +286,10 @@ public class GridSearch implements ISearchAlgorithm {
 
     }
 
-    public Boolean caseBPart2(Integer range, Compass compass) {
+    public void caseBPart2(Integer range, Compass compass) {
         for (int i = 0; i < (range - 2); i++) {
             queue.enqueue(command.getFly());
         }
         queue.enqueue(command.getTurnRight(compass));
-        return true;
-
     }
-
 }
