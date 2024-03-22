@@ -35,28 +35,11 @@ public class GridSearch implements ISearchAlgorithm {
     public void refillQueue(String found, Integer range, String biome, Compass compass) {
         logger.info(range);
 
-        // condition for "checkMoreGround" mode
+        // FLIPPIN PUT THESE IF-CONDITIONS IN REVERSE ORDER OF MODE SEQUENCE SO THEY DONT AFFECT EACH OTHER >:^D 
 
-        if (this.mode == "searchSite" && biome.equals("OCEAN")) {
-            if (found.equals("GROUND") && !range.equals(0)) {
-                this.mode = "reachIsland";
-            } else if (found.equals("OUT_OF_RANGE")) {
-                this.searchCount++;
-                // found = "GROUND";
-                found = "GROUND";
-                this.mode = "intoPosition";
-                /* 
-                if (range < 2) {
-                    this.mode = "uTurn";
-                } else {
-                    found = "GROUND";
-                    this.mode = "intoPosition";
-                }
-                */
-            }
-        } else if (this.mode == "searchSite" && found.equals("OUT_OF_RANGE") && range < 3) { // this.mode == "searchSite" && !biome.equals("OCEAN")
-            this.searchCount++;
-            this.mode = "uTurn";
+        // condition for "loopBack" mode
+        if (this.mode == "loopAround" && this.interlaceCheck) { 
+            this.mode = "reachIsland";
         }
 
         // condition for "uTurn" mode
@@ -70,9 +53,18 @@ public class GridSearch implements ISearchAlgorithm {
             }
         }
 
-        // condition for "loopBack" mode
-        if (this.mode == "loopAround" && this.interlaceCheck) { 
-            this.mode = "reachIsland";
+        // search site condition
+        if (this.mode == "searchSite" && biome.equals("OCEAN")) {
+            if (found.equals("GROUND") && !range.equals(0)) {
+                this.mode = "reachIsland";
+            } else if (found.equals("OUT_OF_RANGE")) {
+                this.searchCount++;
+                found = "GROUND";
+                this.mode = "intoPosition";
+            }
+        } else if (this.mode == "searchSite" && found.equals("OUT_OF_RANGE") && range < 3) { // this.mode == "searchSite" && !biome.equals("OCEAN")
+            this.searchCount++;
+            this.mode = "uTurn";
         }
 
         switch (this.mode) {
