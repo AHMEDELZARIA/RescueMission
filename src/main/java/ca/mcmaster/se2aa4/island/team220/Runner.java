@@ -12,7 +12,7 @@ public class Runner { // Runner is the Main class
             run(Explorer.class) // then we run the whole Explorer class (aka Command Centre gets the map for the mission)
                     .exploring(new File(filename))
                     .withSeed(42L)
-                    .startingAt(1, 1, "EAST")
+                    .startingAt(1, 1, "SOUTH") // Original: 1,1 , EAST
                     .backBefore(30000) // Original: 7000 // Max budget if start at top-left: 24000
                     .withCrew(5)
                     .collecting(1000, "WOOD")

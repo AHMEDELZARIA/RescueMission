@@ -13,6 +13,7 @@ public class GridSearch implements ISearchAlgorithm {
     private Boolean down = true; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
     private Boolean interlaceCheck = false;
     private Boolean start = false;
+    private Integer count = 0; // for findIsland mode
 
     // Translator translator = new Translator();
     private GridQueue queue = new GridQueue();
@@ -117,13 +118,27 @@ public class GridSearch implements ISearchAlgorithm {
 
     // find the Island
     public void findIsland(Compass compass) {
-        queue.enqueue(command.getFly());
-        queue.enqueue(command.testEchoRight(compass));
+        // queue.enqueue(command.getFly());
+        this.count++;
+        if (this.count % 3 == 0) {
+            queue.enqueue(command.getFly());
+        } else if (this.count % 3 == 1) {
+            queue.enqueue(command.testEchoRight(compass));
+        } else {
+            queue.enqueue(command.testEchoLeft(compass));
+        }
+        // queue.enqueue(command.testEchoRight(compass));
         // queue.enqueue(command.testEchoLeft(compass));
     }
 
     public void faceIsland(Compass compass) {
-        queue.enqueue(command.getTurnRight(compass));
+        if (this.count % 3 == 1) {
+            queue.enqueue(command.getTurnRight(compass));
+            this.down = true;
+        } else if (this.count % 3 == 2) {
+            queue.enqueue(command.getTurnLeft(compass));
+            this.down = false;
+        }
     }
 
     public void reachIsland() {
@@ -213,7 +228,7 @@ public class GridSearch implements ISearchAlgorithm {
                 checkStart(compass);
                 if (found.equals("GROUND")) {
                     this.mode = "caseBPart1";
-                } else if (found.equals("OUT_OF_RANGE") && range == 52) {
+                } else if (found.equals("OUT_OF_RANGE") && range >= 46) {
                     // this.mode = "done";
                     this.start = true;
                     this.mode = "findIsland";
