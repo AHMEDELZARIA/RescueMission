@@ -5,6 +5,7 @@ public class Information {
     private String status;
 
     private String found;
+    private Integer range;
     private String biome;
     private String site;
 
@@ -12,6 +13,7 @@ public class Information {
         this.cost = cost;
         this.status = status;
         this.found = "OUT_OF_RANGE";
+        this.range = 0;
         this.biome = "OCEAN";
         this.site = "N/A";
     }
@@ -20,6 +22,10 @@ public class Information {
 
     public String getFound() {
         return this.found;
+    }
+
+    public Integer getRange() {
+        return this.range;
     }
 
     public String getBiome() {
@@ -32,6 +38,10 @@ public class Information {
     
     public void setFound(String found) {
         this.found = found;
+    }
+
+    public void setRange(Integer range) {
+        this.range = range;
     }
 
     public void setBiome(String biome) {

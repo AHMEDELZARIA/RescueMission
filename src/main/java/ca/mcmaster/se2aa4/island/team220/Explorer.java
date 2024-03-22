@@ -57,8 +57,8 @@ public class Explorer implements IExplorerRaid {
             this.count++;
         } else
         */
-        if (this.count < 1609) { //1608 // this.count > 0 &&
-            this.decision = search.makeDecision(results.getFound(), results.getBiome(), compass);
+        if (this.count < 4510) { //1608 // Map03: 2133 // Map10: 5046
+            this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
             this.count++;
         } else {
             this.decision = command.getStop();
@@ -84,9 +84,22 @@ public class Explorer implements IExplorerRaid {
             logger.info(results.getFound());
         }
 
+        // FOR RANGE
+        if (!extraInfo.isNull("range")) {
+            results.setRange(extraInfo.getInt("range"));
+            logger.info(results.getRange());
+        }
+
         if (extraInfo.has("biomes")) {
             JSONArray biomes = extraInfo.getJSONArray("biomes");
             results.setBiome(biomes.getString(0));
+            // loop until we can determine if the only biome is OCEAN. 
+            for (int i = 1; i < biomes.length(); i++) {
+                if (!biomes.getString(i).equals("OCEAN")) {
+                    results.setBiome(biomes.getString(i));
+                    break;
+                }
+            }
             logger.info(results.getBiome());
         }
 

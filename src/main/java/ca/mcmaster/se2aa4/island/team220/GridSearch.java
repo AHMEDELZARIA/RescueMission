@@ -24,21 +24,27 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     // Determines next decision to make (called from Explorer)
-    public String makeDecision(String found, String biome, Compass compass) {
+    public String makeDecision(String found, Integer range, String biome, Compass compass) {
         if (queue.isEmpty()) {
-            refillQueue(found, biome, compass);
+            refillQueue(found, range, biome, compass);
         }
         return queue.dequeue();
     }
 
     // OFFICIAL REFILL METHOD
-    public void refillQueue(String found, String biome, Compass compass) {
+    public void refillQueue(String found, Integer range, String biome, Compass compass) {
+        logger.info(range);
 
         // condition for "checkMoreGround" mode
-        if (this.mode == "checkMoreGround" && found.equals("GROUND")) {
-            this.mode = "reachIsland";
-        } else if (this.mode == "checkMoreGround" && !found.equals("GROUND")) {
-            this.mode = "intoPosition";
+
+        if (this.mode == "searchSite" && biome.equals("OCEAN")) {
+            if (found.equals("GROUND") && !range.equals(0)) {
+                this.mode = "reachIsland";
+            } else if (found.equals("OUT_OF_RANGE")) {
+                this.searchCount++;
+                found = "GROUND";
+                this.mode = "intoPosition";
+            }
         }
 
         // condition for "uTurn" mode
@@ -80,16 +86,7 @@ public class GridSearch implements ISearchAlgorithm {
                 }
 
             case "searchSite": // SEARCH SITE
-                if (biome.equals("OCEAN")) {
-                    this.searchCount++;
-                    this.mode = "checkMoreGround"; // "intoPosition"
-                } else {
-                    searchSite();
-                    break;
-                }
-
-            case "checkMoreGround": // CHECK FOR MORE GROUND BEFORE U-TURNING
-                checkMoreGround(compass);
+                searchSite(compass);
                 break;
             
             case "intoPosition":  // INTO POSITION
@@ -138,12 +135,9 @@ public class GridSearch implements ISearchAlgorithm {
         queue.enqueue(command.getScan());
     }
 
-    public void searchSite() {
+    public void searchSite(Compass compass) {
         queue.enqueue(command.getFly());
         queue.enqueue(command.getScan());
-    }
-
-    public void checkMoreGround(Compass compass) {
         queue.enqueue(command.testEchoForward(compass));
     }
 
@@ -170,6 +164,8 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     public void loopAround(Compass compass) {
+        logger.info(this.searchCount);
+        logger.info(this.down);
         if (this.searchCount % 2 == 1) {
             if (this.down == true) {
                 queue.enqueue(command.getTurnRight(compass));
@@ -178,9 +174,10 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.testEchoForward(compass));
-
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
@@ -188,7 +185,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.testEchoForward(compass));
             }
         } else {
-            if (this.down == true) { 
+            if (this.down == true) {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
@@ -197,11 +194,8 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.testEchoForward(compass));
-
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
