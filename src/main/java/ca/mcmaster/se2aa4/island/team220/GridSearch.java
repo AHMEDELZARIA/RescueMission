@@ -15,7 +15,8 @@ public class GridSearch implements ISearchAlgorithm {
 
     Translator translator = new Translator();
     private GridQueue queue = new GridQueue();
-    private Integer currentMode = 0;
+    // private Integer currentMode = 0;
+    private String mode = "findIsland";
 
     @Override
     public void searchArea() {
@@ -33,76 +34,82 @@ public class GridSearch implements ISearchAlgorithm {
 
     /* MODE GUIDE:
      * findIsland = 0
-     * changeHeading = 1
+     * faceIsland = 1
      * reachIsland = 2
      * searchSite = 3
      * intoPosition = 4
-     * interlaceA&B = 5
-     * interlaceC = 6
+     * uTurn = 5 // this was interlaceA & interlaceB
+     * loopAround = 6 // this was interlaceC
      * Stop = 7
     */
 
     // OFFICIAL REFILL METHOD
     public void refillQueue(String found, String biome, Compass compass) {
-        if (this.currentMode == 5 && found.equals("GROUND")) {
-            this.currentMode = 2;
-        } else if (this.currentMode == 5 && found.equals("OUT_OF_RANGE")) { // If in front of island and echo = out of range
+        // condition for "uTurn" mode
+        if (this.mode == "uTurn" && found.equals("GROUND")) {
+            this.mode = "reachIsland";
+        } else if (this.mode == "uTurn" && found.equals("OUT_OF_RANGE")) {
             if (this.interlaceCheck) {
-                this.currentMode = 7; // stop, we're done
+                this.mode = "stop";
             } else {
-                this.currentMode = 6; // go to interlaceC and loop around
+                this.mode = "loopAround";
             }
         }
-        if (this.currentMode == 6 && this.interlaceCheck) { // if interlaceCheck true and interlaceC done, go back to reachisland 
-            this.currentMode = 2;
+
+        // condition for "loopBack" mode
+        if (this.mode == "loopAround" && this.interlaceCheck) { 
+            this.mode = "reachIsland";
         }
-        switch (this.currentMode) {
-            case 0: // FIND ISLAND
+
+        switch (this.mode) {
+            case "findIsland": // FIND ISLAND
                 if (found.equals("GROUND")) {
-                    this.currentMode = 1;
+                    this.mode = "faceIsland";
                 } else {
-                    refillFindIsland(compass); // execute mode0
+                    refillFindIsland(compass);
                     break;
                 }
-            case 1: // FACE ISLAND
-                refillFaceIsland(compass); // execute mode1
-                this.currentMode = 2;
+            case "faceIsland": // FACE ISLAND
+                refillFaceIsland(compass);
+                this.mode = "reachIsland";
                 break;
-            case 2: // REACH ISLAND
+            case "reachIsland": // REACH ISLAND
                 if (!biome.equals("OCEAN")) {
-                    this.currentMode = 3;
+                    this.mode = "searchSite";
                 } else {
-                    refillReachIsland(); // execute mode2
+                    refillReachIsland();
                     break;
                 }
-            case 3: // SEARCH SITE
+            case "searchSite": // SEARCH SITE
                 if (biome.equals("OCEAN")) {
                     this.searchCount++;
-                    this.currentMode = 4;
+                    this.mode = "intoPosition";
                 } else {
-                    refillSearchSite(); // execute mode3
+                    refillSearchSite();
                     break;
                 }
-            case 4:  // INTO POSITION
+            case "intoPosition":  // INTO POSITION
                 if (found.equals("OUT_OF_RANGE")) {
-                    this.currentMode = 5;
+                    this.mode = "uTurn";
                 } else {
-                    refillIntoPosition(compass); // execute mode4
+                    refillIntoPosition(compass);
                     break;
                 }
-            case 5: // INTERLACE A + INTERLACE B
-                refillInterlaceA(compass); // execute mode5
+            case "uTurn": // INTERLACE A + INTERLACE B
+                refillInterlaceA(compass);
                 this.down = !this.down;
+                // logger.info(this.down);
                 break;
-            case 6: // INTERLACE C
-                refillInterlaceC(compass); // execute mode7
+            case "loopAround": // INTERLACE C
+                refillInterlaceC(compass);
                 this.interlaceCheck = true;
                 break;
-            case 7:
-                queue.enqueue(command.getStop()); // use stop command, end gridSearch
+            case "stop":
+                queue.enqueue(command.getStop());
                 break;
         }
-        logger.info("########################################### {}", this.currentMode);
+        logger.info(this.down);
+        logger.info("########################################### {}", this.mode);
     }
 
     // find the Island
@@ -130,29 +137,19 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     public void refillIntoPosition(Compass compass) { 
+        logger.info(this.down);
         queue.enqueue(command.getFly());
-
-        if (this.interlaceCheck == false) { // we have done zero/two interlaces - going left to right
-            if (this.down = true) {
-                queue.enqueue(command.testEchoLeft(compass));
-            } else {
-                queue.enqueue(command.testEchoRight(compass));
-            }
-        } else { // we have done one interlace - going right to left
-            if (this.down = false) {
-                queue.enqueue(command.testEchoRight(compass));
-            } else {
-                queue.enqueue(command.testEchoLeft(compass));
-            }
-        } 
-
-        /*
         if (this.interlaceCheck == true) {
             queue.enqueue(command.getEchoWest());
         } else {
-            queue.enqueue(command.getEchoEast());
+            if (this.down == true) {
+                queue.enqueue(command.testEchoLeft(compass));
+            } else {
+                queue.enqueue(command.testEchoRight(compass));
+            }
+            // queue.enqueue(command.getEchoEast());
         }
-        */
+        
         
         /* REPLACE INNER CODE WITH THIS: (parameter is Compass compass)
 
@@ -176,6 +173,7 @@ public class GridSearch implements ISearchAlgorithm {
     public void refillInterlaceA(Compass compass) { // INTERLACE A AND INTERLACE B COMBINED
         if (this.interlaceCheck == false) { // we have done zero/two interlaces - going left to right
             if (this.down == true) {
+                logger.info("shouldnt be here");
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getEchoNorth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass

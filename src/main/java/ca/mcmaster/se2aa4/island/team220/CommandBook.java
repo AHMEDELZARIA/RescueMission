@@ -57,7 +57,7 @@ public class CommandBook {
 
     // TESTING ECHO RELATIVE TO DRONE: ECHO FORWARD
     public String testEchoForward(Compass compass) {
-        // compass.getHeading();
+        compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");
@@ -72,7 +72,7 @@ public class CommandBook {
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");
         decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-        // compass.turnRight();// fix this
+        compass.turnRight();// fix this
         return decision.toString();
     }
 
@@ -83,7 +83,7 @@ public class CommandBook {
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");
         decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-        // compass.turnLeft();
+        compass.turnLeft();
         return decision.toString();
     }
 
