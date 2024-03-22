@@ -8,10 +8,11 @@ public class GridSearch implements ISearchAlgorithm {
     private final Logger logger = LogManager.getLogger(); // for logger instructions
     private CommandBook command = new CommandBook(); // ADDED 19/03
 
-    private int searchCount = 0; // keeps track of number of times searchSite() is run
+    private Integer searchCount = 0; // keeps track of number of times searchSite() is run
     private String scanSites = ""; // returns the site if the site is found from 'scan' results 
-    private boolean down = true; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
+    private Boolean down = true; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
     private Boolean interlaceCheck = false;
+    private Boolean start = false;
 
     Translator translator = new Translator();
     private GridQueue queue = new GridQueue();
@@ -24,10 +25,10 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     // Determines next decision to make (called from Explorer)
-    public String makeDecision(Boolean start, String found, Integer range, String biome, Compass compass) {
+    public String makeDecision(String found, Integer range, String biome, Compass compass) {
         if (queue.isEmpty()) {
-            if (!start) {
-                start = refillStart(found, range, compass);
+            if (!this.start) {
+                this.start = refillStart(found, range, compass);
             } else {
                 refillQueue(found, range, biome, compass);
             }
@@ -210,15 +211,10 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 
-    // ------------------------------------------------------------------------------------------ DRONE START CASE!!!
+    // ------------------------------------------------------------------------------------------ DRONE START CASE!!! FIX THIS
 
     public Boolean refillStart(String found, Integer range, Compass compass) {
         logger.info(range);
-
-        if (this.mode == "caseAPart1") {
-
-        }
-
         if (this.mode == "startCheck") {
             if (found.equals("OUT_OF_RANGE")) {
                 if (range == 52) {
@@ -230,8 +226,6 @@ public class GridSearch implements ISearchAlgorithm {
                 this.mode = "caseBPart1";
             }
         }
-
-
 
         switch(this.mode) {
             case "checkStart":
