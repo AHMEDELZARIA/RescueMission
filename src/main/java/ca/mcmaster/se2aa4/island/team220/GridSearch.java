@@ -33,6 +33,14 @@ public class GridSearch implements ISearchAlgorithm {
 
     // OFFICIAL REFILL METHOD
     public void refillQueue(String found, String biome, Compass compass) {
+
+        // condition for "checkMoreGround" mode
+        if (this.mode == "checkMoreGround" && found.equals("GROUND")) {
+            this.mode = "reachIsland";
+        } else if (this.mode == "checkMoreGround" && !found.equals("GROUND")) {
+            this.mode = "intoPosition";
+        }
+
         // condition for "uTurn" mode
         if (this.mode == "uTurn" && found.equals("GROUND")) {
             this.mode = "reachIsland";
@@ -74,12 +82,16 @@ public class GridSearch implements ISearchAlgorithm {
             case "searchSite": // SEARCH SITE
                 if (biome.equals("OCEAN")) {
                     this.searchCount++;
-                    this.mode = "intoPosition";
+                    this.mode = "checkMoreGround"; // "intoPosition"
                 } else {
                     searchSite();
                     break;
                 }
 
+            case "checkMoreGround": // CHECK FOR MORE GROUND BEFORE U-TURNING
+                checkMoreGround(compass);
+                break;
+            
             case "intoPosition":  // INTO POSITION
                 if (found.equals("OUT_OF_RANGE")) {
                     this.mode = "uTurn";
@@ -103,7 +115,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getStop());
                 break;
         }
-        logger.info(this.down);
+        // logger.info(this.down);
         logger.info("########################################### {}", this.mode);
     }
 
@@ -131,10 +143,13 @@ public class GridSearch implements ISearchAlgorithm {
         queue.enqueue(command.getScan());
     }
 
-    public void intoPosition(Compass compass) { 
-        logger.info(this.down);
-        queue.enqueue(command.getFly());
+    public void checkMoreGround(Compass compass) {
+        queue.enqueue(command.testEchoForward(compass));
+    }
 
+    public void intoPosition(Compass compass) { 
+        // logger.info(this.down);
+        queue.enqueue(command.getFly());
         if ((this.interlaceCheck == false && this.down == true) || (this.interlaceCheck == true && this.down == false)) { // different booleans
             queue.enqueue(command.testEchoLeft(compass));
         } else if ((this.interlaceCheck == true && this.down == true) || (this.interlaceCheck == false && this.down == false)) { // same booleans
