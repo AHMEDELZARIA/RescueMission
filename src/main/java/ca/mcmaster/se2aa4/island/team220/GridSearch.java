@@ -61,7 +61,7 @@ public class GridSearch implements ISearchAlgorithm {
                 if (found.equals("GROUND")) {
                     this.currentMode = 1;
                 } else {
-                    refillFindIsland(); // execute mode0
+                    refillFindIsland(compass); // execute mode0
                     break;
                 }
             case 1: // FACE ISLAND
@@ -87,7 +87,7 @@ public class GridSearch implements ISearchAlgorithm {
                 if (found.equals("OUT_OF_RANGE")) {
                     this.currentMode = 5;
                 } else {
-                    refillIntoPosition(); // execute mode4
+                    refillIntoPosition(compass); // execute mode4
                     break;
                 }
             case 5: // INTERLACE A + INTERLACE B
@@ -106,9 +106,10 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     // find the Island
-    public void refillFindIsland() {
+    public void refillFindIsland(Compass compass) {
         queue.enqueue(command.getFly());
-        queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoRight(compass)); - set parameter to Compass compass
+        queue.enqueue(command.testEchoRight(compass));
+        // queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoRight(compass)); - set parameter to Compass compass
         // queue.enqueue(command.getEchoEast());
         // queue.enqueue(command.getEchoNorth());
         // queue.enqueue(command.getScan());
@@ -128,13 +129,31 @@ public class GridSearch implements ISearchAlgorithm {
         queue.enqueue(command.getScan());
     }
 
-    public void refillIntoPosition() { 
+    public void refillIntoPosition(Compass compass) { 
         queue.enqueue(command.getFly());
+
+        if (this.interlaceCheck == false) { // we have done zero/two interlaces - going left to right
+            if (this.down = true) {
+                queue.enqueue(command.testEchoLeft(compass));
+            } else {
+                queue.enqueue(command.testEchoRight(compass));
+            }
+        } else { // we have done one interlace - going right to left
+            if (this.down = false) {
+                queue.enqueue(command.testEchoRight(compass));
+            } else {
+                queue.enqueue(command.testEchoLeft(compass));
+            }
+        } 
+
+        /*
         if (this.interlaceCheck == true) {
             queue.enqueue(command.getEchoWest());
         } else {
             queue.enqueue(command.getEchoEast());
         }
+        */
+        
         /* REPLACE INNER CODE WITH THIS: (parameter is Compass compass)
 
         if (this.interlaceCheck == false) { // we have done zero/two interlaces - going left to right
