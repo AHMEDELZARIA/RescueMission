@@ -14,13 +14,35 @@ public class GridQueueTest {
     }
 
     @Test
+    public void testEmptyQueueforDequeue() {
+        assertNull(gridQueue.dequeue());
+    }
+
+    @Test
+    public void testIsEmptyIfEmpty() { //initial = is empty
+        assertTrue(gridQueue.isEmpty());
+    }
+
+    @Test
     public void testEnqueueMethod() {
         gridQueue.enqueue("#1");
         gridQueue.enqueue("#2");
         assertEquals(2, gridQueue.getQueue().size());
     }
 
-    
+    @Test
+    public void testIsEmptyIfNotEmpty() { //initial = is not empty
+        gridQueue.enqueue("Action");
+        assertFalse(gridQueue.isEmpty());
+    }
+
+
+
+
+
+
+
+
 
     
 }
