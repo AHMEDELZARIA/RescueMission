@@ -27,14 +27,11 @@ public class GridSearch implements ISearchAlgorithm {
     // Determines next decision to make (called from Explorer)
     public String makeDecision(String found, Integer range, String biome, Compass compass) {
         if (queue.isEmpty()) {
-            refillStart(found, range, compass);
-            /*
             if (!this.start) {
-                this.start = refillStart(found, range, compass);
+                refillStart(found, range, compass);
             } else {
                 refillQueue(found, range, biome, compass);
             }
-            */
         }
         return queue.dequeue();
     }
@@ -217,7 +214,10 @@ public class GridSearch implements ISearchAlgorithm {
                 if (found.equals("GROUND")) {
                     this.mode = "caseBPart1";
                 } else if (found.equals("OUT_OF_RANGE") && range == 52) {
-                    this.mode = "done";
+                    // this.mode = "done";
+                    this.start = true;
+                    this.mode = "findIsland";
+                    range = 0;
                 } else if (found.equals("OUT_OF_RANGE")) {
                     this.mode = "caseAPart1";
                 }
@@ -230,7 +230,10 @@ public class GridSearch implements ISearchAlgorithm {
             case "caseAPart2":
                 logger.info("###################################################### {}", this.mode);
                 caseAPart2(range, compass);
-                this.mode = "done";
+                // this.mode = "done";
+                this.start = true;
+                found = "OUT_OF_RANGE";
+                range = 0;
                 break;
             case "caseBPart1":
                 logger.info("###################################################### {}", this.mode);
@@ -240,12 +243,17 @@ public class GridSearch implements ISearchAlgorithm {
             case "caseBPart2":
                 logger.info("###################################################### {}", this.mode);
                 caseBPart2(range, compass);
-                this.mode = "done";
+                // this.mode = "done";
+                this.start = true;
+                found = "OUT_OF_RANGE";
+                range = 0;
                 break;
             case "done":
-                // this.start = true;
-                queue.enqueue(command.getStop());
-                break;
+                this.start = true;
+                found = "OUT_OF_RANGE";
+                range = 0;
+                // queue.enqueue(command.getStop());
+                // break;
         }
     }
 
