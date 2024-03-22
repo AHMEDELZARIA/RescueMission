@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CommandBookTest {
-    
-    private Compass compass;
 
     @BeforeEach
     public void setup() { 
@@ -15,7 +13,6 @@ public class CommandBookTest {
     @Test
     public void testGetStop(){
         CommandBook testCommand = new CommandBook();
-
         //lets test the string we should be returned when we stop the actions
         String expectedString = "{\"action\":\"stop\"}";
         String resultString = testCommand.getStop();
@@ -25,7 +22,6 @@ public class CommandBookTest {
     @Test
     public void testGetFly(){
         CommandBook testCommand = new CommandBook();
-
         //testing the string returned when getFly is called from CommandBook
         String expectedString = "{\"action\":\"fly\"}";
         String resultString = testCommand.getFly();
@@ -36,7 +32,7 @@ public class CommandBookTest {
     public void testGetScan(){
         CommandBook testCommand = new CommandBook();
         String expectedString = "{\"action\":\"scan\"}";
-        String resultString = testCommand.getFly();
+        String resultString = testCommand.getScan();
         assertEquals(expectedString, resultString);
     }
 
@@ -86,7 +82,7 @@ public class CommandBookTest {
     @Test
     public void testGetTurnRight() {
         CommandBook commandBook = new CommandBook();
-        Compass compass = new Compass(Direction.SOUTH); // initial pos change i think
+        Compass compass = new Compass(Direction.NORTH); // initial pos change i think
         String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"E\"}}";
         String resultString = commandBook.getTurnRight(compass);
         assertEquals(expectedString, resultString);
