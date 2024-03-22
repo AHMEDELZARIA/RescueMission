@@ -15,7 +15,6 @@ public class GridSearch implements ISearchAlgorithm {
 
     Translator translator = new Translator();
     private GridQueue queue = new GridQueue();
-    // private Integer currentMode = 0;
     private String mode = "findIsland";
 
     @Override
@@ -31,17 +30,6 @@ public class GridSearch implements ISearchAlgorithm {
         }
         return queue.dequeue();
     }
-
-    /* MODE GUIDE:
-     * findIsland = 0
-     * faceIsland = 1
-     * reachIsland = 2
-     * searchSite = 3
-     * intoPosition = 4
-     * uTurn = 5 // this was interlaceA & interlaceB
-     * loopAround = 6 // this was interlaceC
-     * Stop = 7
-    */
 
     // OFFICIAL REFILL METHOD
     public void refillQueue(String found, String biome, Compass compass) {
@@ -66,44 +54,51 @@ public class GridSearch implements ISearchAlgorithm {
                 if (found.equals("GROUND")) {
                     this.mode = "faceIsland";
                 } else {
-                    refillFindIsland(compass);
+                    findIsland(compass);
                     break;
                 }
+                
             case "faceIsland": // FACE ISLAND
-                refillFaceIsland(compass);
+                faceIsland(compass);
                 this.mode = "reachIsland";
                 break;
+
             case "reachIsland": // REACH ISLAND
                 if (!biome.equals("OCEAN")) {
                     this.mode = "searchSite";
                 } else {
-                    refillReachIsland();
+                    reachIsland();
                     break;
                 }
+
             case "searchSite": // SEARCH SITE
                 if (biome.equals("OCEAN")) {
                     this.searchCount++;
                     this.mode = "intoPosition";
                 } else {
-                    refillSearchSite();
+                    searchSite();
                     break;
                 }
+
             case "intoPosition":  // INTO POSITION
                 if (found.equals("OUT_OF_RANGE")) {
                     this.mode = "uTurn";
                 } else {
-                    refillIntoPosition(compass);
+                    intoPosition(compass);
                     break;
                 }
+
             case "uTurn": // INTERLACE A + INTERLACE B
-                refillInterlaceA(compass);
+                uTurn(compass);
                 this.down = !this.down;
                 // logger.info(this.down);
                 break;
+
             case "loopAround": // INTERLACE C
-                refillInterlaceC(compass);
+                loopAround(compass);
                 this.interlaceCheck = true;
                 break;
+
             case "stop":
                 queue.enqueue(command.getStop());
                 break;
@@ -113,7 +108,7 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     // find the Island
-    public void refillFindIsland(Compass compass) {
+    public void findIsland(Compass compass) {
         queue.enqueue(command.getFly());
         queue.enqueue(command.testEchoRight(compass));
         // queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoRight(compass)); - set parameter to Compass compass
@@ -122,25 +117,30 @@ public class GridSearch implements ISearchAlgorithm {
         // queue.enqueue(command.getScan());
     }
 
-    public void refillFaceIsland(Compass compass) {
+    public void faceIsland(Compass compass) {
         queue.enqueue(command.getTurnRight(compass));
     }
 
-    public void refillReachIsland() {
+    public void reachIsland() {
         queue.enqueue(command.getFly());
         queue.enqueue(command.getScan());
     }
 
-    public void refillSearchSite() {
+    public void searchSite() {
         queue.enqueue(command.getFly());
         queue.enqueue(command.getScan());
     }
 
-    public void refillIntoPosition(Compass compass) { 
+    public void intoPosition(Compass compass) { 
         logger.info(this.down);
         queue.enqueue(command.getFly());
         if (this.interlaceCheck == true) {
-            queue.enqueue(command.getEchoWest());
+            if (this.down == true) {
+                queue.enqueue(command.testEchoRight(compass));
+            } else {
+                queue.enqueue(command.testEchoLeft(compass));
+            }
+            // queue.enqueue(command.getEchoWest());
         } else {
             if (this.down == true) {
                 queue.enqueue(command.testEchoLeft(compass));
@@ -170,7 +170,7 @@ public class GridSearch implements ISearchAlgorithm {
         
     }
 
-    public void refillInterlaceA(Compass compass) { // INTERLACE A AND INTERLACE B COMBINED
+    public void uTurn(Compass compass) { // INTERLACE A AND INTERLACE B COMBINED
         if (this.interlaceCheck == false) { // we have done zero/two interlaces - going left to right
             if (this.down == true) {
                 logger.info("shouldnt be here");
@@ -195,7 +195,7 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 
-    public void refillInterlaceC(Compass compass) {
+    public void loopAround(Compass compass) {
         if (this.searchCount % 2 == 1) {
             if (this.down == true) {
                 queue.enqueue(command.getTurnRight(compass));
