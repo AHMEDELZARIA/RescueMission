@@ -245,11 +245,11 @@ public class GridSearch implements ISearchAlgorithm {
             case "caseAPart2":
                 logger.info("###################################################### {}", this.mode);
                 caseAPart2(range, compass);
-                // this.mode = "done";
+                this.mode = "findIsland";
                 this.start = true;
                 found = "OUT_OF_RANGE";
                 range = 0;
-                break;
+                // break;
             case "caseBPart1":
                 logger.info("###################################################### {}", this.mode);
                 caseBPart1(compass);
@@ -258,17 +258,17 @@ public class GridSearch implements ISearchAlgorithm {
             case "caseBPart2":
                 logger.info("###################################################### {}", this.mode);
                 caseBPart2(range, compass);
-                // this.mode = "done";
+                this.mode = "findIsland";
                 this.start = true;
                 found = "OUT_OF_RANGE";
                 range = 0;
                 break;
-            case "done":
-                this.start = true;
-                found = "OUT_OF_RANGE";
-                range = 0;
-                // queue.enqueue(command.getStop());
-                // break;
+            // case "done":
+            //     this.start = true;
+            //     found = "OUT_OF_RANGE";
+            //     range = 0;
+            //     // queue.enqueue(command.getStop());
+            //     // break;
         }
     }
 
