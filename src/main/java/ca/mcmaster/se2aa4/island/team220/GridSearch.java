@@ -124,10 +124,7 @@ public class GridSearch implements ISearchAlgorithm {
     public void findIsland(Compass compass) {
         queue.enqueue(command.getFly());
         queue.enqueue(command.testEchoRight(compass));
-        // queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoRight(compass)); - set parameter to Compass compass
-        // queue.enqueue(command.getEchoEast());
-        // queue.enqueue(command.getEchoNorth());
-        // queue.enqueue(command.getScan());
+        // queue.enqueue(command.testEchoLeft(compass));
     }
 
     public void faceIsland(Compass compass) {

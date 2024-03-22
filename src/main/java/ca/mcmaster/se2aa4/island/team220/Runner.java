@@ -13,7 +13,7 @@ public class Runner { // Runner is the Main class
                     .exploring(new File(filename))
                     .withSeed(42L)
                     .startingAt(1, 1, "EAST")
-                    .backBefore(28000) // Original: 7000
+                    .backBefore(30000) // Original: 7000 // Max budget if start at top-left: 24000
                     .withCrew(5)
                     .collecting(1000, "WOOD")
                     .storingInto("./outputs")
