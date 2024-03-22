@@ -57,7 +57,7 @@ public class Explorer implements IExplorerRaid {
             this.count++;
         } else
         */
-        if (this.count < 4510) { //1608 // Map03: 2133 // Map10: 5046
+        if (this.count < 4515) { //1608 // Map03: 2133 // Map10: 5046
             this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
             this.count++;
         } else {
