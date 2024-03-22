@@ -3,6 +3,7 @@ package ca.mcmaster.se2aa4.island.team220;
 import java.io.StringReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.xerces.impl.dv.xs.IntegerDV;
 
 import eu.ace_design.island.bot.IExplorerRaid;
 import scala.annotation.tailrec;
@@ -20,8 +21,9 @@ public class Explorer implements IExplorerRaid {
     private Information results; // added 19/03
     private GridSearch search;
 
-    private int count = 0;
+    private Integer count = 0;
     private String decision;
+    private Boolean droneStart = false;
 
     private Compass compass; // ADDED 20/03
     private CommandBook command; // ADDED 20/03
@@ -50,14 +52,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
+
         logger.info(this.count);
-        /*
-        if (this.count == 0) {
-            this.decision = command.testEchoForward(compass); // test new echo functions
-            this.count++;
-        } else
-        */
-        if (this.count < 6000) { //1608 // Map03: 2133 // Map10: 5046
+        if (this.count < 10) { //1608 // Map03: 2133 // Map10: 5046
             this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
             this.count++;
         } else {

@@ -12,7 +12,7 @@ public class Information {
     public Information(Integer cost, String status) {
         this.cost = cost;
         this.status = status;
-        this.found = "OUT_OF_RANGE";
+        this.found = "N/A"; // replaced "OUT_OF_RANGE"
         this.range = 0;
         this.biome = "OCEAN";
         this.site = "N/A";
