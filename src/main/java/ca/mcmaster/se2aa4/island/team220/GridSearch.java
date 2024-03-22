@@ -134,64 +134,23 @@ public class GridSearch implements ISearchAlgorithm {
     public void intoPosition(Compass compass) { 
         logger.info(this.down);
         queue.enqueue(command.getFly());
-        if (this.interlaceCheck == true) {
-            if (this.down == true) {
-                queue.enqueue(command.testEchoRight(compass));
-            } else {
-                queue.enqueue(command.testEchoLeft(compass));
-            }
-            // queue.enqueue(command.getEchoWest());
-        } else {
-            if (this.down == true) {
-                queue.enqueue(command.testEchoLeft(compass));
-            } else {
-                queue.enqueue(command.testEchoRight(compass));
-            }
-            // queue.enqueue(command.getEchoEast());
-        }
-        
-        
-        /* REPLACE INNER CODE WITH THIS: (parameter is Compass compass)
 
-        if (this.interlaceCheck == false) { // we have done zero/two interlaces - going left to right
-            if (this.down = true) {
-                queue.enqueue(command.testEchoLeft(compass));
-            } else {
-                queue.enqueue(command.testEchoRight(compass));
-            }
-        } else { // we have done one interlace - going right to left
-            if (this.down = true) {
-                queue.enqueue(command.testEchoRight(compass));
-            } else {
-                queue.enqueue(command.testEchoLeft(compass));
-            }
-        } 
-        */
-        
+        if ((this.interlaceCheck == false && this.down == true) || (this.interlaceCheck == true && this.down == false)) { // different booleans
+            queue.enqueue(command.testEchoLeft(compass));
+        } else if ((this.interlaceCheck == true && this.down == true) || (this.interlaceCheck == false && this.down == false)) { // same booleans
+            queue.enqueue(command.testEchoRight(compass));
+        }
     }
 
     public void uTurn(Compass compass) { // INTERLACE A AND INTERLACE B COMBINED
-        if (this.interlaceCheck == false) { // we have done zero/two interlaces - going left to right
-            if (this.down == true) {
-                logger.info("shouldnt be here");
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getEchoNorth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
-            } else {
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
-            }
-        } else { // we have done one interlace - going right to left
-            if (this.down == true) {
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getEchoNorth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
-            } else {
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
-            }
+        if ((this.interlaceCheck == false && this.down == true) || (this.interlaceCheck == true && this.down == false)) { // opposite booleans
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.testEchoForward(compass));
+        } else if ((this.interlaceCheck == false && this.down == false) || (this.interlaceCheck == true && this.down == true)) { // same booleans
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.testEchoForward(compass));
         }
     }
 
@@ -203,7 +162,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
+                queue.enqueue(command.testEchoForward(compass));
 
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
@@ -211,7 +170,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getEchoNorth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
+                queue.enqueue(command.testEchoForward(compass));
             }
         } else {
             if (this.down == true) { 
@@ -222,7 +181,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getEchoSouth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
+                queue.enqueue(command.testEchoForward(compass));
 
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
@@ -232,7 +191,7 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getEchoNorth()); // replace with queue.enqueue(command.testEchoForward(compass)); - set parameter to Compass compass
+                queue.enqueue(command.testEchoForward(compass));
             }
         }
     }

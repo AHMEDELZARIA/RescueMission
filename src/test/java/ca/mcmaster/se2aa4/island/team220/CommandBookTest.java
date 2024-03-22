@@ -40,6 +40,7 @@ public class CommandBookTest {
         assertEquals(expectedString, resultString);
     }
 
+    /*
     @Test
     public void testGetEchoNorth() {
         CommandBook commandBook = new CommandBook();
@@ -71,6 +72,7 @@ public class CommandBookTest {
         String resultString = commandBook.getEchoWest();
         assertEquals(expectedString, resultString);
     }
+    */
 
     @Test
     public void testGetTurnLeft() {

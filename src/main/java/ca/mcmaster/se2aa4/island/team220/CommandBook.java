@@ -23,6 +23,7 @@ public class CommandBook {
         return decision.toString();
     }
 
+    /*
     public String getEchoNorth() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -55,9 +56,10 @@ public class CommandBook {
         return decision.toString();
     }
 
+    */
     // TESTING ECHO RELATIVE TO DRONE: ECHO FORWARD
     public String testEchoForward(Compass compass) {
-        compass.getHeading();
+        // compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");
