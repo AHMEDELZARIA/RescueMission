@@ -14,6 +14,7 @@ public class CommandBookTest {
 
     @Test
     public void testGetStop(){
+        CommandBook testCommand = new CommandBook(); // added these back bc we get null pointer error without it FIX LATER
         String expectedString = "{\"action\":\"stop\"}";
         String resultString = testCommand.getStop();
         assertEquals(expectedString, resultString);
@@ -21,6 +22,7 @@ public class CommandBookTest {
 
     @Test
     public void testGetFly(){
+        CommandBook testCommand = new CommandBook();
         String expectedString = "{\"action\":\"fly\"}";
         String resultString = testCommand.getFly();
         assertEquals(expectedString, resultString);
@@ -28,6 +30,7 @@ public class CommandBookTest {
 
     @Test
     public void testGetScan(){
+        CommandBook testCommand = new CommandBook();
         String expectedString = "{\"action\":\"scan\"}";
         String resultString = testCommand.getScan();
         assertEquals(expectedString, resultString);
@@ -69,6 +72,7 @@ public class CommandBookTest {
 
     @Test
     public void testGetTurnLeft() {
+        CommandBook testCommand = new CommandBook();
         Compass compass = new Compass(Direction.NORTH); // initial pos
         String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"W\"}}";
         String resultString = testCommand.getTurnLeft(compass);
@@ -77,6 +81,7 @@ public class CommandBookTest {
 
     @Test
     public void testGetTurnRight() {
+        CommandBook testCommand = new CommandBook();
         Compass compass = new Compass(Direction.NORTH); // initial pos change i think
         String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"E\"}}";
         String resultString = testCommand.getTurnRight(compass);
