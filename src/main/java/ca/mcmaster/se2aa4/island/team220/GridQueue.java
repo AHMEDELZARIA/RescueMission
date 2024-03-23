@@ -5,7 +5,7 @@ import java.util.Queue;
 
 public class GridQueue {
 
-    private Queue<String> queue;
+    public Queue<String> queue;
 
     public GridQueue() {
         queue = new LinkedList<>();

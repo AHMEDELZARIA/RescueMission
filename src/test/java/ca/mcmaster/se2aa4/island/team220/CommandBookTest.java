@@ -58,7 +58,7 @@ public class CommandBookTest {
     }
 
     @Test
-    public void testTestEchoLeft() {
+    public void testEchoLeft() {
         Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"W\"}}";
         String resultString = testCommand.testEchoLeft(compass);
@@ -66,7 +66,7 @@ public class CommandBookTest {
     }
 
     @Test
-    public void testTestEchoRight() {
+    public void testEchoRight() {
         Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}";
         String resultString = testCommand.testEchoRight(compass);
