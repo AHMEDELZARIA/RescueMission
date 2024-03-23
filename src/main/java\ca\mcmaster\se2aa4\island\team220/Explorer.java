@@ -3,11 +3,11 @@ package ca.mcmaster.se2aa4.island.team220;
 import java.io.StringReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.xerces.impl.dv.xs.IntegerDV;
 
 import eu.ace_design.island.bot.IExplorerRaid;
 import scala.annotation.tailrec;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -15,39 +15,26 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private Drone drone;
-    private Translator translator;
-    private AreaMap map;
-    private Compass compass;
-    private CommandBook command; // ADDED 19/03
-    private Information results; // added 19/03
-    private GridQueue queue; // ADDED 19/03
-    private GridSearch search;
-   
 
-    private int count = 0;
+    private Information results;
+    private GridSearch search;
+
     private String decision;
-    private String output = "";
-   
-    private int method = 1; // ADDED 19/03
+    private Compass compass;
 
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject context = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}", context.toString(2));
-
-        map = new AreaMap();
-        translator = new Translator();
-        results = new Information(context.getInt("budget"), "OK"); // initialize budget/battery and status (always starts off 'OK') 
-        queue = new GridQueue();
+        results = new Information(context.getInt("budget"), "OK"); // initialize budget(battery) and status (always starts 'OK') 
         search = new GridSearch();
 
         // Initialize the drone's heading and battery level
         Direction heading = Direction.toDirection(context.getString("heading"));
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
-        compass = new Compass(heading); // ADDED 19/03
-        command = new CommandBook(); // ADDED 19/03
+        compass = new Compass(heading);
 
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -55,20 +42,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-
-        /*
-        if (!(results.getFound()).equals("GROUND")) {
-            this.decision = search.testIsland(results.getFound());
-        } else {
-            this.decision = command.getStop();
-        }
-        */
-        this.decision = search.testIsland(results.getFound());
-
-        // this.decision = search.findIsland(results.getFound());    
+        this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
         logger.info("** Decision: {}", this.decision);
         return this.decision;
-
     }
 
     @Override
@@ -82,35 +58,18 @@ public class Explorer implements IExplorerRaid {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
-        // NEW
-        if (!extraInfo.isNull("found")) {
-            // this.found = extraInfo.getString("found");
-            results.setFound(extraInfo.getString("found"));
-            logger.info(results.getFound());
-        }
-
-        if (extraInfo.has("biomes")) {
-            JSONArray biomes = extraInfo.getJSONArray("biomes");
-            // this.scanBiomes = biomes.getString(0);
-            
-            results.setBiome(biomes.getString(0));
-            logger.info(results.getBiome());
-            extraInfo.clear();
-        }
-
-        // SCAN EXTRACT SITES (worry about creeks later)
-        if (extraInfo.has("sites")) {
-            JSONArray sites = extraInfo.getJSONArray("sites");
-            // this.scanSites = sites.getString(0);
-
-            results.setSite(sites.getString(0));
-            logger.info(results.getSite());
-            extraInfo.clear();
-        }
+        results.setFound(extraInfo);
+        results.setRange(extraInfo);
+        results.setBiome(extraInfo);
+        results.setSite(extraInfo);
+        results.setCreek(extraInfo);
     }
 
     @Override
     public String deliverFinalReport() {
-        return "no creek found";
+        logger.info("This is the site: {}", results.getSite());
+        logger.info("These are the creeks: {}", results.getCreeks());
+        return results.getSite();
+        // return "no creek found";
     }
 }
