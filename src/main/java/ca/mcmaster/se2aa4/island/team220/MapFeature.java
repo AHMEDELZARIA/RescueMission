@@ -6,5 +6,7 @@ public enum MapFeature {
     CREEK,
     EMERGENCYSITE,
     LAND,
-    UNKNOWN; // Used when we discover a new coordinate, but haven't scanned to know what biome it is
+    OUTOFBOUNDS,
+    UNKNOWN; // Used when we discover a new coordinate, but haven't scanned to know what
+    // biome it is
 }

@@ -6,8 +6,11 @@ interface IExplorerRaid {
     +acknowledgeResults(s: String)
     +deliverFinalReport(): String
 }
-interface DecisionHandler {
-    +determineDecision(map: AreaMap, drone: Drone)
+interface State {
+    +handle()
+}
+interface SearchAlgorithm {
+    +searchArea()
 }
 
 class Explorer {
@@ -19,7 +22,7 @@ class Explorer {
     +takeDecision(): String
     +acknowledgeResults(s: String)
     +deliverFinalReport(): String
-} 
+}
 class Translator
 class Information
 class Drone {
@@ -28,7 +31,7 @@ class Drone {
     +this(battery: Integer, heading: Direction)
     +getBattery(): Integer
     +getHeading(): Direction
-} 
+}
 class Compass {
     heading: Direction
 }
@@ -42,23 +45,55 @@ class Point {
     +equals(o: Object): boolean ^
     +toString(): String ^
 }
-class GridSearch {
-    +determineDecision(map: AreaMap, drone: Drone)
-}
-class CoastlineSearch {
-    +determineDecision(map: AreaMap, drone: Drone)
-}
 class AreaMap {
     -coordinateSystem: Map<Point, MapFeature>
     +this()
     +addPoint(point: Point, feature: MapFeature)
     +getPoint(point: Point): MapFeature
 }
+class DecisionHandler {
+    -currentState: State
+
+    +determineDecision(map: AreaMap, drone: Drone)
+}
+class StartState {
+    +handle()
+}
+class initialXState {
+    +handle()
+}
+class initialYLeftState {
+    +handle()
+}
+class initialYRightState {
+    +handle()
+}
+class UTurnState {
+    +handle()
+}
+class SkipWaterState {
+    +handle()
+}
+class MoveForwardOnIslandState {
+    +handle()
+}
+class SearchIslandState {
+    +handle()
+}
+class StopState {
+    +handle()
+}
+class GridSearch {
+    +searchArea()
+}
+class SmartAlgo {
+    +searchArea()
+}
 
 enum Direction {
     +NORTH
-    +SOUTH 
-    +EAST 
+    +SOUTH
+    +EAST
     +WEST
     -dir: char
     +this(dir: char)
@@ -67,15 +102,19 @@ enum Direction {
 }
 enum MapFeature {
     +OCEAN
-    +CREEK 
+    +CREEK
     +EMERGENCYSITE
     +LAND
     +UNKNOWN
 }
 enum Action {
-    +FLY
-    +ECHO
-    +SCAN 
+    +FLYFORWARD
+    +FLYLEFT
+    +FLYRIGHT
+    +ECHOFORWARD
+    +ECHOLEFT
+    +ECHORIGHT
+    +SCAN
     +STOP
 }
 
@@ -90,7 +129,18 @@ Explorer --> AreaMap
 AreaMap *--> "*" Point
 AreaMap *--> "*" MapFeature
 Explorer --> DecisionHandler
-DecisionHandler <|.. GridSearch
-DecisionHandler <|.. CoastlineSearch
+DecisionHandler --> State
+StartState ..|> State
+initialXState ..|> State
+initialYLeftState ..|> State
+initialYRightState ..|> State
+UTurnState ..|> State
+SkipWaterState ..|> State
+MoveForwardOnIslandState ..|> State
+StopState ..|> State
+SearchIslandState ..|> State
+SearchIslandState --> SearchAlgorithm
+SmartAlgo ..|> SearchAlgorithm
+GridSearch ..|> SearchAlgorithm
 
 @enduml
