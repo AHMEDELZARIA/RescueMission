@@ -140,6 +140,8 @@ public class Explorer implements IExplorerRaid {
                 } else if (this.count % 2 == 1) {
                     decision.put("action", "fly");
                 }
+            }
+        }
     
         // echo to find land, fly, if echo finds land, change heading, fly, echo until you hit land, scan, gridmap 
         if (!(this.found).equals("GROUND")) {
@@ -200,75 +202,6 @@ public class Explorer implements IExplorerRaid {
                 decision.clear();
                 this.count = 0; // reset counter
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceA");
-            }
-        }
-
-        // Segment B
-        if (this.interlaceTurnB == true) {
-            if (this.count == 0) {
-                if (this.down == false) { // reversed bc this.down is direction before all of interlaceTurn
-                    decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "S"));
-                } else if (this.down == true) {
-                    decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "N"));
-                }
-                this.count++;
-            }
-        } else {
-            if (!isFound) {
-                switch (gridCount) {
-                    case 0:
-                        decision.put("action", "scan");
-                        gridCount++;
-                        break;
-                    case 1: 
-                        decision.put("action", "echo");
-                        decision.put("parameters", parameters.put("direction", "W"));
-                        gridCount++;
-                        break;
-                    case 2: 
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", "W"));
-                        gridCount++;
-                        break;
-                    case 3: 
-                        decision.put("action", "echo");
-                        decision.put("parameters", parameters.put("direction", "N")); 
-                        gridCount++;
-                        break;
-                    case 4: 
-                        if (this.found.equals("LAND")) {
-                            gridCount = 0; 
-                        }
-                        break;
-                    case 5: 
-                        if (this.found.equals("OCEAN")) {
-                            decision.put("action", "heading");
-                            decision.put("parameters", parameters.put("direction", "E"));
-                            gridCount = 6; 
-                        }
-                        break;
-                    case 6: 
-                        decision.put("action", "scan");
-                        gridCount++;
-                        break;
-                    case 7:
-                        decision.put("action", "echo");
-                        decision.put("parameters", parameters.put("direction", "E"));
-                        gridCount++;
-                        break;
-                    case 8: 
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", "E"));
-                        gridCount++;
-                        break;
-                    default: 
-                        gridCount = 0; 
-                        break;
-                }
-            } else {
-                decision.put("action", "stop");
             }
         }
     
