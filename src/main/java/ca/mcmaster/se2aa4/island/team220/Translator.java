@@ -11,11 +11,41 @@ public class Translator {
     JSONArray creeks = null;
     JSONArray sites = null;
 
+    public void translate(JSONObject response) {
+
+        Action action = determineAction(response.getJSONObject("extras"));
+
+        Integer cost = response.getInt("cost");
+
+        String status;
+        if (response.getString("status").equals("OK")) {
+            status = "true";
+        } else {
+            status = "false";
+        }
+
+        // PLACEHOLDER
+        //return new Information(cost, status);
+    }
+
+    private Action determineAction(JSONObject extraInfo) {
+        // extras can contain:
+        // If echo: "found" and "range"
+        // If fly: empty
+        // If scan: "creeks": JSONArray, "biomes": JSONArray, and sites: JSONArray
+
+        if (extraInfo.length() == 0) {
+            return Action.FLY;
+        } else if (extraInfo.has("found")) {
+            return Action.ECHO;
+        } else {
+            return Action.SCAN;
+        }
+    }
 
     public void setRange(int range) {
         this.range = range;
     }
-
     public int getRange() {
         return range;
     }
@@ -36,20 +66,6 @@ public class Translator {
         return sites;
     }
 
-    public void readResults(JSONObject response) {
-        if (response.has("extras")) {
-            JSONObject extras = response.getJSONObject("extras");
-            if (extras.has("range") || extras.has("status")) {
-                processEcho(extras);
-                //System.out.println("echo");
-            }else if (extras.has("biomes") || extras.has("creeks") || extras.has("sites")) {
-                processScan(extras);
-                //System.out.println("scan");
-            }
-
-        }
-    }
-    
     public void processEcho(JSONObject response) {
         JSONObject extras = response.getJSONObject("extras");
         range = extras.getInt("range");
@@ -63,5 +79,57 @@ public class Translator {
         creeks = extras.getJSONArray("creeks");
         sites = extras.getJSONArray("sites");
     }
-
 }
+
+/*
+package ca.mcmaster.se2aa4.island.team220;
+
+public class Information {
+    private Action actionTaken;
+    private Integer cost;
+    private Boolean status;
+
+    private String found;
+    private String biome;
+    private String site;
+
+    public Information(Integer cost, String biome, Boolean status) {
+        // this.actionTaken = actionTaken;
+        this.cost = cost;
+        this.status = status;
+    }
+
+    /*
+    public Action getActionTaken() {
+        return this.actionTaken;
+    }
+    */
+
+    /*
+    // Added 19/03
+    public void getFound(String found) {
+        this.found = found;
+    }
+
+    public void getBiome(String biome) {
+        this.biome = biome;
+    }
+
+    public void getSite(String site) {
+        if (site == null) {
+            this.site = "N/A";
+        } else {
+            this.site = site;
+        }
+    }
+
+
+    public Integer getCost() {
+        return this.cost;
+    }
+
+    public Boolean status() {
+        return this.status;
+    }
+}
+*/
