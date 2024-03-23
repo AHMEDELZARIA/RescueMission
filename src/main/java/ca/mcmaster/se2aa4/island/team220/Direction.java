@@ -8,10 +8,14 @@ public enum Direction {
 
     private final char dir;
 
-    Direction(char dir) { this.dir = dir; } // constructor
+    Direction(char dir) {
+        this.dir = dir;
+    } // constructor
 
     @Override
-    public String toString() { return "" + dir; }
+    public String toString() {
+        return "" + dir;
+    }
 
     public static Direction toDirection(String dir) {
         switch (dir.toUpperCase()) {
