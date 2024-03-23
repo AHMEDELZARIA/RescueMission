@@ -139,8 +139,82 @@ public class GridSearchTest {
         assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"N\"}}", gridSearch.getQueue().dequeue());
         assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}", gridSearch.getQueue().dequeue());
         assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    @Test 
+    public void uTurnTest(){
+        gridSearch.down = true;
+        gridSearch.interlaceCheck = false;
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.uTurn(compass);
+
+        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"W\"}}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"S\"}}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
 
     }
+
+    @Test 
+    public void uTurnTestElseCondition(){
+        gridSearch.down = false;
+        gridSearch.interlaceCheck = false;
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.uTurn(compass);
+
+        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"E\"}}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"S\"}}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    @Test 
+    public void intoPositionTest(){
+        gridSearch.down = true;
+        gridSearch.interlaceCheck = false;
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.intoPosition(compass);
+
+        assertEquals("{\"action\":\"fly\"}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"W\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    @Test 
+    public void intoPositionTestElseCondition(){
+        gridSearch.down = true;
+        gridSearch.interlaceCheck = true;
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.intoPosition(compass);
+
+        assertEquals("{\"action\":\"fly\"}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    @Test 
+    public void searchSiteTest(){
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.searchSite(compass);
+
+        assertEquals("{\"action\":\"fly\"}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"scan\"}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    @Test 
+    public void reachIslandTest(){
+        gridSearch.reachIsland();
+        assertEquals("{\"action\":\"fly\"}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"scan\"}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+
+
+
+
 
 
 
