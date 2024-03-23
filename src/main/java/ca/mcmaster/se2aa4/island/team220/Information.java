@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Information {
     private Integer cost;
@@ -15,35 +16,81 @@ public class Information {
     public Information(Integer cost, String status) {
         this.cost = cost;
         this.status = status;
-        this.found = "N/A"; // replaced "OUT_OF_RANGE"
+        this.found = "N/A";
         this.range = 0;
         this.biome = "OCEAN";
         this.site = "N/A";
         this.creek = "N/A";
     }
 
-    // Added 19/03
-
-    public String getFound() {
-        return this.found;
+    public void processFound(JSONObject extraInfo) {
+        if (!extraInfo.isNull("found")) {
+            this.found = extraInfo.getString("found");
+        }
     }
 
-    public Integer getRange() {
-        return this.range;
+    public void processRange(JSONObject extraInfo){
+        if (!extraInfo.isNull("range")) {
+            this.range = extraInfo.getInt("range");
+        }
     }
 
-    public String getBiome() {
-        return this.biome;
+    public void processBiome(JSONObject extraInfo) {
+        if (extraInfo.has("biomes")) {
+            JSONArray biomes = extraInfo.getJSONArray("biomes");
+            this.biome = biomes.getString(0); 
+            for (int i = 1; i < biomes.length(); i++) {
+                if (!biomes.getString(i).equals("OCEAN")) {
+                    this.biome = biomes.getString(i);
+                    break;
+                }
+            }
+        }
     }
 
-    public String getSite() {
-        return this.site;
+    public void processSite(JSONObject extraInfo) {
+        if (extraInfo.has("sites") && !extraInfo.getJSONArray("sites").isNull(0)) {
+            // if (!extraInfo.getJSONArray("sites").isNull(0)) {
+            JSONArray sites = extraInfo.getJSONArray("sites");
+
+            if (!site.isEmpty()) {
+                this.site = sites.getString(0);
+            }
+            // }
+        }
+
+    }
+
+
+    public void processCreek(JSONObject extraInfo) {
+        if (extraInfo.has("creeks") && !extraInfo.getJSONArray("creeks").isNull(0)) { // extraInfo.has("sites")
+            // if (!extraInfo.getJSONArray("creeks").isNull(0)) {
+            JSONArray creek = extraInfo.getJSONArray("creeks");
+
+            if (!creek.isEmpty()) {
+                if (this.creek != "N/A") {
+                    this.creek = this.creek + ", " + creek.getString(0);
+                } else {
+                    this.creek = creek.getString(0);
+                }
+            }
+            // }
+        }
     }
     
-    public String getCreeks() {
-        return this.creek;
-    }
+
+
+    public String getFound() { return this.found; }
+
+    public Integer getRange() { return this.range; }
+
+    public String getBiome() { return this.biome; }
+
+    public String getSite() { return this.site; }
     
+    public String getCreeks() { return this.creek; }
+    
+    /*
     public void setFound(String found) {
         this.found = found;
     }
@@ -70,12 +117,9 @@ public class Information {
             }
         }
     } 
+    */
 
-    public Integer getCost() {
-        return this.cost;
-    }
+    public Integer getCost() { return this.cost; }
 
-    public String status() {
-        return this.status;
-    }
+    public String status() { return this.status; }
 }

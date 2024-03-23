@@ -75,12 +75,23 @@ public class Explorer implements IExplorerRaid {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
+
         // NEW
+        results.processFound(extraInfo);
+        results.processRange(extraInfo);
+        results.processBiome(extraInfo);
+        results.processSite(extraInfo);
+        results.processCreek(extraInfo);
+
+        // old
+        /*
         if (!extraInfo.isNull("found")) {
             results.setFound(extraInfo.getString("found"));
             logger.info(results.getFound());
         }
+        */
 
+        /*
         // FOR RANGE
         if (!extraInfo.isNull("range")) {
             results.setRange(extraInfo.getInt("range"));
@@ -116,7 +127,8 @@ public class Explorer implements IExplorerRaid {
                 results.setCreek(creek.getString(0));
                 logger.info(results.getCreeks());
             }
-        }   
+        }  
+        */ 
     }
 
     @Override

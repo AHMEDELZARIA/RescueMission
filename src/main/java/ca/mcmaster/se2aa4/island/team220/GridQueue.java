@@ -10,17 +10,10 @@ public class GridQueue {
     public GridQueue() {
         queue = new LinkedList<>();
     }
-    public void enqueue(String action){
-        queue.add(action); 
-    }
-    public String dequeue(){
-        if (queue.isEmpty()){
-            refillQueue();
-        }
-        return queue.poll();
-    }
-    public void refillQueue(){ //DELETE LATER
-    }
+    public void enqueue(String action) { queue.add(action); }
+
+    public String dequeue() { return queue.poll(); }
+
     public Boolean isEmpty() {
         if (queue.isEmpty() == true) {
             return true;
@@ -28,7 +21,9 @@ public class GridQueue {
             return false;
         }
     }
+
+    // ADDED THIS RETURNS THE QUEUE (for testing)
     public Queue<String> getQueue() {
         return this.queue;
-    } //ADDED THIS RETURNS THE QUEUE (for testing)
+    }
 }
