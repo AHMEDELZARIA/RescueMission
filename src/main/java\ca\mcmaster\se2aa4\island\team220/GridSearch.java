@@ -1,33 +1,15 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import org.json.JSONObject;
-
 public class GridSearch implements ISearchAlgorithm {
 
-    private final Logger logger = LogManager.getLogger(); // for logger instructions
-    private Compass compass; // creates a compass DELETE LATER
-    private CommandBook command = new CommandBook(); // ADDED 19/03
-    private Information results; // added 19/03 DELETE LATER
-
-    private int count = 0; // helps run different actions in a round, gets 'reset'
-    private int searchCount = 0; // keeps track of number of times searchSite() is run
-    private String found = ""; // returns "GROUND" or "OUT_OF_RANGE", aka 'echo' results
-    private int range = 0; // returns the range of the 'echo' result
-    private String scanBiomes = ""; // returns the first biome found from 'scan' results 
-    private String scanSites = ""; // returns the site if the site is found from 'scan' results 
-    private boolean down = false; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
-
-    JSONObject decision = new JSONObject();
-    JSONObject parameters = new JSONObject();
-
-    boolean islandFound = false;
-    boolean halfComplete = false;
-    Translator translator = new Translator();
-
+    private CommandBook command = new CommandBook();
     private GridQueue queue = new GridQueue();
+    public String mode = "checkStart"; // replace "findIsland" as start mode
+
+    public Boolean down = true; // determines whether the drone is facing upwards or downwards when it exits the island for "intoPosition"
+    public Boolean interlaceCheck = false;
+    private Boolean start = false;
+    public Integer count = 0; // for findIsland mode
 
     @Override
     public void searchArea() {
@@ -35,253 +17,260 @@ public class GridSearch implements ISearchAlgorithm {
         throw new UnsupportedOperationException("Unimplemented method 'determineDecision'");
     }
 
-    public String testIsland(String found) { // TESTING STUFF
-        //called once in the beginning of the search
-        logger.info(count);
-        count++; //FOR OUR UNDERSTANDING DELETE LATER
+    // Determines next decision to make (called from Explorer)
+    public String makeDecision(String found, Integer range, String biome, Compass compass) {
         if (queue.isEmpty()) {
-            queue.enqueue(command.getEchoSouth());
-            queue.enqueue(command.getEchoEast());
-            queue.enqueue(command.getEchoNorth());
-            queue.enqueue(command.getScan());
-            queue.enqueue(command.getFly());
-        }
-        return queue.dequeue(); 
-    }
-    
-    //THIS METHOD WORKS 
-    public String findIsland(String found) {
-        //called once in the beginning of the search
-        if (!found.equals("GROUND")) {
-            logger.info(count);
-            count++; //FOR OUR UNDERSTANDING DELETE LATER
-            if (queue.isEmpty()) {
-                queue.enqueue(command.getEchoSouth());
-                queue.enqueue(command.getEchoEast());
-                queue.enqueue(command.getEchoNorth());
-                queue.enqueue(command.getScan());
-                queue.enqueue(command.getFly());
-            }
-            return queue.dequeue(); 
-        } else {
-            return command.getStop();
-        }
-    }
-
-    public void faceIsland(){
-        //called once in the beginning of the search
-        if ((this.count-1) % 4 == 0) {
-            decision.put("action", "heading");
-            decision.put("parameters", parameters.put("direction", compass.turnRight().toString())); // "S"
-            this.count = 3;
-        } else if ((this.count-1) % 4 == 1) {
-            decision.put("action", "heading");
-            decision.put("parameters", parameters.put("direction", "N"));
-            this.count = 3;
-        } else {
-            //this.changeHeading = false;
-            //this.reachIslandMode = true;
-            decision.clear();
-            this.count = 0;
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 2 COMPLETE: changeHeading Mode");
-        }
-    }
-
-
-    /* public void faceIsland() { for not just map 3
-    if (compass.getHeading() == Direction.NORTH) {
-        queue.enqueue(command.getTurnLeft(compass));  
-    } else {
-        queue.enqueue(command.getTurnRight(compass)); 
-    }
-    queue.enqueue(command.getStop()); 
-    }
-     */
-
-    public boolean reachIsland(){
-        //only repeated if in interlaceB interlaceC1 interlaceC2
-        if (!(this.scanBiomes).equals("BEACH")) { // condition for finding land
-            logger.info(this.count); // count for scan and fly
-            if (this.count % 2 == 0) {
-                decision.put("action", "scan");
-            } else if (this.count % 2 == 1) {
-                decision.put("action", "fly");
-            }
-            this.count++;
-        } else {
-            //this.reachIslandMode = false;
-            //this.searchSite = true;
-            decision.clear();
-            this.count = 0; // reset counter
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 3 COMPLETE: reachIsland Mode");
-        }
-        return true;
-    }
-
-    public int searchSite(){
-        //always happens after reachIsland is called
-        if (!(this.scanBiomes).equals("OCEAN")) { // condition for finding land
-            logger.info(this.count); // count for scan and fly
-            if (this.count % 2 == 0) {
-                decision.put("action", "scan");
-            } else if (this.count % 2 == 1) {
-                decision.put("action", "fly");
-            }
-            this.count++;
-        } else {
-            this.searchCount++;
-            // this.found = null; // MIGHT NOT NEED THIS GOTTA DOUBLE CHECK THE LOGIC UGH
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 4 COMPLETE: searchSite Mode");
-        }
-        return 0;
-    }
-
-    public void intoPosition(){
-        //always follows searchSite
-        if (!(this.found).equals("OUT_OF_RANGE")) { // while we don't 'echo' find OUT_OF_RANGE 
-            logger.info(this.count);
-            if (this.count % 2 == 0) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "E")); // echo East
-            } else if (this.count % 2 == 1) {
-                decision.put("action", "fly");
-            }
-            this.count++;
-        } else {
-            if ((compass.getHeading().toString()).equals("S")) { // this.down is the initial direction of interlace turning
-                this.down = true;
-            }
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 5 COMPLETE: intoPosition Mode");
-        }
-    }
-
-    public void interlaceA(){
-        //always follows intoPosition
-        if (this.count < 2) {
-            if (this.down == true) {
-                decision.put("action", "heading");
-                decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-            } else { // if (this.down == false) 
-                decision.put("action", "heading");
-                decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-            }
-            this.count++;
-        } else {
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceA");
-        }
-    }
-
-    public void interlaceB(){
-        //always happens after interlaceA, and after excecuted, depending on what echo observes we either go interlaceC1, interlaceC2, go back to reachIsland or we stop
-        //if condtion is met at interlaceB we stop
-        if (this.count == 0) {
-            if (this.down == false) { // reversed bc this.down is direction before all of interlaceTurn
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "S"));
-            } else if (this.down == true) {
-                decision.put("action", "echo");
-                decision.put("parameters", parameters.put("direction", "N"));
-            }
-            this.count++;
-        } else {
-            logger.info(this.searchCount);
-            if ((this.found).equals("GROUND")) {
-                logger.info("christmas");
-                // decision.put("action", "stop");
-                // this.reachIslandMode = true;
+            if (!this.start) {
+                refillStart(found, range, compass);
             } else {
-                decision.put("action", "stop");
-                /* 
-                if (this.searchCount % 2 == 1) {
-                    this.interlaceTurnC1 = true; // CASE 1
-                } else {
-                    this.interlaceTurnC2 = true; // CASE 2
-                }
-                */
-            }
-            this.count = 0; // reset counter
-            logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceB");
-        }
-    }
-
-    public boolean interlaceC() {
-        //occurs if the number of searchCount is odd
-        if (this.searchCount % 2 == 1) { // WE HAVE CASE 1
-            if (this.count < 5) {
-                if (this.down == true) {
-                    if (this.count % 5 == 3) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                    }
-                } else {
-                    if (this.count % 5 == 3) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    }
-                }
-                this.count++;
-            }
-        } else { // WE HAVE CASE 2
-            if (this.count < 7) {
-                if (this.down == true) {
-                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                    }
-                } else {
-                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    }
-                }
-                this.count++;
+                refillQueue(found, range, biome, compass);
             }
         }
-        logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
-        return true; // change this is just a placeholder
+        return queue.dequeue();
     }
 
-    /*public void executeGridSearch(Compass compass) {
-        findIsland();
-        faceIsland();
-        while (true){
-            reachIsland();
-            searchSite();
-            intoPosition();
-            interlaceA();
-            interlaceB();
-            if (!this.found.equals("OUT_OF_RANGE")){
-                if (!halfComplete){
-                    interlaceC();
-                }else{
-                    decision.put("action", "stop");
+    // OFFICIAL REFILL METHOD
+    public void refillQueue(String found, Integer range, String biome, Compass compass) {
+        // condition for "loopAround" mode
+        if (this.mode == "loopAround" && this.interlaceCheck) { 
+            if (found.equals("OUT_OF_RANGE")) {
+                loopExtra(compass);
+            }
+            this.mode = "reachIsland";
+        }
+
+        // condition for "uTurn" mode
+        if (this.mode == "uTurn" && found.equals("GROUND")) {
+            this.mode = "reachIsland";
+        } else if (this.mode == "uTurn" && found.equals("OUT_OF_RANGE")) {
+            if (this.interlaceCheck) {
+                this.mode = "stop";
+            } else {
+                this.mode = "loopAround";
+            }
+        }
+        // condition for "searchSite" mode
+        if (this.mode == "searchSite" && biome.equals("OCEAN")) {
+            if (found.equals("GROUND") && !range.equals(0)) {
+                this.mode = "reachIsland";
+            } else if (found.equals("OUT_OF_RANGE")) {
+                found = "GROUND";
+                this.mode = "intoPosition";
+            }
+        } else if (this.mode == "searchSite" && found.equals("OUT_OF_RANGE") && range < 3) {
+            this.mode = "uTurn";
+        }
+
+        switch (this.mode) {
+            case "findIsland": // FIND ISLAND
+                if (found.equals("GROUND")) {
+                    this.mode = "faceIsland";
+                } else {
+                    findIsland(compass);
                     break;
                 }
-            }else{
-                continue;
-            }
-        }*/
-        /* while condition: loops until this.found = out_of_range(from interlaceB) && if halfComplete == true (from interlaceC1 or interlaceC2)
-         *      reachIsland();
-         *      searchSite();
-         *      intoPosition();
-         *      interlaceA();
-         *      interlaceB();
-         *      if this.found = out_of_range(from interlaceB)
-         *          if halfComplete == false
-`        *              interlaceC();
-         *          else 
-         *              decision.put("action", "stop")
-         *      else 
-         *          continue;
-         */
+            case "faceIsland": // FACE ISLAND
+                faceIsland(compass);
+                this.mode = "reachIsland";
+                break;
+            case "reachIsland": // REACH ISLAND
+                if (!biome.equals("OCEAN")) {
+                    this.mode = "searchSite";
+                } else {
+                    reachIsland();
+                    break;
+                }
+            case "searchSite": // SEARCH SITE
+                searchSite(compass);
+                break;
+            case "intoPosition":  // INTO POSITION
+                if (found.equals("OUT_OF_RANGE")) {
+                    this.mode = "uTurn";
+                } else {
+                    intoPosition(compass);
+                    break;
+                }
+            case "uTurn": // TURNING AROUND
+                uTurn(compass);
+                this.down = !this.down;
+                break;
+            case "loopAround": // INTERLACE LOOP
+                loopAround(compass);
+                this.interlaceCheck = true;
+                break;
+            case "stop":
+                queue.enqueue(command.getStop());
+                break;
+        }
     }
 
+    // find the Island
+    public void findIsland(Compass compass) {
+        this.count++;
+        if (this.count % 3 == 0) {
+            queue.enqueue(command.getFly());
+        } else if (this.count % 3 == 1) {
+            queue.enqueue(command.testEchoRight(compass));
+        } else {
+            queue.enqueue(command.testEchoLeft(compass));
+        }
+    }
+
+    public void faceIsland(Compass compass) {
+        if (this.count % 3 == 1) {
+            queue.enqueue(command.getTurnRight(compass));
+            this.down = true;
+        } else if (this.count % 3 == 2) {
+            queue.enqueue(command.getTurnLeft(compass));
+            this.down = false;
+        }
+    }
+
+    public void reachIsland() {
+        queue.enqueue(command.getFly());
+        queue.enqueue(command.getScan());
+    }
+
+    public void searchSite(Compass compass) {
+        queue.enqueue(command.getFly());
+        queue.enqueue(command.getScan());
+        queue.enqueue(command.testEchoForward(compass));
+    }
+
+    public void intoPosition(Compass compass) { 
+        queue.enqueue(command.getFly());
+        if ((this.interlaceCheck == false && this.down == true) || (this.interlaceCheck == true && this.down == false)) { // different booleans
+            queue.enqueue(command.testEchoLeft(compass));
+        } else if ((this.interlaceCheck == true && this.down == true) || (this.interlaceCheck == false && this.down == false)) { // same booleans
+            queue.enqueue(command.testEchoRight(compass));
+        }
+    }
+
+    public void uTurn(Compass compass) { // INTERLACE A AND INTERLACE B COMBINED
+        if ((this.interlaceCheck == false && this.down == true) || (this.interlaceCheck == true && this.down == false)) { // opposite booleans
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.testEchoForward(compass));
+        } else if ((this.interlaceCheck == false && this.down == false) || (this.interlaceCheck == true && this.down == true)) { // same booleans
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.testEchoForward(compass));
+        }
+    }
+
+    public void loopAround(Compass compass) {
+        if (this.down == true) {
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.testEchoForward(compass));
+        } else {
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.testEchoForward(compass));
+        }
+    }
+
+    public void loopExtra(Compass compass) {
+        if (this.down == true) { // To account for islands being of either odd or even length
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+        } else {
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------ DRONE START CASE
+    public void refillStart(String found, Integer range, Compass compass) {
+        switch(this.mode) {
+            case "checkStart":
+                checkStart(compass);
+                if (found.equals("GROUND")) {
+                    this.mode = "caseBPart1";
+                } else if (found.equals("OUT_OF_RANGE") && range >= 46) {
+                    this.start = true;
+                    this.mode = "findIsland";
+                } else if (found.equals("OUT_OF_RANGE")) {
+                    this.mode = "caseAPart1";
+                }
+                break;
+            case "caseAPart1":
+                caseAPart1(range, compass);
+                this.mode = "caseAPart2";
+                break;
+            case "caseAPart2":
+                caseAPart2(range, compass);
+                this.mode = "findIsland";
+                this.start = true;
+                found = "OUT_OF_RANGE";
+                break;
+            case "caseBPart1":
+                caseBPart1(compass);
+                this.mode = "caseBPart2";
+                break;
+            case "caseBPart2":
+                caseBPart2(range, compass);
+                this.mode = "findIsland";
+                this.start = true;
+                found = "OUT_OF_RANGE";
+                break;
+        }
+    }
+
+    public void checkStart(Compass compass) {
+        queue.enqueue(command.testEchoForward(compass));
+    }
+
+    public void caseAPart1(Integer range, Compass compass) {
+        for (int i = 0; i < (range - 1); i++) {
+            queue.enqueue(command.getFly());
+        }
+        queue.enqueue(command.testEchoLeft(compass));
+    }
+
+    public void caseAPart2(Integer range, Compass compass) {
+        if (range <= 2) {
+            queue.enqueue(command.getTurnRight(compass));
+        } else {
+            queue.enqueue(command.getTurnLeft(compass));
+        }
+    }
+
+    public void caseBPart1(Compass compass) {
+        queue.enqueue(command.testEchoLeft(compass));
+        queue.enqueue(command.getTurnLeft(compass));
+    }
+
+    public void caseBPart2(Integer range, Compass compass) {
+        for (int i = 0; i < (range - 2); i++) {
+            queue.enqueue(command.getFly());
+        }
+        queue.enqueue(command.getTurnRight(compass));
+    }
+
+    // -------------------------------------------------------------------- what do I do with this?
+
+    //ADDED MARCH 22
+    // public Integer getCount() {
+    //     return count;
+    // }
+
+    // Getter method for the queue field
+    public GridQueue getQueue() {
+        return this.queue;
+    }
+}
