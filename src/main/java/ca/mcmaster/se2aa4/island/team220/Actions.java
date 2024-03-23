@@ -1,10 +1,12 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-public enum Action {
-    //refactor gridSearch by hiding instances of decision.put in a map in class Action.java
+public enum Actions {
     FLY,
-    ECHO,
-    HEADING,
+    TURNLEFT,
+    TURNRIGHT,
+    ECHOFORWARD,
+    ECHOLEFT,
+    ECHORIGHT,
     SCAN,
     STOP;
 }
