@@ -5,7 +5,7 @@ public class Point {
     private Integer x;
     private Integer y;
 
-    public Point(Integer x, Integer y) { // constructor
+    public Point(Integer x, Integer y) {
         this.x = x;
         this.y = y;
     }
@@ -13,7 +13,7 @@ public class Point {
     public Integer getX() {
         return x;
     }
-    
+
     public Integer getY() {
         return y;
     }
@@ -29,13 +29,96 @@ public class Point {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Point)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Point))
+            return false;
 
         Point point = (Point) o;
 
-        if (!x.equals(point.getX())) return false;
+        if (!x.equals(point.getX()))
+            return false;
         return y.equals(point.getY());
+    }
+
+    public Point translateForward(Direction direction) {
+        int newX = this.x;
+        int newY = this.y;
+
+        switch (direction) {
+            case NORTH:
+                newY += 1;
+                break;
+            case SOUTH:
+                newY -= 1;
+                break;
+            case EAST:
+                newX += 1;
+                break;
+            case WEST:
+                newX -= 1;
+                break;
+            default:
+                break;
+        }
+
+        return new Point(newX, newY);
+    }
+
+    public Point translateForwardLeft(Direction direction) {
+        int newX = this.x;
+        int newY = this.y;
+
+        switch (direction) {
+            case NORTH:
+                newY += 1;
+                newX -= 1;
+                break;
+            case SOUTH:
+                newY -= 1;
+                newX += 1;
+                break;
+            case EAST:
+                newY += 1;
+                newX += 1;
+                break;
+            case WEST:
+                newY -= 1;
+                newX -= 1;
+                break;
+            default:
+                break;
+        }
+
+        return new Point(newX, newY);
+    }
+
+    public Point translateForwardRight(Direction direction) {
+        int newX = this.x;
+        int newY = this.y;
+
+        switch (direction) {
+            case NORTH:
+                newY += 1;
+                newX += 1;
+                break;
+            case SOUTH:
+                newY -= 1;
+                newX -= 1;
+                break;
+            case EAST:
+                newY -= 1;
+                newX += 1;
+                break;
+            case WEST:
+                newY += 1;
+                newX -= 1;
+                break;
+            default:
+                break;
+        }
+
+        return new Point(newX, newY);
     }
 
     @Override
