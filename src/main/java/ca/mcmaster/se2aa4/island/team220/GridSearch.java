@@ -4,7 +4,7 @@ public class GridSearch implements ISearchAlgorithm {
 
     private CommandBook command = new CommandBook();
     private GridQueue queue = new GridQueue();
-    private String mode = "checkStart"; // replace "findIsland" as start mode
+    public String mode = "checkStart"; // replace "findIsland" as start mode
 
     public Boolean down = true; // determines whether the drone is facing upwards or downwards when it exits the island for "intoPosition"
     public Boolean interlaceCheck = false;
