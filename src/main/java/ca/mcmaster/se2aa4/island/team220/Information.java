@@ -1,87 +1,98 @@
 package ca.mcmaster.se2aa4.island.team220;
 
+import java.util.Optional;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Information {
+    private Actions actionTaken;
     private Integer cost;
-    private String status;
+    private Boolean status;
 
-    private String found;
+    private JSONObject extras;
+    // extras attributes
+    private JSONArray creeks;
+    private JSONArray biomes;
+    private JSONArray sites;
+    private MapFeature found;
     private Integer range;
-    private String biome;
-    private String site;
-    private String creek;
 
-    public Information(Integer cost, String status) {
+    public Information(Actions actionTaken, Integer cost, JSONObject extras, Boolean status) {
+        this.actionTaken = actionTaken;
         this.cost = cost;
         this.status = status;
-        this.found = "N/A";
-        this.range = 0;
-        this.biome = "OCEAN";
-        this.site = "N/A";
-        this.creek = "N/A";
+        this.extras = extras;
+        updatedAttributes(this.extras);
     }
 
-    public String getFound() { return this.found; }
-
-    public Integer getRange() { return this.range; }
-
-    public String getBiome() { return this.biome; }
-
-    public String getSite() { return this.site; }
-    
-    public String getCreeks() { return this.creek; }
-
-    public Integer getCost() { return this.cost; }
-
-    public String status() { return this.status; }
-
-    public void setFound(JSONObject extraInfo) {
-        if (!extraInfo.isNull("found")) {
-            this.found = extraInfo.getString("found");
+    private void updatedAttributes(JSONObject extras) {
+        try {
+            this.creeks = Optional.ofNullable(extras.getJSONArray("creeks")).orElse(null);
+        } catch (Exception e) {
+            this.creeks = null;
         }
-    }
-
-    public void setRange(JSONObject extraInfo){
-        if (!extraInfo.isNull("range")) {
-            this.range = extraInfo.getInt("range");
+        try {
+            this.biomes = Optional.ofNullable(extras.getJSONArray("biomes")).orElse(null);
+        } catch (Exception e) {
+            this.biomes = null;
         }
-    }
-
-    public void setBiome(JSONObject extraInfo) {
-        if (extraInfo.has("biomes")) {
-            JSONArray biomes = extraInfo.getJSONArray("biomes");
-            this.biome = biomes.getString(0); 
-            for (int i = 1; i < biomes.length(); i++) {
-                if (!biomes.getString(i).equals("OCEAN")) {
-                    this.biome = biomes.getString(i);
-                    break;
-                }
-            }
-        }
-    }
-
-    public void setSite(JSONObject extraInfo) {
-        if (extraInfo.has("sites") && !extraInfo.getJSONArray("sites").isNull(0)) {
-            JSONArray sites = extraInfo.getJSONArray("sites");
-            if (!site.isEmpty()) {
-                this.site = sites.getString(0);
-            }
+        try {
+            this.sites = Optional.ofNullable(extras.getJSONArray("sites")).orElse(null);
+        } catch (Exception e) {
+            this.sites = null;
         }
 
-    }
-
-    public void setCreek(JSONObject extraInfo) {
-        if (extraInfo.has("creeks") && !extraInfo.getJSONArray("creeks").isNull(0)) {
-            JSONArray creek = extraInfo.getJSONArray("creeks");
-            if (!creek.isEmpty()) {
-                if (this.creek != "N/A") {
-                    this.creek = this.creek + ", " + creek.getString(0);
+        try {
+            String foundAttribute = Optional.ofNullable(extras.getString("found")).orElse(null);
+            if (foundAttribute != null) {
+                if (foundAttribute.equals("OUT_OF_RANGE")) {
+                    this.found = MapFeature.OUTOFBOUNDS;
                 } else {
-                    this.creek = creek.getString(0);
+                    this.found = MapFeature.LAND;
                 }
             }
+        } catch (Exception e) {
+            this.found = null;
+        }
+
+        try {
+            this.range = Optional.ofNullable(extras.getInt("range")).orElse(null);
+        } catch (Exception e) {
+            this.range = null;
         }
     }
+
+    public Actions getActionTaken() {
+        return this.actionTaken;
+    }
+
+    public Integer getCost() {
+        return this.cost;
+    }
+
+    public Boolean status() {
+        return this.status;
+    }
+
+    public JSONArray getCreeks() {
+        return this.creeks;
+    }
+
+    public JSONArray getBiomes() {
+        return this.biomes;
+    }
+
+    public JSONArray getSites() {
+        return this.sites;
+    }
+
+    public MapFeature getFound() {
+        return this.found;
+    }
+
+    public Integer getRange() {
+        return this.range;
+    }
+
 }
