@@ -19,7 +19,7 @@ public class Explorer implements IExplorerRaid {
     private Drone drone;
     private Translator translator;
     private AreaMap map;
-    private Compass compass;
+    private ResponseProcessor results;    private Compass compass;
     // private Action action; // NEW CLASS ONLY IN THIS BRANCH
 
     private int count = 0;
@@ -140,6 +140,14 @@ public class Explorer implements IExplorerRaid {
                 } else if (this.count % 2 == 1) {
                     decision.put("action", "fly");
                 }
+            }
+        }
+    
+        // echo to find land, fly, if echo finds land, change heading, fly, echo until you hit land, scan, gridmap 
+        if (!(this.found).equals("GROUND")) {
+            logger.info(this.count); // total fly count = like 106 idk lol
+            if (this.count % 3 == 0) {
+                decision.put("action", "scan");
                 this.count++;
             } else {
                 this.searchCount++;
@@ -196,96 +204,7 @@ public class Explorer implements IExplorerRaid {
                 logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceA");
             }
         }
-
-        // Segment B
-        if (this.interlaceTurnB == true) {
-            if (this.count == 0) {
-                if (this.down == false) { // reversed bc this.down is direction before all of interlaceTurn
-                    decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "S"));
-                } else if (this.down == true) {
-                    decision.put("action", "echo");
-                    decision.put("parameters", parameters.put("direction", "N"));
-                }
-                this.count++;
-            } else {
-                decision.clear();
-                this.interlaceTurnB = false;
-                logger.info(this.searchCount);
-                if ((this.found).equals("GROUND")) {
-                    logger.info("christmas");
-                    // decision.put("action", "stop");
-                    // this.reachIslandMode = true;
-                } else {
-                    decision.put("action", "stop");
-                    /* 
-                    if (this.searchCount % 2 == 1) {
-                        this.interlaceTurnC1 = true; // CASE 1
-                    } else {
-                        this.interlaceTurnC2 = true; // CASE 2
-                    }
-                    */
-                }
-                this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceB");
-            }
-        }
-
-        if (this.interlaceTurnC1 == true) {
-            if (this.count < 5) {
-                if (this.down == true) {
-                    if (this.count % 5 == 3) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                    }
-                } else {
-                    if (this.count % 5 == 3) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    }
-                }
-                this.count++;
-            } else {
-                this.interlaceTurnC1 = false;
-                decision.clear();
-                this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 1 COMPLETE");
-            }
-        }
-
-        if (this.interlaceTurnC2 == true) {
-            if (this.count < 7) {
-                if (this.down == true) {
-                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
-                    }
-                } else {
-                    if (this.count % 7 >= 3 && this.count % 7 <= 5) {
-                        decision.put("action", "fly");
-                    } else {
-                        decision.put("action", "heading");
-                        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-                    }
-                }
-                this.count++;
-            } else {
-                this.interlaceTurnC2 = false;
-                decision.clear();
-                this.count = 0; // reset counter
-                logger.info("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII ROUND 6: interlaceC Case 2 COMPLETE");
-            }
-        }
-
-                
-
-        // execute decision
+    
         logger.info("** Decision: {}", decision.toString());
         return decision.toString();
     }
