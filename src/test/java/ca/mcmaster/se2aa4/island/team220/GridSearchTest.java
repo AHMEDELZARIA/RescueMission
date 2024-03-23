@@ -211,6 +211,51 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
+    @Test 
+    public void faceIslandTest(){
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.count = 4;
+        gridSearch.faceIsland(compass);
+        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"E\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    @Test 
+    public void faceIslandTestElseCondition(){
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.count = 5;
+        gridSearch.faceIsland(compass);
+        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"W\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    @Test 
+    public void findIslandTest(){
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.count = 2;
+        gridSearch.findIsland(compass);
+        assertEquals("{\"action\":\"fly\"}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    @Test 
+    public void findIslandTestElseIfCondition(){
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.count = 3;
+        gridSearch.findIsland(compass);
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    @Test 
+    public void findIslandTestElseCondition(){
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.count = 4;
+        gridSearch.findIsland(compass);
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"W\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
 
 
 
