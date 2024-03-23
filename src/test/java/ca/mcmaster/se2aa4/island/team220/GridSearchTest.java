@@ -25,7 +25,6 @@ public class GridSearchTest {
         assertNotNull(finalDecision); 
     }
 
-
     @Test
     public void testCaseBPart1() {
         Compass compass = new Compass(Direction.NORTH);
@@ -35,6 +34,18 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
+    @Test
+    public void testCaseBPart2() {
+        Compass compass = new Compass(Direction.NORTH);
+        gridSearch.caseBPart2(5, compass);
+        assertEquals("{\"action\":\"fly\"}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"fly\"}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"fly\"}", gridSearch.getQueue().dequeue());
+        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"E\"}}", gridSearch.getQueue().dequeue());
+        assertTrue(gridSearch.getQueue().isEmpty());
+    }
+
+    
 
 
 
