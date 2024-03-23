@@ -15,8 +15,7 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private Drone drone;
-    private Translator translator;
-    private AreaMap map;
+
     private Information results;
     private GridSearch search;
 
@@ -28,9 +27,6 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject context = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}", context.toString(2));
-
-        map = new AreaMap();
-        translator = new Translator();
         results = new Information(context.getInt("budget"), "OK"); // initialize budget(battery) and status (always starts 'OK') 
         search = new GridSearch();
 
