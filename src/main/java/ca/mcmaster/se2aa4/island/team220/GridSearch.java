@@ -13,6 +13,7 @@ public class GridSearch implements ISearchAlgorithm {
     private Boolean down = true; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
     private Boolean interlaceCheck = false;
     private Boolean start = false;
+    private Boolean startDown = false; // for which way the drone initially goes towards the island
     private Integer count = 0; // for findIsland mode
 
     // Translator translator = new Translator();
@@ -61,12 +62,12 @@ public class GridSearch implements ISearchAlgorithm {
             if (found.equals("GROUND") && !range.equals(0)) {
                 this.mode = "reachIsland";
             } else if (found.equals("OUT_OF_RANGE")) {
-                this.searchCount++;
+                // this.searchCount++;
                 found = "GROUND";
                 this.mode = "intoPosition";
             }
         } else if (this.mode == "searchSite" && found.equals("OUT_OF_RANGE") && range < 3) { // this.mode == "searchSite" && !biome.equals("OCEAN")
-            this.searchCount++;
+            // this.searchCount++;
             this.mode = "uTurn";
         }
 
@@ -101,6 +102,7 @@ public class GridSearch implements ISearchAlgorithm {
                 }
             case "uTurn": // INTERLACE A + INTERLACE B
                 uTurn(compass);
+                this.searchCount++;
                 this.down = !this.down;
                 // logger.info(this.down);
                 break;
@@ -127,17 +129,17 @@ public class GridSearch implements ISearchAlgorithm {
         } else {
             queue.enqueue(command.testEchoLeft(compass));
         }
-        // queue.enqueue(command.testEchoRight(compass));
-        // queue.enqueue(command.testEchoLeft(compass));
     }
 
     public void faceIsland(Compass compass) {
         if (this.count % 3 == 1) {
             queue.enqueue(command.getTurnRight(compass));
             this.down = true;
+            this.startDown = true;
         } else if (this.count % 3 == 2) {
             queue.enqueue(command.getTurnLeft(compass));
             this.down = false;
+            this.startDown = true;
         }
     }
 
@@ -178,14 +180,22 @@ public class GridSearch implements ISearchAlgorithm {
         logger.info(this.searchCount);
         logger.info(this.down);
         if (this.searchCount % 2 == 1) {
-            if (this.down == true) {
+            if (this.down == true) { // case 2
                 queue.enqueue(command.getTurnRight(compass));
+                queue.enqueue(command.getFly());
+                queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.testEchoForward(compass));
-            } else {
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.testEchoForward(compass));
+            } else { // case 4
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
@@ -196,15 +206,21 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.testEchoForward(compass));
             }
         } else {
-            if (this.down == true) {
+            if (this.down == true) { // case 1
                 queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getFly());
                 queue.enqueue(command.getFly());
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.getTurnRight(compass));
                 queue.enqueue(command.testEchoForward(compass));
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getFly());
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.getTurnRight(compass));
+                // queue.enqueue(command.testEchoForward(compass));
             } else {
                 queue.enqueue(command.getTurnLeft(compass));
                 queue.enqueue(command.getFly());
@@ -216,7 +232,7 @@ public class GridSearch implements ISearchAlgorithm {
         }
     }
 
-    // ------------------------------------------------------------------------------------------ DRONE START CASE!!! FIX THIS
+    // ------------------------------------------------------------------------------------------ DRONE START CASE!!!
 
     public void refillStart(String found, Integer range, Compass compass) {
         logger.info("###################################################### {}", this.mode);
@@ -229,7 +245,6 @@ public class GridSearch implements ISearchAlgorithm {
                 if (found.equals("GROUND")) {
                     this.mode = "caseBPart1";
                 } else if (found.equals("OUT_OF_RANGE") && range >= 46) {
-                    // this.mode = "done";
                     this.start = true;
                     this.mode = "findIsland";
                     range = 0;
@@ -263,12 +278,6 @@ public class GridSearch implements ISearchAlgorithm {
                 found = "OUT_OF_RANGE";
                 range = 0;
                 break;
-            // case "done":
-            //     this.start = true;
-            //     found = "OUT_OF_RANGE";
-            //     range = 0;
-            //     // queue.enqueue(command.getStop());
-            //     // break;
         }
     }
 

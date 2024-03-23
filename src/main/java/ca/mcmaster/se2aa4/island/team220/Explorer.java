@@ -23,7 +23,7 @@ public class Explorer implements IExplorerRaid {
 
     private Integer count = 0;
     private String decision;
-    private Boolean droneStart = false;
+    // private Boolean droneStart = false;
 
     private Compass compass; // ADDED 20/03
     private CommandBook command; // ADDED 20/03
@@ -54,7 +54,7 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
 
         logger.info(this.count);
-        if (this.count < 2150) { //1608 // Map03: 2133 // Map10: 5046
+        if (this.count < 6150) { //1608 // Map03: 2133 // Map10: 5046
             this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
             this.count++;
         } else {
