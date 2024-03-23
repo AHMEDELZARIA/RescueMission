@@ -23,6 +23,7 @@ public class CommandBook {
         return decision.toString();
     }
 
+    /*
     public String getEchoNorth() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -47,7 +48,7 @@ public class CommandBook {
         return decision.toString();
     }
 
-    public String EchoWest() {
+    public String getEchoWest() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");
@@ -55,11 +56,44 @@ public class CommandBook {
         return decision.toString();
     }
 
+    */
+    // TESTING ECHO RELATIVE TO DRONE: ECHO FORWARD
+    public String testEchoForward(Compass compass) {
+        // compass.getHeading();
+        JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", compass.getHeading().toString()));
+        return decision.toString();
+    }
+
+    // TESTING ECHO RELATIVE TO DRONE: ECHO LEFT
+    public String testEchoLeft(Compass compass) {
+        compass.getHeading();
+        JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
+        compass.turnRight();// fix this
+        return decision.toString();
+    }
+
+    // TESTING ECHO RELATIVE TO DRONE: ECHO RIGHT
+    public String testEchoRight(Compass compass) {
+        compass.getHeading();
+        JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
+        compass.turnLeft();
+        return decision.toString();
+    }
+
     public String getTurnLeft(Compass compass) {
         compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
-        decision.put("action", "fly");
+        decision.put("action", "heading");
         decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
         return decision.toString();
     }
@@ -68,7 +102,7 @@ public class CommandBook {
         compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
-        decision.put("action", "fly");
+        decision.put("action", "heading");
         decision.put("parameters", parameters.put("direction", compass.turnRight().toString()));
         return decision.toString();
     }
