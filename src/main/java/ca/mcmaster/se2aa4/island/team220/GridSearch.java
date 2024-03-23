@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team220;
 
+import java.util.Queue;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +15,7 @@ public class GridSearch implements ISearchAlgorithm {
     private Boolean down = true; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
     private Boolean interlaceCheck = false;
     private Boolean start = false;
-    private Integer count = 0; // for findIsland mode
+    public Integer count = 0; // for findIsland mode
 
     // Translator translator = new Translator();
     private GridQueue queue = new GridQueue();
@@ -303,4 +305,17 @@ public class GridSearch implements ISearchAlgorithm {
         }
         queue.enqueue(command.getTurnRight(compass));
     }
+
+    //ADDED MARCH 22
+    // public Integer getCount() {
+    //     return count;
+    // }
+
+    // Getter method for the queue field
+    public GridQueue getQueue() {
+        return this.queue;
+    }
+
+
+
 }
