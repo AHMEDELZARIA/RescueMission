@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.island.team220;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Information {
+public class InformationAlt {
     private Integer cost;
     private String status;
 
@@ -13,7 +13,7 @@ public class Information {
     private String site;
     private String creek;
 
-    public Information(Integer cost, String status) {
+    public InformationAlt(Integer cost, String status) {
         this.cost = cost;
         this.status = status;
         this.found = "N/A";
