@@ -43,4 +43,11 @@ public class Compass {
         return this.heading;
     }
 
+    public Direction getLeft() {
+        return goingLeft.get(this.heading);
+    }
+
+    public Direction getRight() {
+        return goingRight.get(this.heading);
+    }
 }
