@@ -29,7 +29,7 @@ public class ExampleTest {
 
         Integer resultBattery = drone.getBattery();
         Direction resultHeading = drone.getHeading();
-        MapFeature resultMapFeature = map.getPoint(new Point(0, 0));
+        MapFeature resultMapFeature = map.getPointFeature(new Point(0, 0));
 
         assertEquals(expectedBattery, resultBattery);
         assertEquals(expectedHeading, resultHeading);
@@ -75,7 +75,7 @@ public class ExampleTest {
         AreaMap map = new AreaMap();
         Point point = new Point(1, 1);
 
-        assertTrue(map.getPoint(point) == null);
+        assertTrue(map.getPointFeature(point) == null);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class ExampleTest {
 
         for (Point p : points) {
             map.addPoint(p, MapFeature.OCEAN);
-            assertTrue(map.getPoint(p) != null);
+            assertTrue(map.getPointFeature(p) != null);
         }
     }
 
