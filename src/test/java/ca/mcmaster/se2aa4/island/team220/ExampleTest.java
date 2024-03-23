@@ -1,4 +1,3 @@
-/*
 package ca.mcmaster.se2aa4.island.team220;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -145,4 +144,3 @@ public class ExampleTest {
         assertEquals(Direction.EAST, this.compass.getHeading());
     }
 }
-*/
