@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-public class GridSearch implements ISearchAlgorithm {
+public class GridSearch {
 
     private CommandBook command = new CommandBook();
     private GridQueue queue = new GridQueue();
@@ -10,12 +10,6 @@ public class GridSearch implements ISearchAlgorithm {
     public Boolean interlaceCheck = false;
     private Boolean start = false;
     public Integer count = 0; // for findIsland mode
-
-    @Override
-    public void searchArea() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'determineDecision'");
-    }
 
     // Determines next decision to make (called from Explorer)
     public String makeDecision(String found, Integer range, String biome, Compass compass) {
