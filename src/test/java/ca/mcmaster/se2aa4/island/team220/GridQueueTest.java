@@ -14,7 +14,7 @@ public class GridQueueTest {
     }
 
     @Test
-    public void testEmptyQueueforDequeue() {
+    public void testDequeueIfEmpty() {
         assertNull(gridQueue.dequeue());
     }
 
