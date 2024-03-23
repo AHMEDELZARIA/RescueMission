@@ -11,7 +11,7 @@ import scala.annotation.tailrec;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-public class Explorer implements IExplorerRaid {
+public class ExplorerAlt implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private Drone drone;
