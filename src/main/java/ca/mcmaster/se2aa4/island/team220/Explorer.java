@@ -53,6 +53,9 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
 
+        this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
+
+        /* 
         logger.info(this.count);
         if (this.count < 6000) { //1608 // Map03: 2133 // Map10: 5046
             this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
@@ -60,6 +63,7 @@ public class Explorer implements IExplorerRaid {
         } else {
             this.decision = command.getStop();
         }
+        */
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }
@@ -75,60 +79,11 @@ public class Explorer implements IExplorerRaid {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
-
-        // NEW
-        results.processFound(extraInfo);
-        results.processRange(extraInfo);
-        results.processBiome(extraInfo);
-        results.processSite(extraInfo);
-        results.processCreek(extraInfo);
-
-        // old
-        /*
-        if (!extraInfo.isNull("found")) {
-            results.setFound(extraInfo.getString("found"));
-            logger.info(results.getFound());
-        }
-        */
-
-        /*
-        // FOR RANGE
-        if (!extraInfo.isNull("range")) {
-            results.setRange(extraInfo.getInt("range"));
-            logger.info(results.getRange());
-        }
-
-        if (extraInfo.has("biomes")) {
-            JSONArray biomes = extraInfo.getJSONArray("biomes");
-            results.setBiome(biomes.getString(0));
-            // loop until we can determine if the only biome is OCEAN. 
-            for (int i = 1; i < biomes.length(); i++) {
-                if (!biomes.getString(i).equals("OCEAN")) {
-                    results.setBiome(biomes.getString(i));
-                    break;
-                }
-            }
-            logger.info(results.getBiome());
-        }
-
-        // SCAN EXTRACT SITES
-        if (extraInfo.has("sites")) {
-            if (!extraInfo.getJSONArray("sites").isNull(0)) {
-                JSONArray sites = extraInfo.getJSONArray("sites");
-                results.setSite(sites.getString(0));
-                logger.info(results.getSite());
-            }
-        }
-        
-        // SCAN EXTRACT CREEKS
-        if (extraInfo.has("creeks")) { // extraInfo.has("sites")
-            if (!extraInfo.getJSONArray("creeks").isNull(0)) {
-                JSONArray creek = extraInfo.getJSONArray("creeks");
-                results.setCreek(creek.getString(0));
-                logger.info(results.getCreeks());
-            }
-        }  
-        */ 
+        results.setFound(extraInfo);
+        results.setRange(extraInfo);
+        results.setBiome(extraInfo);
+        results.setSite(extraInfo);
+        results.setCreek(extraInfo);
     }
 
     @Override
