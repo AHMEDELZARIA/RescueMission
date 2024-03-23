@@ -104,9 +104,9 @@ public class GridSearch {
         if (this.count % 3 == 0) {
             queue.enqueue(command.getFly());
         } else if (this.count % 3 == 1) {
-            queue.enqueue(command.testEchoRight(compass));
+            queue.enqueue(command.getEchoRight(compass));
         } else {
-            queue.enqueue(command.testEchoLeft(compass));
+            queue.enqueue(command.getEchoLeft(compass));
         }
     }
 
@@ -128,15 +128,15 @@ public class GridSearch {
     public void searchSite(Compass compass) {
         queue.enqueue(command.getFly());
         queue.enqueue(command.getScan());
-        queue.enqueue(command.testEchoForward(compass));
+        queue.enqueue(command.getEchoForward(compass));
     }
 
     public void intoPosition(Compass compass) { 
         queue.enqueue(command.getFly());
         if ((this.interlaceCheck == false && this.down == true) || (this.interlaceCheck == true && this.down == false)) { // different booleans
-            queue.enqueue(command.testEchoLeft(compass));
+            queue.enqueue(command.getEchoLeft(compass));
         } else if ((this.interlaceCheck == true && this.down == true) || (this.interlaceCheck == false && this.down == false)) { // same booleans
-            queue.enqueue(command.testEchoRight(compass));
+            queue.enqueue(command.getEchoRight(compass));
         }
     }
 
@@ -144,11 +144,11 @@ public class GridSearch {
         if ((this.interlaceCheck == false && this.down == true) || (this.interlaceCheck == true && this.down == false)) { // opposite booleans
             queue.enqueue(command.getTurnLeft(compass));
             queue.enqueue(command.getTurnLeft(compass));
-            queue.enqueue(command.testEchoForward(compass));
+            queue.enqueue(command.getEchoForward(compass));
         } else if ((this.interlaceCheck == false && this.down == false) || (this.interlaceCheck == true && this.down == true)) { // same booleans
             queue.enqueue(command.getTurnRight(compass));
             queue.enqueue(command.getTurnRight(compass));
-            queue.enqueue(command.testEchoForward(compass));
+            queue.enqueue(command.getEchoForward(compass));
         }
     }
 
@@ -159,14 +159,14 @@ public class GridSearch {
             queue.enqueue(command.getTurnRight(compass));
             queue.enqueue(command.getTurnRight(compass));
             queue.enqueue(command.getTurnRight(compass));
-            queue.enqueue(command.testEchoForward(compass));
+            queue.enqueue(command.getEchoForward(compass));
         } else {
             queue.enqueue(command.getTurnLeft(compass));
             queue.enqueue(command.getFly());
             queue.enqueue(command.getTurnLeft(compass));
             queue.enqueue(command.getTurnLeft(compass));
             queue.enqueue(command.getTurnLeft(compass));
-            queue.enqueue(command.testEchoForward(compass));
+            queue.enqueue(command.getEchoForward(compass));
         }
     }
 
@@ -226,14 +226,14 @@ public class GridSearch {
     }
 
     public void checkStart(Compass compass) {
-        queue.enqueue(command.testEchoForward(compass));
+        queue.enqueue(command.getEchoForward(compass));
     }
 
     public void caseAPart1(Integer range, Compass compass) {
         for (int i = 0; i < (range - 1); i++) {
             queue.enqueue(command.getFly());
         }
-        queue.enqueue(command.testEchoLeft(compass));
+        queue.enqueue(command.getEchoLeft(compass));
     }
 
     public void caseAPart2(Integer range, Compass compass) {
@@ -245,7 +245,7 @@ public class GridSearch {
     }
 
     public void caseBPart1(Compass compass) {
-        queue.enqueue(command.testEchoLeft(compass));
+        queue.enqueue(command.getEchoLeft(compass));
         queue.enqueue(command.getTurnLeft(compass));
     }
 
@@ -255,13 +255,6 @@ public class GridSearch {
         }
         queue.enqueue(command.getTurnRight(compass));
     }
-
-    // -------------------------------------------------------------------- what do I do with this?
-
-    //ADDED MARCH 22
-    // public Integer getCount() {
-    //     return count;
-    // }
 
     // Getter method for the queue field
     public GridQueue getQueue() {
