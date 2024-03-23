@@ -1,6 +1,5 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-// import java.util.HashMap;
 import org.json.JSONObject;
 
 public class CommandBook {
@@ -23,43 +22,7 @@ public class CommandBook {
         return decision.toString();
     }
 
-    /*
-    public String getEchoNorth() {
-        JSONObject decision = new JSONObject();
-        JSONObject parameters = new JSONObject();
-        decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", Direction.NORTH.toString()));
-        return decision.toString();
-    }
-
-    public String getEchoEast() {
-        JSONObject decision = new JSONObject();
-        JSONObject parameters = new JSONObject();
-        decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", Direction.EAST.toString()));
-        return decision.toString();
-    }
-
-    public String getEchoSouth() {
-        JSONObject decision = new JSONObject();
-        JSONObject parameters = new JSONObject();
-        decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", Direction.SOUTH.toString())); // 'S'
-        return decision.toString();
-    }
-
-    public String getEchoWest() {
-        JSONObject decision = new JSONObject();
-        JSONObject parameters = new JSONObject();
-        decision.put("action", "echo");
-        decision.put("parameters", parameters.put("direction", Direction.WEST.toString()));
-        return decision.toString();
-    }
-
-    */
-    // TESTING ECHO RELATIVE TO DRONE: ECHO FORWARD
-    public String testEchoForward(Compass compass) {
-        // compass.getHeading();
+    public String getEchoForward(Compass compass) {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");
@@ -67,19 +30,17 @@ public class CommandBook {
         return decision.toString();
     }
 
-    // TESTING ECHO RELATIVE TO DRONE: ECHO LEFT
-    public String testEchoLeft(Compass compass) {
+    public String getEchoLeft(Compass compass) {
         compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");
         decision.put("parameters", parameters.put("direction", compass.turnLeft().toString()));
-        compass.turnRight();// fix this
+        compass.turnRight();
         return decision.toString();
     }
 
-    // TESTING ECHO RELATIVE TO DRONE: ECHO RIGHT
-    public String testEchoRight(Compass compass) {
+    public String getEchoRight(Compass compass) {
         compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
