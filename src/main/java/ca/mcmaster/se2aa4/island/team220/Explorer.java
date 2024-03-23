@@ -8,7 +8,6 @@ import org.apache.xerces.impl.dv.xs.IntegerDV;
 import eu.ace_design.island.bot.IExplorerRaid;
 import scala.annotation.tailrec;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -18,15 +17,11 @@ public class Explorer implements IExplorerRaid {
     private Drone drone;
     private Translator translator;
     private AreaMap map;
-    private Information results; // added 19/03
+    private Information results;
     private GridSearch search;
 
-    private Integer count = 0;
     private String decision;
-    // private Boolean droneStart = false;
-
-    private Compass compass; // ADDED 20/03
-    private CommandBook command; // ADDED 20/03
+    private Compass compass;
 
     @Override
     public void initialize(String s) {
@@ -43,8 +38,7 @@ public class Explorer implements IExplorerRaid {
         Direction heading = Direction.toDirection(context.getString("heading"));
         Integer batteryLevel = context.getInt("budget");
         drone = new Drone(batteryLevel, heading);
-        compass = new Compass(heading); // ADDED 19/03
-        command = new CommandBook();
+        compass = new Compass(heading);
 
         logger.info("The drone is facing {}", drone.getHeading());
         logger.info("Battery level is {}", drone.getBattery());
@@ -52,18 +46,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-
         this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
-
-        /* 
-        logger.info(this.count);
-        if (this.count < 6000) { //1608 // Map03: 2133 // Map10: 5046
-            this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
-            this.count++;
-        } else {
-            this.decision = command.getStop();
-        }
-        */
         logger.info("** Decision: {}", this.decision);
         return this.decision;
     }
