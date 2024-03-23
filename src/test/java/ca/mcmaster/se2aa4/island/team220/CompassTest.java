@@ -10,16 +10,14 @@ public class CompassTest {
 
     @BeforeEach
     public void setUpTest(){
-        Compass compass = new Compass(Direction.NORTH); //FIGURE OUT WHY THIS DOESNT WORK
+        this.compass = new Compass(Direction.NORTH); //FIGURE OUT WHY THIS DOESNT WORK
     }
     @Test
     public void testFirstHeading() {
-        Compass compass = new Compass(Direction.NORTH);
         assertEquals(Direction.NORTH, compass.getHeading());
     }
     @Test
     public void test3LeftTurns() {
-        Compass compass = new Compass(Direction.NORTH);
         compass.turnLeft();
         compass.turnLeft();
         compass.turnLeft();
@@ -27,7 +25,6 @@ public class CompassTest {
     }
     @Test
     public void test3RightTurns() {
-        Compass compass = new Compass(Direction.NORTH);
         compass.turnRight();
         compass.turnRight();
         compass.turnRight();
@@ -35,7 +32,6 @@ public class CompassTest {
     }
     @Test
     public void testLeftAndRightTurnsSwitch() {
-        Compass compass = new Compass(Direction.NORTH);
         compass.turnLeft();
         compass.turnRight();
         compass.turnLeft();
