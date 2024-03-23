@@ -4,7 +4,7 @@ import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
 
-public class Runner { // Runner is the Main class
+public class RunnerAlt { // Runner is the Main class
 
     public static void main(String[] args) {
         String filename = args[0]; // where we get the map argument
