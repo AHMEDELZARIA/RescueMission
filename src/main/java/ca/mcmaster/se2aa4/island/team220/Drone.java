@@ -1,54 +1,96 @@
 package ca.mcmaster.se2aa4.island.team220;
 
 import org.json.JSONObject;
+import scala.Int;
 
 public class Drone {
 
     private Integer battery;
-    private Direction heading;
+    private Compass compass;
 
     public Drone(Integer battery, Direction heading) {
         this.battery = battery;
-        this.heading = heading;
+        this.compass = new Compass(heading);
     }
 
-    public Integer getBattery() { return this.battery; }
-
-    public Direction getHeading() { return this.heading; }
-
-    // Added 19/03
-    public Integer updateBattery(Integer cost) {
-        this.battery -= this.battery - cost;
-        return 0;
-    }
-    
-    public void setBattery(int battery) {
-        this.battery = battery;
-    }
-    public void setDirection(Direction direction) {
-        this.heading = direction;
-    }
-    public boolean Echo(JSONObject echo){
-        JSONObject extras = echo.getJSONObject("extras");
-        String found = extras.getString("found");
-        if (found.equals("GROUND")){
-            return true; 
-        }else{
-            return false; 
-        }
+    public Integer getBattery() {
+        return this.battery;
     }
 
-    public void moveForward(){
-        
+    public void updateBattery(Integer drain) {
+        this.battery -= drain;
     }
 
+    public Direction getHeading() {
+        return this.compass.getHeading();
+    }
 
+    public String echoRight() {
+        JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
 
-        // public Direction getLeft() {
-    //     switch(heading) {
-    //         case "E":
-    //         return "N";
-    //     }
-    // }
-    
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", "" + this.compass.getRight()));
+
+        return decision.toString();
+    }
+
+    public String echoLeft() {
+        JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
+
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", "" + this.compass.getLeft()));
+
+        return decision.toString();
+    }
+
+    public String echoForward() {
+        JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
+
+        decision.put("action", "echo");
+        decision.put("parameters", parameters.put("direction", "" + this.getHeading()));
+
+        return decision.toString();
+    }
+
+    public String scan() {
+        JSONObject decision = new JSONObject();
+        decision.put("action", "scan");
+        return decision.toString();
+    }
+
+    public String fly() {
+        JSONObject decision = new JSONObject();
+        decision.put("action", "fly");
+        return decision.toString();
+    }
+
+    public String turnLeft() {
+        JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
+
+        decision.put("action", "heading");
+        decision.put("parameters", parameters.put("direction", "" + this.compass.turnLeft()));
+
+        return decision.toString();
+    }
+
+    public String turnRight() {
+        JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
+
+        decision.put("action", "heading");
+        decision.put("parameters", parameters.put("direction", "" + this.compass.turnRight()));
+
+        return decision.toString();
+    }
+
+    public String stop() {
+        JSONObject decision = new JSONObject();
+        decision.put("action", "stop");
+        return decision.toString();
+    }
+
 }
