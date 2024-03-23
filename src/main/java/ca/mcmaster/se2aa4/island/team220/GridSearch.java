@@ -8,12 +8,12 @@ public class GridSearch implements ISearchAlgorithm {
     private final Logger logger = LogManager.getLogger(); // for logger instructions
     private CommandBook command = new CommandBook(); // ADDED 19/03
 
-    private Integer searchCount = 0; // keeps track of number of times searchSite() is run
-    private String scanSites = ""; // returns the site if the site is found from 'scan' results 
+    // private Integer searchCount = 0; // keeps track of number of times searchSite() is run
+    // private String scanSites = ""; // returns the site if the site is found from 'scan' results 
     private Boolean down = true; // determines whether the drone is facing upwards or downwards when it exits the island for intoPosition()
     private Boolean interlaceCheck = false;
     private Boolean start = false;
-    private Boolean startDown = false; // for which way the drone initially goes towards the island
+    // private Boolean startDown = false; // for which way the drone initially goes towards the island
     private Integer count = 0; // for findIsland mode
 
     // Translator translator = new Translator();
@@ -40,9 +40,12 @@ public class GridSearch implements ISearchAlgorithm {
 
     // OFFICIAL REFILL METHOD
     public void refillQueue(String found, Integer range, String biome, Compass compass) {
-        logger.info(range);
+        // logger.info(range);
         // condition for "loopBack" mode
         if (this.mode == "loopAround" && this.interlaceCheck) { 
+            if (found.equals("OUT_OF_RANGE")) {
+                loopExtra(compass);
+            }
             this.mode = "reachIsland";
         }
 
@@ -102,9 +105,7 @@ public class GridSearch implements ISearchAlgorithm {
                 }
             case "uTurn": // INTERLACE A + INTERLACE B
                 uTurn(compass);
-                this.searchCount++;
                 this.down = !this.down;
-                // logger.info(this.down);
                 break;
             case "loopAround": // INTERLACE C
                 loopAround(compass);
@@ -114,13 +115,12 @@ public class GridSearch implements ISearchAlgorithm {
                 queue.enqueue(command.getStop());
                 break;
         }
-        // logger.info(this.down);
-        logger.info("########################################### {}", this.mode);
+        // logger.info("########################################### {}", this.mode);
     }
 
     // find the Island
     public void findIsland(Compass compass) {
-        // queue.enqueue(command.getFly());
+
         this.count++;
         if (this.count % 3 == 0) {
             queue.enqueue(command.getFly());
@@ -135,11 +135,11 @@ public class GridSearch implements ISearchAlgorithm {
         if (this.count % 3 == 1) {
             queue.enqueue(command.getTurnRight(compass));
             this.down = true;
-            this.startDown = true;
+            // this.startDown = true;
         } else if (this.count % 3 == 2) {
             queue.enqueue(command.getTurnLeft(compass));
             this.down = false;
-            this.startDown = true;
+            // this.startDown = true;
         }
     }
 
@@ -177,58 +177,40 @@ public class GridSearch implements ISearchAlgorithm {
     }
 
     public void loopAround(Compass compass) {
-        logger.info(this.searchCount);
-        logger.info(this.down);
-        if (this.searchCount % 2 == 1) {
-            if (this.down == true) { // case 2
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.testEchoForward(compass));
-                // queue.enqueue(command.getTurnRight(compass));
-                // queue.enqueue(command.getFly());
-                // queue.enqueue(command.getTurnRight(compass));
-                // queue.enqueue(command.getTurnRight(compass));
-                // queue.enqueue(command.getTurnRight(compass));
-                // queue.enqueue(command.testEchoForward(compass));
-            } else { // case 4
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.testEchoForward(compass));
-            }
+        // logger.info(this.searchCount);
+        // logger.info(this.down);
+        if (this.down == true) {
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.testEchoForward(compass));
         } else {
-            if (this.down == true) { // case 1
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.getTurnRight(compass));
-                queue.enqueue(command.testEchoForward(compass));
-                // queue.enqueue(command.getTurnRight(compass));
-                // queue.enqueue(command.getFly());
-                // queue.enqueue(command.getFly());
-                // queue.enqueue(command.getFly());
-                // queue.enqueue(command.getTurnRight(compass));
-                // queue.enqueue(command.getTurnRight(compass));
-                // queue.enqueue(command.getTurnRight(compass));
-                // queue.enqueue(command.testEchoForward(compass));
-            } else {
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getFly());
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.getTurnLeft(compass));
-                queue.enqueue(command.testEchoForward(compass));
-            }
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.testEchoForward(compass));
+        }
+    }
+
+    public void loopExtra(Compass compass) {
+        if (this.down == true) { // To account for islands being of both odd and even length
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+            queue.enqueue(command.getTurnRight(compass));
+        } else {
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getFly());
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
+            queue.enqueue(command.getTurnLeft(compass));
         }
     }
 
@@ -247,7 +229,7 @@ public class GridSearch implements ISearchAlgorithm {
                 } else if (found.equals("OUT_OF_RANGE") && range >= 46) {
                     this.start = true;
                     this.mode = "findIsland";
-                    range = 0;
+                    // range = 0;
                 } else if (found.equals("OUT_OF_RANGE")) {
                     this.mode = "caseAPart1";
                 }
@@ -263,7 +245,7 @@ public class GridSearch implements ISearchAlgorithm {
                 this.mode = "findIsland";
                 this.start = true;
                 found = "OUT_OF_RANGE";
-                range = 0;
+                // range = 0;
                 break;
             case "caseBPart1":
                 logger.info("###################################################### {}", this.mode);
@@ -276,7 +258,7 @@ public class GridSearch implements ISearchAlgorithm {
                 this.mode = "findIsland";
                 this.start = true;
                 found = "OUT_OF_RANGE";
-                range = 0;
+                // range = 0;
                 break;
         }
     }
@@ -303,7 +285,6 @@ public class GridSearch implements ISearchAlgorithm {
     public void caseBPart1(Compass compass) {
         queue.enqueue(command.testEchoLeft(compass));
         queue.enqueue(command.getTurnLeft(compass));
-
     }
 
     public void caseBPart2(Integer range, Compass compass) {

@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team220;
 
+import java.util.ArrayList;
+
 public class Information {
     private Integer cost;
     private String status;
@@ -8,6 +10,7 @@ public class Information {
     private Integer range;
     private String biome;
     private String site;
+    private String creek;
 
     public Information(Integer cost, String status) {
         this.cost = cost;
@@ -16,6 +19,7 @@ public class Information {
         this.range = 0;
         this.biome = "OCEAN";
         this.site = "N/A";
+        this.creek = "N/A";
     }
 
     // Added 19/03
@@ -36,6 +40,10 @@ public class Information {
         return this.site;
     }
     
+    public String getCreeks() {
+        return this.creek;
+    }
+    
     public void setFound(String found) {
         this.found = found;
     }
@@ -53,7 +61,15 @@ public class Information {
             this.site = site;
         }
     }
-
+    public void setCreek(String creek) {
+        if (!creek.isEmpty()) {
+            if (this.creek != "N/A") {
+                this.creek = this.creek + ", " + creek;
+            } else {
+                this.creek = creek;
+            }
+        }
+    } 
 
     public Integer getCost() {
         return this.cost;

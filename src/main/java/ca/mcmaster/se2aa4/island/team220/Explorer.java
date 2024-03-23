@@ -54,7 +54,7 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
 
         logger.info(this.count);
-        if (this.count < 6150) { //1608 // Map03: 2133 // Map10: 5046
+        if (this.count < 6000) { //1608 // Map03: 2133 // Map10: 5046
             this.decision = search.makeDecision(results.getFound(), results.getRange(), results.getBiome(), compass);
             this.count++;
         } else {
@@ -100,18 +100,30 @@ public class Explorer implements IExplorerRaid {
             logger.info(results.getBiome());
         }
 
-        // SCAN EXTRACT SITES (worry about creeks later)
-        if (extraInfo.has("sites")) { // extraInfo.has("sites")
+        // SCAN EXTRACT SITES
+        if (extraInfo.has("sites")) {
             if (!extraInfo.getJSONArray("sites").isNull(0)) {
                 JSONArray sites = extraInfo.getJSONArray("sites");
                 results.setSite(sites.getString(0));
                 logger.info(results.getSite());
             }
         }
+        
+        // SCAN EXTRACT CREEKS
+        if (extraInfo.has("creeks")) { // extraInfo.has("sites")
+            if (!extraInfo.getJSONArray("creeks").isNull(0)) {
+                JSONArray creek = extraInfo.getJSONArray("creeks");
+                results.setCreek(creek.getString(0));
+                logger.info(results.getCreeks());
+            }
+        }   
     }
 
     @Override
     public String deliverFinalReport() {
-        return "no creek found";
+        logger.info("This is the site: {}", results.getSite());
+        logger.info("These are the creeks: {}", results.getCreeks());
+        return results.getSite();
+        // return "no creek found";
     }
 }
