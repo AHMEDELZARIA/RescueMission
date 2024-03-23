@@ -9,12 +9,11 @@ public class CommandBookTest {
     private CommandBook testCommand;
     @BeforeEach
     public void setup() { 
-        CommandBook testCommand = new CommandBook();
+        this.testCommand = new CommandBook(); 
     }
 
     @Test
     public void testGetStop(){
-        CommandBook testCommand = new CommandBook(); // added these back bc we get null pointer error without it FIX LATER
         String expectedString = "{\"action\":\"stop\"}";
         String resultString = testCommand.getStop();
         assertEquals(expectedString, resultString);
@@ -22,7 +21,6 @@ public class CommandBookTest {
 
     @Test
     public void testGetFly(){
-        CommandBook testCommand = new CommandBook();
         String expectedString = "{\"action\":\"fly\"}";
         String resultString = testCommand.getFly();
         assertEquals(expectedString, resultString);
@@ -30,50 +28,14 @@ public class CommandBookTest {
 
     @Test
     public void testGetScan(){
-        CommandBook testCommand = new CommandBook();
         String expectedString = "{\"action\":\"scan\"}";
         String resultString = testCommand.getScan();
         assertEquals(expectedString, resultString);
     }
 
-    /*
-    @Test
-    public void testGetEchoNorth() {
-        CommandBook commandBook = new CommandBook();
-        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}";
-        String resultString = commandBook.getEchoNorth();
-        assertEquals(expectedString, resultString);
-    }
-
-    @Test
-    public void testGetEchoEast() {
-        CommandBook commandBook = new CommandBook();
-        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}";
-        String resultString = commandBook.getEchoEast();
-        assertEquals(expectedString, resultString);
-    }
-
-    @Test
-    public void testGetEchoSouth() {
-        CommandBook commandBook = new CommandBook();
-        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}";
-        String resultString = commandBook.getEchoSouth();
-        assertEquals(expectedString, resultString);
-    }
-
-    @Test
-    public void testGetEchoWest() {
-        CommandBook commandBook = new CommandBook();
-        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"W\"}}";
-        String resultString = commandBook.getEchoWest();
-        assertEquals(expectedString, resultString);
-    }
-    */
-
     @Test
     public void testGetTurnLeft() {
-        CommandBook testCommand = new CommandBook();
-        Compass compass = new Compass(Direction.NORTH); // initial pos
+        Compass compass = new Compass(Direction.NORTH); //Test case where North is Initial Position
         String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"W\"}}";
         String resultString = testCommand.getTurnLeft(compass);
         assertEquals(expectedString, resultString);
@@ -81,10 +43,33 @@ public class CommandBookTest {
 
     @Test
     public void testGetTurnRight() {
-        CommandBook testCommand = new CommandBook();
-        Compass compass = new Compass(Direction.NORTH); // initial pos change i think
+        Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"E\"}}";
         String resultString = testCommand.getTurnRight(compass);
+        assertEquals(expectedString, resultString);
+    }
+
+    @Test
+    public void testTestEchoForward() {
+        Compass compass = new Compass(Direction.NORTH); 
+        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}";
+        String resultString = testCommand.testEchoForward(compass);
+        assertEquals(expectedString, resultString);
+    }
+
+    @Test
+    public void testTestEchoLeft() {
+        Compass compass = new Compass(Direction.NORTH); 
+        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"W\"}}";
+        String resultString = testCommand.testEchoLeft(compass);
+        assertEquals(expectedString, resultString);
+    }
+
+    @Test
+    public void testTestEchoRight() {
+        Compass compass = new Compass(Direction.NORTH); 
+        String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}";
+        String resultString = testCommand.testEchoRight(compass);
         assertEquals(expectedString, resultString);
     }
     
