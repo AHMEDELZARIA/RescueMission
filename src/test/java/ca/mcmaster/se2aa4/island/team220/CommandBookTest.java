@@ -50,26 +50,26 @@ public class CommandBookTest {
     }
 
     @Test
-    public void testTestEchoForward() {
+    public void testGetEchoForward() {
         Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}";
-        String resultString = testCommand.testEchoForward(compass);
+        String resultString = testCommand.getEchoForward(compass);
         assertEquals(expectedString, resultString);
     }
 
     @Test
-    public void testEchoLeft() {
+    public void getEchoLeft() {
         Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"W\"}}";
-        String resultString = testCommand.testEchoLeft(compass);
+        String resultString = testCommand.getEchoLeft(compass);
         assertEquals(expectedString, resultString);
     }
 
     @Test
-    public void testEchoRight() {
+    public void getEchoRight() {
         Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}";
-        String resultString = testCommand.testEchoRight(compass);
+        String resultString = testCommand.getEchoRight(compass);
         assertEquals(expectedString, resultString);
     }
     
