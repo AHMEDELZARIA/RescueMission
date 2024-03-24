@@ -24,7 +24,7 @@ public class Explorer implements IExplorerRaid {
         JSONObject context = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}", context.toString(2));
 
-        this.map = new AreaMap();
+
         this.translator = new Translator();
         this.decisionHandler = new DecisionHandler();
 
@@ -33,6 +33,7 @@ public class Explorer implements IExplorerRaid {
         Integer batteryLevel = context.getInt("budget");
         this.drone = new Drone(batteryLevel, heading);
         this.decisionHandler.setStartHeading(heading);
+        this.map = new AreaMap(drone);
 
         logger.info("Decision Made was {}", drone.echoForward());
         logger.info("The drone is facing {}", drone.getHeading());
@@ -65,6 +66,8 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        return "no creek found";
+        logger.info(map.printMap());
+        logger.info("THIS IS THE CLOSEST CREEK: {}", map.getClosestCreek());
+        return "YOOOOOOOOOOOOOOOOOOOOOOO";
     }
 }
