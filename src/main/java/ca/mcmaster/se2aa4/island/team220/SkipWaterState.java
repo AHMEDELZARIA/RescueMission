@@ -13,7 +13,7 @@ public class SkipWaterState implements State {
     public String handle(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
         if (this.iteration == 0) {
             this.iteration++;
-            decisionHandler.setActionTaken(Actions.FLY);
+            decisionHandler.setActionTaken(Actions.SCAN);
             return drone.scan();
         } if (this.iteration < this.numMoves) {
             this.iteration++;

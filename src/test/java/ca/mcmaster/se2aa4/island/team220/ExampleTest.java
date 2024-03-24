@@ -21,7 +21,7 @@ public class ExampleTest {
         Integer batteryLevel = 7000;
         Direction heading = Direction.EAST;
         Drone drone = new Drone(batteryLevel, heading);
-        AreaMap map = new AreaMap();
+        AreaMap map = new AreaMap(new Drone(1, Direction.EAST));
 
         Integer expectedBattery = 7000;
         Direction expectedHeading = Direction.EAST;
@@ -72,15 +72,15 @@ public class ExampleTest {
 
     @Test
     public void pointNotInMap() {
-        AreaMap map = new AreaMap();
+        AreaMap map = new AreaMap(new Drone(1, Direction.EAST));
         Point point = new Point(1, 1);
 
-        assertTrue(map.getPointFeature(point) == null);
+        assertTrue(map.getPointFeature(point) == MapFeature.UNKNOWN);
     }
 
     @Test
     public void pointsInMap() {
-        AreaMap map = new AreaMap();
+        AreaMap map = new AreaMap(new Drone(1, Direction.EAST));
         List<Point> points = new ArrayList<>();
         points.add(new Point(1, 1));
         points.add(new Point(1, 2));

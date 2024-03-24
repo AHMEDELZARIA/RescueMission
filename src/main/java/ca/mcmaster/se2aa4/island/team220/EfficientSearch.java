@@ -23,7 +23,7 @@ public class EfficientSearch implements ISearchAlgorithm {
                 return drone.fly();
             } else if (iteration2 == 1) {
                 iteration2++;
-                decisionHandler.setActionTaken(Actions.FLY);
+                decisionHandler.setActionTaken(Actions.SCAN);
                 return drone.scan();
             }
             decisionHandler.setState(new GetReadyToTurn(drone.getHeading(), decisionHandler.getStartHeading()));

@@ -20,39 +20,38 @@ public class GetReadyToTurn implements State {
     public String handle(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
         if (iteration % 2 == 0) {
             iteration++;
-            return echoToTurnDir(turnDir, drone);
+            return echoToTurnDir(turnDir, drone, decisionHandler);
         } else {
             iteration++;
-            if (checkTurnDirEchoAmount(turnDir, map) > 0) {
+            if (turnDirEchoAmount(turnDir, map) > 0) {
                 decisionHandler.setState(new UTurnState(drone.getHeading(), decisionHandler.getStartHeading()));
                 return decisionHandler.makeDecision(drone, map);
             } else {
                 logger.info("HEYYYYYY I AM HEREEEE");
+                decisionHandler.setActionTaken(Actions.FLY);
                 return drone.fly();
             }
         }
     }
 
-    private Integer checkTurnDirEchoAmount(TurnDirection turnDir, AreaMap map) {
+    private Integer turnDirEchoAmount(TurnDirection turnDir, AreaMap map) {
         switch (turnDir) {
-            case LEFT -> {
+            case LEFT:
                 return map.getLeftAmount();
-            }
-            case RIGHT -> {
+            case RIGHT:
                 return map.getRightAmount();
-            }
         }
         return null;
     }
 
-    private String echoToTurnDir(TurnDirection turnDir, Drone drone) {
+    private String echoToTurnDir(TurnDirection turnDir, Drone drone, DecisionHandler decisionHandler) {
         switch (turnDir) {
-            case LEFT -> {
+            case LEFT:
+                decisionHandler.setActionTaken(Actions.ECHOLEFT);
                 return drone.echoLeft();
-            }
-            case RIGHT -> {
+            case RIGHT:
+                decisionHandler.setActionTaken(Actions.ECHORIGHT);
                 return drone.echoRight();
-            }
         }
         return null;
     }
