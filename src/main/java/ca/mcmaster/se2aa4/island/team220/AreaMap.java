@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 
 public class AreaMap {
@@ -21,6 +23,8 @@ public class AreaMap {
     private Point emergencySite;
     private Point closestCreek;
     private Double minDistance;
+    private final Logger logger = LogManager.getLogger();
+
 
     public AreaMap(Drone drone) {
         this.map = new LinkedHashMap<>();
@@ -126,7 +130,7 @@ public class AreaMap {
                 addPoint(currentPosition().translateForwardLeft(drone.getPrevHeading()), MapFeature.UNKNOWN);
                 break;
             case TURNRIGHT:
-                addPoint(currentPosition().translateForwardRight(drone.getPrevHeading()), MapFeature.UNKNOWN);
+                addPoint(currentPosition().translateForwardRight( drone.getPrevHeading()), MapFeature.UNKNOWN);
                 break;
             case SCAN:
                 addTileDetails();
@@ -169,11 +173,14 @@ public class AreaMap {
 
             if (currentTile.hasSite()) {
                 this.emergencySite = currentPoint;
+                logger.info("EMERGENCY SITE: {}", this.emergencySite);
             } else if (currentTile.hasCreeks() && this.emergencySite != null) {
                 Double distance = currentPoint.calcDistance(emergencySite);
                 if (distance < this.minDistance) {
                     this.minDistance = distance;
                     this.closestCreek = currentPoint;
+                    logger.info("CLOSEST CREEK: {}", this.closestCreek);
+                    logger.info("DISTANCE TO SITE {}", this.minDistance);
                 }
             }
         }

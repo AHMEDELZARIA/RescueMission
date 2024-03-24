@@ -26,6 +26,7 @@ public class Drone {
     }
 
     public Direction getPrevHeading() { return  this.compass.getPrevHeading(); }
+    public Direction getInitialHeading() { return this.compass.getInitialHeading(); }
 
     public String echoRight() {
         JSONObject decision = new JSONObject();

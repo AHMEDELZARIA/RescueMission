@@ -69,7 +69,7 @@ public class MapTile {
 
     @Override
     public String toString() {
-        return "[ Feature: " + this.feature + ", Creeks: " + printCreeks() + ", Site: " + printSite() + " ]";
+        return "[ Feature: " + this.feature + ", Creeks: " + printCreeks() + ", Site: " + printSite() + ", hasSite: " + this.hasEmergency + ", hasCreek: " + this.hasCreeks + " ]";
     }
 
 }

@@ -2,7 +2,6 @@ package ca.mcmaster.se2aa4.island.team220;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import scala.Int;
 
 public class EfficientSearch implements ISearchAlgorithm {
     private Integer iteration = 0;

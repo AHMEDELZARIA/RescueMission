@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class Compass {
+    private Direction initialHeading;
     private Direction heading;
     private Direction prevHeading;
     private Map<Direction, Direction> goingRight;
@@ -12,6 +13,7 @@ public class Compass {
     public Compass(Direction heading) {
         this.heading = heading;
         this.prevHeading = heading;
+        this.initialHeading = heading;
         buildCompass();
     }
 
@@ -22,6 +24,7 @@ public class Compass {
     public Direction getPrevHeading() { return this.prevHeading; }
 
     public void updatePrevHeading() { this.prevHeading = this.heading; }
+    public Direction getInitialHeading() { return this.initialHeading; }
 
     public void buildCompass() {
         // Define turn right logic

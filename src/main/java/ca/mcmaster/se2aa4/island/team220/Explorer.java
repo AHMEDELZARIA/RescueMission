@@ -66,7 +66,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        //logger.info(map.printMap());
+        logger.info(map.printMap());
         logger.info("THIS IS THE CLOSEST CREEK: {}", map.getClosestCreek());
         return "YOOOOOOOOOOOOOOOOOOOOOOO";
     }
