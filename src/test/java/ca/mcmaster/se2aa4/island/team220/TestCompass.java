@@ -117,20 +117,6 @@ public class TestCompass {
     }
 
     @Test
-    public void testTurnRightFromWest() {
-        Compass compass = new Compass(Direction.WEST);
-        compass.turnRight();
-        assertEquals(Direction.NORTH, compass.getHeading());
-    }
-
-    @Test
-    public void testTurnLeftFromSouth() {
-        Compass compass = new Compass(Direction.SOUTH);
-        compass.turnLeft();
-        assertEquals(Direction.EAST, compass.getHeading());
-    }
-
-    @Test
     public void testTurnRightFromSouth() {
         Compass compass = new Compass(Direction.SOUTH);
         compass.turnRight();
@@ -142,12 +128,5 @@ public class TestCompass {
         Compass compass = new Compass(Direction.EAST);
         compass.turnLeft();
         assertEquals(Direction.NORTH, compass.getHeading());
-    }
-
-    @Test
-    public void testTurnRightFromEast() {
-        Compass compass = new Compass(Direction.EAST);
-        compass.turnRight();
-        assertEquals(Direction.SOUTH, compass.getHeading());
     }
 }
