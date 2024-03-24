@@ -45,6 +45,29 @@ public class Point {
         int newX = this.x;
         int newY = this.y;
 
+//        switch (startDirection) {
+//            case NORTH, EAST:
+//                switch (direction) {
+//                    case NORTH -> newY += 1;
+//                    case SOUTH -> newY -= 1;
+//                    case EAST -> newX += 1;
+//                    case WEST -> newX -= 1;
+//                }
+//            case WEST:
+//                switch (direction) {
+//                    case NORTH -> newY += 1;
+//                    case SOUTH -> newY -= 1;
+//                    case EAST -> newX -= 1;
+//                    case WEST -> newX += 1;
+//                }
+//            case SOUTH:
+//                switch (direction) {
+//                    case NORTH -> newY -= 1;
+//                    case SOUTH -> newY += 1;
+//                    case EAST -> newX -= 1;
+//                    case WEST -> newX += 1;
+//                }
+//        }
         switch (direction) {
             case NORTH:
                 newY += 1;
@@ -124,5 +147,9 @@ public class Point {
     @Override
     public String toString() {
         return "Point [x =" + x + ", y =" + y + "]";
+    }
+
+    public Double calcDistance(Point point2) {
+        return Math.sqrt(Math.pow(this.getX() - point2.getX(), 2) + Math.pow(this.getY() - point2.getY(), 2));
     }
 }
