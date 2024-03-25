@@ -26,7 +26,7 @@ public class UTurnState implements State {
      * @return String JSON representation of the action performed
      */
     public String handle(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
-        // Based on the startheading and current heading, U-turn right or left
+        // Based on the start heading and current heading, U-turn right or left
         switch (this.startHeading) {
             case NORTH:
                 if (this.heading == Direction.WEST) { return handleRight(drone, map, decisionHandler);
@@ -51,7 +51,7 @@ public class UTurnState implements State {
      * @param decisionHandler State machine facilitator
      * @return String JSON representation of the action performed
      */
-    public String handleRight(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
+    private String handleRight(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
         // Sequence of actions to make a U-turn right
         if (this.iteration == 0) {
             this.iteration++;
@@ -93,7 +93,7 @@ public class UTurnState implements State {
      * @param decisionHandler State machine facilitator
      * @return String JSON representation of the action performed
      */
-    public String handleLeft(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
+    private String handleLeft(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
         if (this.iteration == 0) {
             this.iteration++;
             decisionHandler.setActionTaken(Actions.TURNRIGHT);

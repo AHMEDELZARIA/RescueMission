@@ -27,7 +27,7 @@ public class Compass {
     /**
      * Sets the turn logic once and for all when Compass is instantiated.
      */
-    public void buildCompass() {
+    private void buildCompass() {
         // Define turn right logic
         this.goingRight = new EnumMap<>(Direction.class);
         this.goingRight.put(Direction.NORTH, Direction.EAST);

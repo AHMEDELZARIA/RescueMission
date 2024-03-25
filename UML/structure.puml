@@ -7,10 +7,10 @@ interface IExplorerRaid {
     +deliverFinalReport(): String
 }
 interface State {
-    +handle()
+    +handle(): String
 }
 interface SearchAlgorithm {
-    +searchArea()
+    +searchArea(): String
 }
 
 class Explorer {
@@ -23,71 +23,230 @@ class Explorer {
     +acknowledgeResults(s: String)
     +deliverFinalReport(): String
 }
-class Translator
-class Information
+class Translator {
+    +this(): Translator
+    +translateDecision(Actions: Actions, response: JSONObject)
+}
+class Information {
+    -ActionsTaken: Actions
+    -cost: Integer
+    -status: Boolean
+    -extras: JSONObject
+    -creeks: JSONArray
+    -biomes: JSONArray
+    -sites: JSONArray
+    -terrain: MapTerrain
+    -range: Integer
+
+    +this(ActionsTaken: Actions, cost: Integer, extras: JSONObject, status: Boolean): Information
+    -updateAttributes(extras: JSONObject)
+    +getActionsTaken(): Actions
+    +getCost(): Integer
+    +status(): Boolean
+    +getCreeks(): JSONArray
+    +getBiomes(): JSONArray
+    +getSites(): JSONArray
+    +getFound(): MapTerrain
+    +getRange(): Integer
+}
 class Drone {
     -battery: Integer
     -heading: Direction
-    +this(battery: Integer, heading: Direction)
+
+    +this(battery: Integer, heading: Direction): Drone
     +getBattery(): Integer
     +getHeading(): Direction
+    +getInitialHeading(): Direction
+    +getPrevHeading(): Direction
+    +updateBattery()
+    +echoRight(): String
+    +echoLeft(): String
+    +echoForward(): String
+    +scan(): String
+    +fly(): String
+    +turnLeft(): String
+    +turnRight(): String
+    +stop(): String
 }
 class Compass {
-    heading: Direction
+    -heading: Direction
+    -initialHeading: Direction
+    -prevHeading: Direction
+    -goingRight: Map<Direction, Direction>
+    -goingLeft: Map<Direction, Direction>
+
+    +this(heading: Direction): Compass
+    -buildCompass()
+    +getInitialHeading(): Direction
+    +getHeading(): Direction
+    +getPrevHeading(): Direction
+    +updatePrevHeading()
+    +getLeft(): Direction
+    +getRight(): Direction
+    +turnLeft(): Direction
+    +turnRight: Direction
 }
 class Point {
     -x: Integer
     -y: Integer
-    +this(x: Integer, y: Integer)
+
+    +this(x: Integer, y: Integer): Point
     +getX(): Integer
     +getY(): Integer
     +hashCode(): int ^
     +equals(o: Object): boolean ^
     +toString(): String ^
+    +translateForward(direction: Direction)): Point
+    +translateForwardLeft(direction: Direction)): Point
+    +translateForwardRight(direction: Direction)): Point
+    +calcDistance(point2: Point): Double
 }
 class AreaMap {
-    -coordinateSystem: Map<Point, MapFeature>
-    +this()
-    +addPoint(point: Point, feature: MapFeature)
-    +getPoint(point: Point): MapFeature
+    -map: Map<Point, MapTile>
+    -currentPosition: Point
+    -emergencySite: Point
+    -closestCreek: Point
+    -minDistance: Double
+    -biomeMapper: BiomeMapper
+    -drone: Drone
+    -decisionResults: Information
+    -forward: MapTerrain
+    -forwardRange: Integer
+    -right: MapTerrain
+    -rightRange: Integer
+    -left: MapTerrain
+    -leftRange: Integer
+
+    +this(): AreaMap
+    +addPoint(point: Point, tile: MapTerrain)
+    +getPointTerrain(point: Point): MapTerrain
+    +getClosestCreek(): String
+    +getForwardRange(): Integer
+    +getLeftRange(): Integer
+    +getRightRange(): Integer
+    -updateGetForwardRange()
+    -updateGetRightRange()
+    -updateGetLeftRange()
+    +getLeft(): MapTerrain
+    +getRight(): MapTerrain
+    +getForward(): MapTerrain
+    -updateGetLeft()
+    -updateGetRight()
+    -updateGetForward()
+    +update(decisionResults: Information)
+    -determinePointTerrain(biomes: JSONArray): MapTerrain
+
+}
+class MapTile {
+    -terrain: MapTerrain
+    -creeks: List<String>
+    -emergencySites: List<String>
+
+    +this(creeks: JSONArray, sites: JSONArray, terrain: MapTerrain): MapTile
+    -buildTile(creeks: JSONArray, sites: JSONArray, terrain: MapTerrain)
+    +getTerrain(): MapTerrain
+    +getCreeks(): String
+    +hasCreeks(): Boolean
+    +printCreeks(): String
+    +hasSite(): Boolean
+    +printSite(): String
+    +toString(): String ^
 }
 class DecisionHandler {
     -currentState: State
+    -batteryThresh: Integer
+    -actionTaken: Actions
 
-    +determineDecision(map: AreaMap, drone: Drone)
-}
-class StartState {
-    +handle()
+    +this(): DecisionHandler
+    +setState(state: State)
+    +setActionTaken(action: Actions)
+    +getActionTaken(): Actions
+    +makeDecision(drone: Drone, map: AreaMap): String
 }
 class initialXState {
-    +handle()
+    -iteration: Integer
+    -turnDir: TurnDirection
+
+    +handle(): String
+    -handleLandAheadCase(): String
+    -handleWaterAheadCase(): String
 }
-class initialYLeftState {
-    +handle()
+class initialYState {
+    -iteration: Integer
+    -turnDir: TurnDirection
+
+    +this(turnDir: TurnDirection): InitialYState
+    +handle(): String
+    -handleRight(): String
+    -handleLeft(): String
 }
-class initialYRightState {
-    +handle()
+class GetReadyToTurnState {
+    -iteration: Integer
+    -startHeading: Direction
+    -heading: Direction
+    -turnDir: TurnDirection
+
+    +GetReadyToTurnState(heading: Direction, startHeading: Direction): GetReadyToTurnState
+    +handle(): String
+    -turnDirEchoAmount(turnDir: TurnDirection, map: AreaMap): Integer
+    -detTurnDir(): TurnDirection
+    -echoToTurnDir(turnDir: TurnDirection, drone: Drone, decisionHandler: DecisionHandler): String
 }
 class UTurnState {
-    +handle()
+    -iteration: Integer
+    -heading: Direction
+    -startHeading: Direction
+
+    +handle(): String
+    -handleRight: String
+    -handleLeft: String
 }
 class SkipWaterState {
-    +handle()
+    -iteration: Integer
+    -numMoves: Integer
+
+    +this(numMoves: Integer): SkipWaterState
+    +handle(): String
 }
 class MoveForwardOnIslandState {
-    +handle()
+    -iteration: Integer
+
+    +handle(): String
 }
 class SearchIslandState {
-    +handle()
+    -technique: ISearchAlgorithm
+    +handle(): String
 }
 class StopState {
-    +handle()
+    +handle(): String
+}
+class EfficientSearch {
+    -iteration: Integer
+    -LandTraversalIteration: Integer
+
+    +searchArea(): String
 }
 class GridSearch {
+    -queue: GridQueue
+    -command: CommandBook
+    -mode: String
+    -down: Boolean
+    -interlaceCheck: Boolean
+    -start: Boolean
+    -count: Integer
+
     +searchArea()
+    +makeDecision(found: String, range: Integer, biome: String, compass: Compass): String
+    +refillQueue(found: String, range: Integer, biome: String, compass: Compass)
 }
-class SmartAlgo {
-    +searchArea()
+class GridQueue {
+    +queue: Queue<String>
+
+    +this(): GridQueue
+    +enqueue()
+    +dequeue(): String
+    +isEmpty(): Boolean
+    +getQueue(): Queue<String>
 }
 
 enum Direction {
@@ -100,14 +259,13 @@ enum Direction {
     +toString(): String ^
     +toDirection(dir: String): Direction
 }
-enum MapFeature {
+enum MapTerrain {
     +OCEAN
-    +CREEK
-    +EMERGENCYSITE
     +LAND
+    +OUTOFBOUNDS
     +UNKNOWN
 }
-enum Action {
+enum Actions {
     +FLYFORWARD
     +FLYLEFT
     +FLYRIGHT
@@ -117,30 +275,37 @@ enum Action {
     +SCAN
     +STOP
 }
+enum TurnDirection {
+    +LEFT
+    +RIGHT
+}
 
 IExplorerRaid <|.. Explorer
 Explorer --> Translator
 Translator --> Information
-Translator --> Action
+Translator --> Actions
 Explorer --> Drone
 Drone --> Compass
 Compass --> Direction
+Compass --> TurnDirection
 Explorer --> AreaMap
 AreaMap *--> "*" Point
-AreaMap *--> "*" MapFeature
+AreaMap *--> "*" MapTile
+MapTile --> MapTerrain
 Explorer --> DecisionHandler
 DecisionHandler --> State
-StartState ..|> State
 initialXState ..|> State
-initialYLeftState ..|> State
-initialYRightState ..|> State
-UTurnState ..|> State
-SkipWaterState ..|> State
-MoveForwardOnIslandState ..|> State
-StopState ..|> State
+initialYState ..|> State
 SearchIslandState ..|> State
 SearchIslandState --> SearchAlgorithm
-SmartAlgo ..|> SearchAlgorithm
+EfficientSearch ..|> SearchAlgorithm
 GridSearch ..|> SearchAlgorithm
+GridSearch --> GridQueue
+SkipWaterState ..|> State
+MoveForwardOnIslandState ..|> State
+GetReadyToTurnState ..|> State
+UTurnState ..|> State
+StopState ..|> State
+
 
 @enduml

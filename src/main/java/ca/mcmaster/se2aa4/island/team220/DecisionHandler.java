@@ -9,7 +9,6 @@ public class DecisionHandler {
     Experiment was run multiple times and the cost of this action was averaged. This is the worst case scenario threshold.*/
     private Integer batteryThresh = 100;
     private Actions actionTaken;
-    private Direction startHeading;
 
     /**
      * Create a DecisionHandler which begins at the InitialXState

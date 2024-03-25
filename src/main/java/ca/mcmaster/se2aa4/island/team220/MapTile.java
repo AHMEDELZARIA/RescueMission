@@ -21,7 +21,7 @@ public class MapTile {
         buildTile(creeks, sites, terrain);
     }
 
-    public void buildTile(JSONArray tileCreeks, JSONArray tileSites, MapTerrain tileTerrain) {
+    private void buildTile(JSONArray tileCreeks, JSONArray tileSites, MapTerrain tileTerrain) {
         // Assign creeks
         if (tileCreeks != null) {
             for (int i = 0; i < tileCreeks.length(); i++) {

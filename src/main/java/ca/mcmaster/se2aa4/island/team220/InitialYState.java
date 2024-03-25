@@ -37,7 +37,7 @@ public class InitialYState implements State {
      * @param decisionHandler State machine facilitator
      * @return String JSON representation of the action performed
      */
-    public String handleRight(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
+    private String handleRight(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
         if (this.iteration % 2 == 0) {
             this.iteration++;
             decisionHandler.setActionTaken(Actions.ECHOLEFT);
@@ -63,7 +63,7 @@ public class InitialYState implements State {
      * @param decisionHandler State machine facilitator
      * @return String JSON representation of the action performed
      */
-    public String handleLeft(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
+    private String handleLeft(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
         // Alternate between echoing to the right and flying
         if (this.iteration % 2 == 0) {
             this.iteration++;

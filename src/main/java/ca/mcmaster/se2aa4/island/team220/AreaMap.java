@@ -62,11 +62,6 @@ public class AreaMap {
     }
 
     /**
-     * @return Point representing the current relative position of the drone
-     */
-    public Point getCurrentPosition() { return this.currentPosition; }
-
-    /**
      * Gives the terrain of the tile corresponding to a point
      * @param point Point of interest
      * @return MapTerrain associated to point
@@ -240,16 +235,4 @@ public class AreaMap {
             return MapTerrain.OCEAN;
         }
     }
-
-    /**
-     * @return String representation of the map
-     */
-    public String printMap() {
-        StringBuilder result = new StringBuilder();
-        for (Map.Entry<Point, MapTile> entry : this.map.entrySet()) {
-            result.append("Key: ").append(entry.getKey()).append(", Value: ").append(entry.getValue().toString()).append(" ").append("| ");
-        }
-        return result.toString();
-    }
-
 }
