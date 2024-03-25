@@ -140,5 +140,4 @@ public class ExampleTest {
         this.compass.turnRight();
         assertEquals(Direction.EAST, this.compass.getHeading());
     }
-
 }
