@@ -3,6 +3,9 @@ package ca.mcmaster.se2aa4.island.team220;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * Compass class defines the heading behaviour for a Drone
+ */
 public class Compass {
     private Direction initialHeading;
     private Direction heading;
@@ -10,6 +13,10 @@ public class Compass {
     private Map<Direction, Direction> goingRight;
     private Map<Direction, Direction> goingLeft;
 
+    /**
+     * Create a Compass which tracks and updates the heading.
+     * @param heading Direction indicating the initial heading of the Compass
+     */
     public Compass(Direction heading) {
         this.heading = heading;
         this.prevHeading = heading;
@@ -17,15 +24,9 @@ public class Compass {
         buildCompass();
     }
 
-    public Direction getHeading() {
-        return this.heading;
-    }
-
-    public Direction getPrevHeading() { return this.prevHeading; }
-
-    public void updatePrevHeading() { this.prevHeading = this.heading; }
-    public Direction getInitialHeading() { return this.initialHeading; }
-
+    /**
+     * Sets the turn logic once and for all when Compass is instantiated.
+     */
     public void buildCompass() {
         // Define turn right logic
         this.goingRight = new EnumMap<>(Direction.class);
@@ -42,17 +43,13 @@ public class Compass {
         this.goingLeft.put(Direction.EAST, Direction.NORTH);
     }
 
-    public Direction turnLeft() {
-        this.prevHeading = this.heading;
-        this.heading = goingLeft.get(this.heading);
-        return this.heading;
-    }
+    public Direction getInitialHeading() { return this.initialHeading; }
 
-    public Direction turnRight() {
-        this.prevHeading = this.heading;
-        this.heading = goingRight.get(this.heading);
-        return this.heading;
-    }
+    public Direction getHeading() { return this.heading; }
+
+    public Direction getPrevHeading() { return this.prevHeading; }
+
+    public void updatePrevHeading() { this.prevHeading = this.heading; }
 
     public Direction getLeft() {
         return goingLeft.get(this.heading);
@@ -62,4 +59,23 @@ public class Compass {
         return goingRight.get(this.heading);
     }
 
+    /**
+     * Updates and gives the heading if a left turn is performed.
+     * @return Direction of new heading.
+     */
+    public Direction turnLeft() {
+        this.prevHeading = this.heading;
+        this.heading = goingLeft.get(this.heading);
+        return this.heading;
+    }
+
+    /**
+     * Updates and gives the heading if a right turn is performed.
+     * @return Direction of new heading.
+     */
+    public Direction turnRight() {
+        this.prevHeading = this.heading;
+        this.heading = goingRight.get(this.heading);
+        return this.heading;
+    }
 }

@@ -1,116 +1,203 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.json.JSONArray;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
 
+/**
+ * Relevant Coordinate System that represents the explored area of a grid
+ */
 public class AreaMap {
-    // Use a LinkedHashMap as order of insertion is important to us
-    private Map<Point, MapTile> map; // maps the coordinate point to the area type it represents (ex. land, creek)
-    private BiomeMapper biomeMapper = new BiomeMapper();
-    private Information decisionResults;
-    private MapFeature forward;
-    private Integer forwardRange;
-    private MapFeature right;
-    private Integer rightRange;
-    private MapFeature left;
-    private Integer leftRange;
+    private final Logger logger = LogManager.getLogger();
+
+    private Map<Point, MapTile> map; // Relevant Coordinate System
+    private Point currentPosition;
+    private BiomeMapper biomeMapper; // Maps all possible biomes to either LAND or OCEAN
     private Drone drone;
+
+    // Holds the surrounding map information given the drone's current position
+    private Information decisionResults;
+    private MapTerrain forward;
+    private Integer forwardRange;
+    private MapTerrain right;
+    private Integer rightRange;
+    private MapTerrain left;
+    private Integer leftRange;
+
+    // Holds key information about POIs of Island
     private Point emergencySite;
     private Point closestCreek;
     private Double minDistance;
-    private final Logger logger = LogManager.getLogger();
 
-
+    /**
+     * Create an AreaMap which maps the exploration of a drone on a grid
+     * @param drone Drone which is used to explore a given grid
+     */
     public AreaMap(Drone drone) {
-        this.map = new LinkedHashMap<>();
-        this.map.put(new Point(0, 0), new MapTile(MapFeature.OCEAN));
-        this.decisionResults = null;
-        this.forward = MapFeature.UNKNOWN;
-        this.forwardRange = 0;
-        this.right = MapFeature.UNKNOWN;
-        this.rightRange = 0;
-        this.left = MapFeature.UNKNOWN;
-        this.leftRange = 0;
+        // LinkedHashMap implementation maintains order of additions which is relevant to attaining the current position of drone
+        this.map = new HashMap<>();
+        // Starting coordinate
+        this.currentPosition = new Point(0,0);
+        this.biomeMapper = new BiomeMapper();
         this.drone = drone;
+        this.decisionResults = null;
+        this.forward = MapTerrain.UNKNOWN;
+        this.forwardRange = 0;
+        this.right = MapTerrain.UNKNOWN;
+        this.rightRange = 0;
+        this.left = MapTerrain.UNKNOWN;
+        this.leftRange = 0;
         this.emergencySite = null;
         this.minDistance = Double.MAX_VALUE;
         this.closestCreek = null;
     }
 
-    public void addPoint(Point point, MapFeature feature) {
+    /**
+     * Adds a coordinate to the coordinate system. Each coordinate has a Point and an associated MapTile.
+     * @param point Point to be added to the relevant coordinate system
+     * @param tile MapTile representing that point's tile
+     */
+    public void addPoint(Point point, MapTile tile) {
         if (!this.map.containsKey(point)) {
-            this.map.put(point, new MapTile(feature));
-        } else {
-            this.map.remove(point);
-            this.map.put(point, new MapTile(feature));
+            this.map.put(point, tile);
         }
     }
 
-    public void addPointFeature(Point point, MapFeature feature) {
-        if (this.map.containsKey(point)) {
-            if (getPointFeature(point) == MapFeature.UNKNOWN) {
-                this.map.put(point, new MapTile(feature));
-            }
-        } else {
-            addPoint(point, feature);
-        }
-    }
+    /**
+     * @return Point representing the current relative position of the drone
+     */
+    public Point getCurrentPosition() { return this.currentPosition; }
 
-    public void addPointCreeks(Point point) {
-        if (this.map.containsKey(point)) {
-            JSONArray creeks = decisionResults.getCreeks();
-            if (creeks != null) {
-                for (int i = 0; i < creeks.length(); i++) {
-                   map.get(point).addCreek(creeks.getString(i));
-                }
-            }
-        }
-    }
-
-    public void addPointSites(Point point) {
-        if (this.map.containsKey(point)) {
-            JSONArray sites = decisionResults.getSites();
-            if (sites != null) {
-                for (int i = 0; i < sites.length(); i++) {
-                    map.get(point).addEmergencySite(sites.getString(i));
-                }
-            }
-        }
-    }
-
-    public String printMap() {
-        String result = "";
-        for (Map.Entry<Point, MapTile> entry : map.entrySet())
-            result += "Key: " + entry.getKey() + ", Value: " + entry.getValue().toString() + " " + "| ";
-        return result;
-    }
-
-    public MapFeature getPointFeature(Point point) {
+    /**
+     * Gives the terrain of the tile corresponding to a point
+     * @param point Point of interest
+     * @return MapTerrain associated to point
+     */
+    public MapTerrain getPointTerrain(Point point) {
         if (this.map.containsKey(point)) {
             return this.map.get(point).getTerrain();
         } else {
-            return MapFeature.UNKNOWN;
+            return MapTerrain.UNKNOWN;
         }
     }
 
-    public Point currentPosition() {
-        Set<Point> pointSet = this.map.keySet();
-        Point lastPoint = null;
-        for (Point point : pointSet) {
-            lastPoint = point;
+    /**
+     * Determines the closest creek to the emergency site on the island.
+     * @return String of closest creek's id or if not found, a message to indicate so
+     */
+    public String getClosestCreek() {
+        // Find the emergency site
+        for (Map.Entry<Point, MapTile> coordinate : this.map.entrySet()) {
+            Point coordinatePoint = coordinate.getKey();
+            MapTile coordinateTile = this.map.get(coordinatePoint);
+
+            if (coordinateTile.hasSite()) {
+                this.emergencySite = coordinatePoint;
+            }
         }
-        return lastPoint;
+        // If no emergency sites are found, stop\
+        if (this.emergencySite == null) { return "No Emergency site was found!"; }
+
+        // Find the creeks and compare to the site
+        for (Map.Entry<Point, MapTile> coordinate : this.map.entrySet()) {
+            Point coordinatePoint = coordinate.getKey();
+            MapTile coordinateTile = this.map.get(coordinatePoint);
+
+            if (coordinateTile.hasCreeks() && !coordinateTile.hasSite()) {
+                Double distance = coordinatePoint.calcDistance(emergencySite);
+                if (distance < this.minDistance) {
+                    this.minDistance = distance;
+                    this.closestCreek = coordinatePoint;
+                }
+            }
+        }
+        // Return results
+        if (this.closestCreek == null) {
+            return "No creeks were found!";
+        } else {
+            return this.map.get(closestCreek).getCreeks();
+        }
     }
 
+    public Integer getForwardRange() {
+        return this.forwardRange;
+    }
+
+    public Integer getLeftRange() {
+        return this.leftRange;
+    }
+
+    public Integer getRightRange() {
+        return this.rightRange;
+    }
+
+    private void updateGetForwardRange() {
+        if (this.decisionResults.getRange() != null) {
+            this.forwardRange = this.decisionResults.getRange();
+        }
+    }
+
+    private void updateGetLeftRange() {
+        if (this.decisionResults.getRange() != null) {
+            this.leftRange = this.decisionResults.getRange();
+        }
+    }
+
+    private void updateGetRightRange() {
+        if (this.decisionResults.getRange() != null) {
+            this.rightRange = this.decisionResults.getRange();
+        }
+    }
+
+    public MapTerrain getForward() {
+        return this.forward;
+    }
+
+    public MapTerrain getLeft() {
+        return this.left;
+    }
+
+    public MapTerrain getRight() {
+        return this.right;
+    }
+
+    private void updateGetForward() {
+        if (this.decisionResults.getFound() == MapTerrain.LAND) {
+            this.forward = MapTerrain.LAND;
+        } else {
+            this.forward = MapTerrain.OUTOFBOUNDS;
+        }
+    }
+
+    private void updateGetLeft() {
+        if (this.decisionResults.getFound() == MapTerrain.LAND) {
+            this.left = MapTerrain.LAND;
+        } else {
+            this.left = MapTerrain.OUTOFBOUNDS;
+        }
+    }
+
+    private void updateGetRight() {
+        if (this.decisionResults.getFound() == MapTerrain.LAND) {
+            this.right = MapTerrain.LAND;
+        } else {
+            this.right = MapTerrain.OUTOFBOUNDS;
+        }
+    }
+
+    /**
+     * Updates the map accordingly, based on the action performed
+     * @param decisionResults Information Object holding all relevant results from the action performed
+     */
     public void update(Information decisionResults) {
         this.decisionResults = decisionResults;
+        Actions actionTaken = this.decisionResults.getActionTaken();
 
-        switch (this.decisionResults.getActionTaken()) {
+        switch (actionTaken) {
             case ECHOFORWARD:
                 updateGetForward();
                 updateGetForwardRange();
@@ -124,140 +211,51 @@ public class AreaMap {
                 updateGetRightRange();
                 break;
             case FLY:
-                addPoint(currentPosition().translateForward(drone.getPrevHeading()), MapFeature.UNKNOWN);
+                this.currentPosition = this.currentPosition.translateForward(drone.getPrevHeading());
                 break;
             case TURNLEFT:
-                addPoint(currentPosition().translateForwardLeft(drone.getPrevHeading()), MapFeature.UNKNOWN);
+                this.currentPosition = this.currentPosition.translateForwardLeft(drone.getPrevHeading());
                 break;
             case TURNRIGHT:
-                addPoint(currentPosition().translateForwardRight( drone.getPrevHeading()), MapFeature.UNKNOWN);
+                this.currentPosition = this.currentPosition.translateForwardRight( drone.getPrevHeading());
                 break;
             case SCAN:
-                addTileDetails();
-                break;
-            case STOP:
+                JSONArray creeks = this.decisionResults.getCreeks();
+                JSONArray sites = this.decisionResults.getSites();
+                MapTerrain terrain = determinePointTerrain(this.decisionResults.getBiomes());
+                MapTile tile = new MapTile(creeks, sites, terrain);
+                addPoint(this.currentPosition, tile);
                 break;
             default:
                 break;
         }
     }
 
-    private MapFeature determinePointFeature() {
-        if (this.decisionResults.getBiomes() != null) {
-            JSONArray biomes = this.decisionResults.getBiomes();
+    /**
+     * @return MapTerrain of the current position's point
+     */
+    private MapTerrain determinePointTerrain(JSONArray biomes) {
+        if (biomes == null) {
+            return null;
+        } else {
             for (int i = 0; i < biomes.length(); i++) {
                 if (this.biomeMapper.isLand(biomes.getString(i))) {
-                    return MapFeature.LAND;
+                    return MapTerrain.LAND;
                 }
             }
-            return MapFeature.OCEAN;
-        } else {
-            return null;
+            return MapTerrain.OCEAN;
         }
     }
 
-    private void addTileDetails() {
-        addPointFeature(currentPosition(), determinePointFeature());
-        if (this.decisionResults.getCreeks() != null) {
-            addPointCreeks(currentPosition());
-        }
-        if (this.decisionResults.getSites() != null) {
-            addPointSites(currentPosition());
-        }
-    }
-
-    public String getClosestCreek() {
+    /**
+     * @return String representation of the map
+     */
+    public String printMap() {
+        StringBuilder result = new StringBuilder();
         for (Map.Entry<Point, MapTile> entry : this.map.entrySet()) {
-            Point currentPoint = entry.getKey();
-            MapTile currentTile = entry.getValue();
-
-            if (currentTile.hasSite()) {
-                this.emergencySite = currentPoint;
-                logger.info("EMERGENCY SITE: {}", this.emergencySite);
-            } else if (currentTile.hasCreeks() && this.emergencySite != null) {
-                Double distance = currentPoint.calcDistance(emergencySite);
-                if (distance < this.minDistance) {
-                    this.minDistance = distance;
-                    this.closestCreek = currentPoint;
-                    logger.info("CLOSEST CREEK: {}", this.closestCreek);
-                    logger.info("DISTANCE TO SITE {}", this.minDistance);
-                }
-            }
+            result.append("Key: ").append(entry.getKey()).append(", Value: ").append(entry.getValue().toString()).append(" ").append("| ");
         }
-
-        if (this.emergencySite == null) {
-            return "No Emergency Site was found!";
-        } else if (this.closestCreek == null) {
-            return "No creek was found!";
-        } else {
-            return this.map.get(closestCreek).getCreeks();
-        }
-    }
-
-    private void updateGetForward() {
-        if (this.decisionResults.getFound() == MapFeature.LAND) {
-            this.forward = MapFeature.LAND;
-        } else {
-            this.forward = MapFeature.OUTOFBOUNDS;
-        }
-    }
-
-    private void updateGetForwardRange() {
-        if (this.decisionResults.getRange() != null) {
-            this.forwardRange = this.decisionResults.getRange();
-        }
-    }
-
-    public MapFeature getForward() {
-        return this.forward;
-    }
-
-    public Integer getForwardAmount() {
-        return this.forwardRange;
-    }
-
-    private void updateGetLeft() {
-        if (this.decisionResults.getFound() == MapFeature.LAND) {
-            this.left = MapFeature.LAND;
-        } else {
-            this.left = MapFeature.OUTOFBOUNDS;
-        }
-    }
-
-    private void updateGetLeftRange() {
-        if (this.decisionResults.getRange() != null) {
-            this.leftRange = this.decisionResults.getRange();
-        }
-    }
-
-    public MapFeature getLeft() {
-        return this.left;
-    }
-
-    public Integer getLeftAmount() {
-        return this.leftRange;
-    }
-
-    private void updateGetRight() {
-        if (this.decisionResults.getFound() == MapFeature.LAND) {
-            this.right = MapFeature.LAND;
-        } else {
-            this.right = MapFeature.OUTOFBOUNDS;
-        }
-    }
-
-    private void updateGetRightRange() {
-        if (this.decisionResults.getRange() != null) {
-            this.rightRange = this.decisionResults.getRange();
-        }
-    }
-
-    public MapFeature getRight() {
-        return this.right;
-    }
-
-    public Integer getRightAmount() {
-        return this.rightRange;
+        return result.toString();
     }
 
 }

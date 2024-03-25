@@ -3,53 +3,52 @@ package ca.mcmaster.se2aa4.island.team220;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Maps all possible biomes to either LAND or OCEAN MapTerrain for simplicity
+ */
 public class BiomeMapper {
-    private Map<String, MapFeature> biomeMap = new HashMap<>();
+    private Map<String, MapTerrain> biomeMap = new HashMap<>();
 
+    /**
+     * Create a BiomeMapper that maps all possible biomes to a MapTerrain
+     */
     public BiomeMapper() {
         // Treat all the following biomes as LAND
-        biomeMap.put("GRASSLAND", MapFeature.LAND);
-        biomeMap.put("BEACH", MapFeature.LAND);
-        biomeMap.put("MANGROVE", MapFeature.LAND);
-        biomeMap.put("TROPICAL_RAIN_FOREST", MapFeature.LAND);
-        biomeMap.put("TROPICAL_SEASONAL_FOREST", MapFeature.LAND);
-        biomeMap.put("TEMPERATE_DECIDUOUS_FOREST", MapFeature.LAND);
-        biomeMap.put("TEMPERATE_RAIN_FOREST", MapFeature.LAND);
-        biomeMap.put("TEMPERATE_DESERT", MapFeature.LAND);
-        biomeMap.put("TAIGA", MapFeature.LAND);
-        biomeMap.put("SNOW", MapFeature.LAND);
-        biomeMap.put("TUNDRA", MapFeature.LAND);
-        biomeMap.put("ALPINE", MapFeature.LAND);
-        biomeMap.put("GLACIER", MapFeature.LAND);
-        biomeMap.put("SHRUBLAND", MapFeature.LAND);
-        biomeMap.put("SUB_TROPICAL_DESERT", MapFeature.LAND);
+        biomeMap.put("GRASSLAND", MapTerrain.LAND);
+        biomeMap.put("BEACH", MapTerrain.LAND);
+        biomeMap.put("MANGROVE", MapTerrain.LAND);
+        biomeMap.put("TROPICAL_RAIN_FOREST", MapTerrain.LAND);
+        biomeMap.put("TROPICAL_SEASONAL_FOREST", MapTerrain.LAND);
+        biomeMap.put("TEMPERATE_DECIDUOUS_FOREST", MapTerrain.LAND);
+        biomeMap.put("TEMPERATE_RAIN_FOREST", MapTerrain.LAND);
+        biomeMap.put("TEMPERATE_DESERT", MapTerrain.LAND);
+        biomeMap.put("TAIGA", MapTerrain.LAND);
+        biomeMap.put("SNOW", MapTerrain.LAND);
+        biomeMap.put("TUNDRA", MapTerrain.LAND);
+        biomeMap.put("ALPINE", MapTerrain.LAND);
+        biomeMap.put("GLACIER", MapTerrain.LAND);
+        biomeMap.put("SHRUBLAND", MapTerrain.LAND);
+        biomeMap.put("SUB_TROPICAL_DESERT", MapTerrain.LAND);
         // Treat all the following biomes as OCEAN
-        biomeMap.put("OCEAN", MapFeature.OCEAN);
-        biomeMap.put("LAKE", MapFeature.OCEAN);
+        biomeMap.put("OCEAN", MapTerrain.OCEAN);
+        biomeMap.put("LAKE", MapTerrain.OCEAN);
     }
 
+    /**
+     * Given a biome, determines whether it is a LAND MapTerrain or not.
+     * @param biome String name of a biome
+     * @return true if biome is LAND or false otherwise
+     */
     public Boolean isLand(String biome) {
-        if (this.biomeMap.containsKey(biome)) {
-            if (this.biomeMap.get(biome) == MapFeature.LAND) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        return false;
+        return this.biomeMap.get(biome) == MapTerrain.LAND;
     }
 
+    /**
+     * Given a biome, determines whether it is a OCEAN MapTerrain or not.
+     * @param biome String name of a biome
+     * @return true if biome is OCEAN or false otherwise
+     */
     public Boolean isOCEAN(String biome) {
-        if (this.biomeMap.containsKey(biome)) {
-            if (this.biomeMap.get(biome) == MapFeature.OCEAN) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        return false;
+        return this.biomeMap.get(biome) == MapTerrain.OCEAN;
     }
-
 }

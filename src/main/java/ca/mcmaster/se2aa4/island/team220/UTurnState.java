@@ -63,7 +63,7 @@ public class UTurnState implements State {
             decisionHandler.setActionTaken(Actions.ECHOFORWARD);
             return drone.echoForward();
         } else {
-            if (map.getForward() == MapFeature.OUTOFBOUNDS) {
+            if (map.getForward() == MapTerrain.OUTOFBOUNDS) {
                 decisionHandler.setState(new StopState());
             } else {
                 decisionHandler.setState(new SearchIslandState());
@@ -72,48 +72,6 @@ public class UTurnState implements State {
             decisionHandler.setActionTaken(Actions.SCAN);
             return drone.scan();
         }
-//        if (this.iteration == 0) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.TURNLEFT);
-//            return drone.turnLeft();
-//        } else if (this.iteration == 1) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.TURNRIGHT);
-//            return drone.turnRight();
-//        } else if (this.iteration == 2) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.TURNRIGHT);
-//            return drone.turnRight();
-//        } else if (this.iteration == 3) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.FLY);
-//            return drone.fly();
-//        } else if (this.iteration == 4) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.TURNRIGHT);
-//            return drone.turnRight();
-//        } else if (this.iteration == 5) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.FLY);
-//            return drone.fly();
-//        } else if (this.iteration == 6) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.FLY);
-//            return drone.fly();
-//        } else if (this.iteration == 7) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.ECHOFORWARD);
-//            return drone.echoForward();
-//        } else {
-//            if (map.getForward() == MapFeature.OUTOFBOUNDS) {
-//                decisionHandler.setState(new StopState());
-//            } else {
-//                decisionHandler.setState(new SearchIslandState());
-//            }
-//
-//            decisionHandler.setActionTaken(Actions.SCAN);
-//            return drone.scan();
-//        }
     }
 
     public String handleSouth(Drone drone, AreaMap map, DecisionHandler decisionHandler) {
@@ -150,7 +108,7 @@ public class UTurnState implements State {
             decisionHandler.setActionTaken(Actions.ECHOFORWARD);
             return drone.echoForward();
         } else {
-            if (map.getForward() == MapFeature.OUTOFBOUNDS) {
+            if (map.getForward() == MapTerrain.OUTOFBOUNDS) {
                 decisionHandler.setState(new StopState());
             } else {
                 decisionHandler.setState(new SearchIslandState());
@@ -159,48 +117,6 @@ public class UTurnState implements State {
             decisionHandler.setActionTaken(Actions.SCAN);
             return drone.scan();
         }
-//        if (this.iteration == 0) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.TURNRIGHT);
-//            return drone.turnRight();
-//        } else if (this.iteration == 1) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.TURNLEFT);
-//            return drone.turnLeft();
-//        } else if (this.iteration == 2) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.TURNLEFT);
-//            return drone.turnLeft();
-//        } else if (this.iteration == 3) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.FLY);
-//            return drone.fly();
-//        } else if (this.iteration == 4) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.TURNLEFT);
-//            return drone.turnLeft();
-//        } else if (this.iteration == 5) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.FLY);
-//            return drone.fly();
-//        } else if (this.iteration == 6) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.FLY);
-//            return drone.fly();
-//        } else if (this.iteration == 7) {
-//            this.iteration++;
-//            decisionHandler.setActionTaken(Actions.ECHOFORWARD);
-//            return drone.echoForward();
-//        } else {
-//            if (map.getForward() == MapFeature.OUTOFBOUNDS) {
-//                decisionHandler.setState(new StopState());
-//            } else {
-//                decisionHandler.setState(new SearchIslandState());
-//            }
-//
-//            decisionHandler.setActionTaken(Actions.SCAN);
-//            return drone.scan();
-//        }
     }
 
 }

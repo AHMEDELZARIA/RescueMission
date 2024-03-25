@@ -8,26 +8,30 @@ public class Drone {
     private Integer battery;
     private Compass compass;
 
+    /**
+     * Creates a Drone.
+     * @param battery Integer value of the initial battery amount
+     * @param heading Direction the Drone will initially face
+     */
     public Drone(Integer battery, Direction heading) {
         this.battery = battery;
         this.compass = new Compass(heading);
     }
 
-    public Integer getBattery() {
-        return this.battery;
-    }
+    public Integer getBattery() { return this.battery; }
 
-    public void updateBattery(Integer drain) {
-        this.battery -= drain;
-    }
+    public void updateBattery(Integer drain) { this.battery -= drain; }
 
-    public Direction getHeading() {
-        return this.compass.getHeading();
-    }
+    public Direction getHeading() { return this.compass.getHeading(); }
 
-    public Direction getPrevHeading() { return  this.compass.getPrevHeading(); }
     public Direction getInitialHeading() { return this.compass.getInitialHeading(); }
 
+    public Direction getPrevHeading() { return  this.compass.getPrevHeading(); }
+
+    /**
+     * Send an echo to the right of the drone.
+     * @return String JSON representation of the echo right instruction
+     */
     public String echoRight() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -38,6 +42,10 @@ public class Drone {
         return decision.toString();
     }
 
+    /**
+     * Send an echo to the left of the drone.
+     * @return String JSON representation of the echo left instruction
+     */
     public String echoLeft() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -48,6 +56,10 @@ public class Drone {
         return decision.toString();
     }
 
+    /**
+     * Send an echo to the forward of the drone.
+     * @return String JSON representation of the echo forward instruction
+     */
     public String echoForward() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -58,12 +70,20 @@ public class Drone {
         return decision.toString();
     }
 
+    /**
+     * Scans the MapTile below the Drone.
+     * @return String JSON representation of the scan instruction
+     */
     public String scan() {
         JSONObject decision = new JSONObject();
         decision.put("action", "scan");
         return decision.toString();
     }
 
+    /**
+     * Drone flies forward.
+     * @return String JSON representation of the echo right instruction
+     */
     public String fly() {
         JSONObject decision = new JSONObject();
         decision.put("action", "fly");
@@ -71,6 +91,10 @@ public class Drone {
         return decision.toString();
     }
 
+    /**
+     * Drone turns left.
+     * @return String JSON representation of the turn left instruction
+     */
     public String turnLeft() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -81,6 +105,10 @@ public class Drone {
         return decision.toString();
     }
 
+    /**
+     * Drone turns right.
+     * @return String JSON representation of the turn right instruction
+     */
     public String turnRight() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -91,10 +119,13 @@ public class Drone {
         return decision.toString();
     }
 
+    /**
+     * Drone stops and returns back home.
+     * @return String JSON representation of the stop instruction
+     */
     public String stop() {
         JSONObject decision = new JSONObject();
         decision.put("action", "stop");
         return decision.toString();
     }
-
 }

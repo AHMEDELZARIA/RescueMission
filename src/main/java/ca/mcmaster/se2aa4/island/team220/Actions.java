@@ -1,5 +1,8 @@
 package ca.mcmaster.se2aa4.island.team220;
 
+/**
+ * Enum representing all possible drone exploration actions
+ */
 public enum Actions {
     FLY,
     TURNLEFT,

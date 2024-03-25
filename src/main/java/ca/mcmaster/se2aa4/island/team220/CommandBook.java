@@ -2,6 +2,10 @@ package ca.mcmaster.se2aa4.island.team220;
 
 import org.json.JSONObject;
 
+/**
+ * NOT USED ANYMORE: NOW INTEGRATED WITHIN THE DRONE CLASS.
+ * Holds the set of commands that can be sent to the drone.
+ */
 public class CommandBook {
 
     public String getStop() {
@@ -31,7 +35,6 @@ public class CommandBook {
     }
 
     public String getEchoLeft(Compass compass) {
-        compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");
@@ -41,7 +44,6 @@ public class CommandBook {
     }
 
     public String getEchoRight(Compass compass) {
-        compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "echo");
@@ -51,7 +53,6 @@ public class CommandBook {
     }
 
     public String getTurnLeft(Compass compass) {
-        compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "heading");
@@ -60,7 +61,6 @@ public class CommandBook {
     }
 
     public String getTurnRight(Compass compass) {
-        compass.getHeading();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         decision.put("action", "heading");

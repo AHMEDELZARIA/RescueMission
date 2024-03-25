@@ -1,11 +1,14 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-public class GridSearch {
+import java.util.Objects;
 
+/**
+ * GridSearch Algorithm
+ */
+public class GridSearch {
     private CommandBook command = new CommandBook();
     private GridQueue queue = new GridQueue();
     public String mode = "checkStart"; // replace "findIsland" as start mode
-
     public Boolean down = true; // determines whether the drone is facing upwards or downwards when it exits the island for "intoPosition"
     public Boolean interlaceCheck = false;
     private Boolean start = false;
@@ -26,7 +29,7 @@ public class GridSearch {
     // OFFICIAL REFILL METHOD
     public void refillQueue(String found, Integer range, String biome, Compass compass) {
         // condition for "loopAround" mode
-        if (this.mode == "loopAround" && this.interlaceCheck) { 
+        if (Objects.equals(this.mode, "loopAround") && this.interlaceCheck) {
             if (found.equals("OUT_OF_RANGE")) {
                 loopExtra(compass);
             }
@@ -34,9 +37,9 @@ public class GridSearch {
         }
 
         // condition for "uTurn" mode
-        if (this.mode == "uTurn" && found.equals("GROUND")) {
+        if (Objects.equals(this.mode, "uTurn") && found.equals("GROUND")) {
             this.mode = "reachIsland";
-        } else if (this.mode == "uTurn" && found.equals("OUT_OF_RANGE")) {
+        } else if (Objects.equals(this.mode, "uTurn") && found.equals("OUT_OF_RANGE")) {
             if (this.interlaceCheck) {
                 this.mode = "stop";
             } else {
@@ -44,14 +47,14 @@ public class GridSearch {
             }
         }
         // condition for "searchSite" mode
-        if (this.mode == "searchSite" && biome.equals("OCEAN")) {
+        if (Objects.equals(this.mode, "searchSite") && biome.equals("OCEAN")) {
             if (found.equals("GROUND") && !range.equals(0)) {
                 this.mode = "reachIsland";
             } else if (found.equals("OUT_OF_RANGE")) {
                 found = "GROUND";
                 this.mode = "intoPosition";
             }
-        } else if (this.mode == "searchSite" && found.equals("OUT_OF_RANGE") && range < 3) {
+        } else if (Objects.equals(this.mode, "searchSite") && found.equals("OUT_OF_RANGE") && range < 3) {
             this.mode = "uTurn";
         }
 
@@ -133,19 +136,19 @@ public class GridSearch {
 
     public void intoPosition(Compass compass) { 
         queue.enqueue(command.getFly());
-        if ((this.interlaceCheck == false && this.down == true) || (this.interlaceCheck == true && this.down == false)) { // different booleans
+        if ((!this.interlaceCheck && this.down) || (this.interlaceCheck && !this.down)) { // different booleans
             queue.enqueue(command.getEchoLeft(compass));
-        } else if ((this.interlaceCheck == true && this.down == true) || (this.interlaceCheck == false && this.down == false)) { // same booleans
+        } else { // same booleans
             queue.enqueue(command.getEchoRight(compass));
         }
     }
 
     public void uTurn(Compass compass) { // INTERLACE A AND INTERLACE B COMBINED
-        if ((this.interlaceCheck == false && this.down == true) || (this.interlaceCheck == true && this.down == false)) { // opposite booleans
+        if ((!this.interlaceCheck && this.down) || (this.interlaceCheck && !this.down)) { // opposite booleans
             queue.enqueue(command.getTurnLeft(compass));
             queue.enqueue(command.getTurnLeft(compass));
             queue.enqueue(command.getEchoForward(compass));
-        } else if ((this.interlaceCheck == false && this.down == false) || (this.interlaceCheck == true && this.down == true)) { // same booleans
+        } else { // same booleans
             queue.enqueue(command.getTurnRight(compass));
             queue.enqueue(command.getTurnRight(compass));
             queue.enqueue(command.getEchoForward(compass));
@@ -153,7 +156,7 @@ public class GridSearch {
     }
 
     public void loopAround(Compass compass) {
-        if (this.down == true) {
+        if (this.down) {
             queue.enqueue(command.getTurnRight(compass));
             queue.enqueue(command.getFly());
             queue.enqueue(command.getTurnRight(compass));
@@ -171,7 +174,7 @@ public class GridSearch {
     }
 
     public void loopExtra(Compass compass) {
-        if (this.down == true) { // To account for islands being of either odd or even length
+        if (this.down) { // To account for islands being of either odd or even length
             queue.enqueue(command.getTurnRight(compass));
             queue.enqueue(command.getFly());
             queue.enqueue(command.getFly());
@@ -257,7 +260,5 @@ public class GridSearch {
     }
 
     // Getter method for the queue field
-    public GridQueue getQueue() {
-        return this.queue;
-    }
+    public GridQueue getQueue() { return this.queue; }
 }

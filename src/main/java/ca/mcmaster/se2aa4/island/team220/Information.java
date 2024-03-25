@@ -1,23 +1,28 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-import java.util.Optional;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+// Holds all the relevant information received from the results of an action
 public class Information {
     private Actions actionTaken;
     private Integer cost;
     private Boolean status;
-
     private JSONObject extras;
     // extras attributes
     private JSONArray creeks;
     private JSONArray biomes;
     private JSONArray sites;
-    private MapFeature found;
+    private MapTerrain found;
     private Integer range;
 
+    /**
+     * Creates an information object.
+     * @param actionTaken Action taken
+     * @param cost Integer cost of the action taken
+     * @param extras JSONObject of the extras field
+     * @param status Boolean representing the status of the Drone
+     */
     public Information(Actions actionTaken, Integer cost, JSONObject extras, Boolean status) {
         this.actionTaken = actionTaken;
         this.cost = cost;
@@ -26,73 +31,46 @@ public class Information {
         updatedAttributes(this.extras);
     }
 
+    /**
+     * Parses the extras JSONObject into more manageable attributes.
+     * @param extras JSONObject representing the extras field
+     */
     private void updatedAttributes(JSONObject extras) {
-        try {
-            this.creeks = Optional.ofNullable(extras.getJSONArray("creeks")).orElse(null);
-        } catch (Exception e) {
-            this.creeks = null;
-        }
-        try {
-            this.biomes = Optional.ofNullable(extras.getJSONArray("biomes")).orElse(null);
-        } catch (Exception e) {
-            this.biomes = null;
-        }
-        try {
-            this.sites = Optional.ofNullable(extras.getJSONArray("sites")).orElse(null);
-        } catch (Exception e) {
-            this.sites = null;
-        }
+
+        try { this.creeks = extras.getJSONArray("creeks"); }
+        catch (Exception e) { this.creeks = null; }
+
+        try { this.biomes = extras.getJSONArray("biomes"); }
+        catch (Exception e) { this.biomes = null; }
+
+        try { this.sites = extras.getJSONArray("sites"); }
+        catch (Exception e) { this.sites = null; }
 
         try {
-            String foundAttribute = Optional.ofNullable(extras.getString("found")).orElse(null);
+            String foundAttribute = extras.getString("found");
             if (foundAttribute != null) {
-                if (foundAttribute.equals("OUT_OF_RANGE")) {
-                    this.found = MapFeature.OUTOFBOUNDS;
-                } else {
-                    this.found = MapFeature.LAND;
-                }
+                if (foundAttribute.equals("OUT_OF_RANGE")) { this.found = MapTerrain.OUTOFBOUNDS; }
+                else { this.found = MapTerrain.LAND; }
             }
-        } catch (Exception e) {
-            this.found = null;
-        }
+        } catch (Exception e) { this.found = null; }
 
-        try {
-            this.range = Optional.ofNullable(extras.getInt("range")).orElse(null);
-        } catch (Exception e) {
-            this.range = null;
-        }
+        try { this.range = extras.getInt("range"); }
+        catch (Exception e) { this.range = null; }
     }
 
-    public Actions getActionTaken() {
-        return this.actionTaken;
-    }
+    public Actions getActionTaken() { return this.actionTaken; }
 
-    public Integer getCost() {
-        return this.cost;
-    }
+    public Integer getCost() { return this.cost; }
 
-    public Boolean status() {
-        return this.status;
-    }
+    public Boolean status() { return this.status; }
 
-    public JSONArray getCreeks() {
-        return this.creeks;
-    }
+    public JSONArray getCreeks() { return this.creeks; }
 
-    public JSONArray getBiomes() {
-        return this.biomes;
-    }
+    public JSONArray getBiomes() { return this.biomes; }
 
-    public JSONArray getSites() {
-        return this.sites;
-    }
+    public JSONArray getSites() { return this.sites; }
 
-    public MapFeature getFound() {
-        return this.found;
-    }
+    public MapTerrain getFound() { return this.found; }
 
-    public Integer getRange() {
-        return this.range;
-    }
-
+    public Integer getRange() { return this.range; }
 }

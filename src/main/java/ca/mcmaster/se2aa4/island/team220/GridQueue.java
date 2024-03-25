@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class GridQueue {
-
     public Queue<String> queue;
 
     public GridQueue() {
@@ -14,13 +13,7 @@ public class GridQueue {
 
     public String dequeue() { return queue.poll(); }
 
-    public Boolean isEmpty() {
-        if (queue.isEmpty() == true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public Boolean isEmpty() { return queue.isEmpty(); }
 
     public Queue<String> getQueue() {
         return this.queue;
