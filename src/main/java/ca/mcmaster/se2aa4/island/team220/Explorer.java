@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class Explorer implements IExplorerRaid {
-    private final Logger logger = LogManager.getLogger();
     private Drone drone; // Drone used for the exploration
     private Translator translator; // Responsible for parsing the results from decisions
     private AreaMap map; // Maps the key exploration of the drone throughout the grid
@@ -62,7 +61,6 @@ public class Explorer implements IExplorerRaid {
      */
     @Override
     public String deliverFinalReport() {
-        logger.info("THIS IS THE CLOSEST CREEK: {}", map.getClosestCreek());
         return this.map.getClosestCreek();
     }
 }
