@@ -1,36 +1,38 @@
-package ca.mcmaster.se2aa4.island.team220;
+package ca.mcmaster.se2aa4.island.team220.AltGridSearch;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 
 public class GridQueueTest {
 
     private GridQueue gridQueue;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         gridQueue = new GridQueue();
     }
 
-    @Test
+    @org.junit.Test
     public void testDequeueIfEmpty() {
         assertNull(gridQueue.dequeue());
     }
 
-    @Test
+    @org.junit.Test
     public void testIsEmptyIfEmpty() { //initial = is empty
         assertTrue(gridQueue.isEmpty());
     }
 
-    @Test
+    @org.junit.Test
     public void testEnqueueMethod() {
         gridQueue.enqueue("#1");
         gridQueue.enqueue("#2");
         assertEquals(2, gridQueue.getQueue().size());
     }
 
-    @Test
+    @org.junit.Test
     public void testIsEmptyIfNotEmpty() { //initial = is not empty
         gridQueue.enqueue("Action");
         assertFalse(gridQueue.isEmpty());

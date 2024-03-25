@@ -1,12 +1,11 @@
-package ca.mcmaster.se2aa4.island.team220;
+package ca.mcmaster.se2aa4.island.team220.AltGridSearch;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import ca.mcmaster.se2aa4.island.team220.Compass;
+import ca.mcmaster.se2aa4.island.team220.Direction;
 
 public class GridSearchTest {
 
@@ -15,18 +14,18 @@ public class GridSearchTest {
     private Integer count = 0;
     private GridQueue queue;
 
-    @BeforeEach
+    @Before
     public void setUp(){
         gridSearch = new GridSearch();
     }
 
-    @Test
+    @org.junit.Test
     public void testMakeDecision() {
         String finalDecision = gridSearch.makeDecision("found", 8, "biome", new Compass(Direction.NORTH));
         assertNotNull(finalDecision); 
     }
 
-    @Test
+    @org.junit.Test
     public void testCaseBPart1() {
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.caseBPart1(compass);
@@ -35,7 +34,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test
+    @org.junit.Test
     public void testCaseBPart2() {
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.caseBPart2(5, compass);
@@ -46,7 +45,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test
+    @org.junit.Test
     public void testCaseAPart1() {
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.caseAPart1(5, compass);
@@ -58,7 +57,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
     
-    @Test
+    @org.junit.Test
     public void testCaseAPart2() {
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.caseAPart2(1, compass);
@@ -66,7 +65,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test
+    @org.junit.Test
     public void testCaseAPart2ElseCondition() {
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.caseAPart2(3, compass);
@@ -74,7 +73,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test
+    @org.junit.Test
     public void checkStartTest() {
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.checkStart(compass);
@@ -82,7 +81,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void loopExtraTest(){
         gridSearch.down = true;
         
@@ -97,7 +96,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void loopExtraTestElseCondition(){
         gridSearch.down = false;
         
@@ -112,7 +111,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void loopAroundTest(){
         gridSearch.down = true;
         
@@ -127,7 +126,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test
+    @org.junit.Test
     public void loopAroundTestElseCondition(){
         gridSearch.down = false;
 
@@ -142,7 +141,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void uTurnTest(){
         gridSearch.down = true;
         gridSearch.interlaceCheck = false;
@@ -156,7 +155,7 @@ public class GridSearchTest {
 
     }
 
-    @Test 
+    @org.junit.Test
     public void uTurnTestElseCondition(){
         gridSearch.down = false;
         gridSearch.interlaceCheck = false;
@@ -169,7 +168,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void intoPositionTest(){
         gridSearch.down = true;
         gridSearch.interlaceCheck = false;
@@ -181,7 +180,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void intoPositionTestElseCondition(){
         gridSearch.down = true;
         gridSearch.interlaceCheck = true;
@@ -193,7 +192,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void searchSiteTest(){
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.searchSite(compass);
@@ -204,7 +203,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void reachIslandTest(){
         gridSearch.reachIsland();
         assertEquals("{\"action\":\"fly\"}", gridSearch.getQueue().dequeue());
@@ -212,7 +211,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void faceIslandTest(){
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.count = 4;
@@ -221,7 +220,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void faceIslandTestElseCondition(){
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.count = 5;
@@ -230,7 +229,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void findIslandTest(){
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.count = 2;
@@ -239,7 +238,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test 
     public void findIslandTestElseIfCondition(){
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.count = 3;
@@ -248,7 +247,7 @@ public class GridSearchTest {
         assertTrue(gridSearch.getQueue().isEmpty());
     }
 
-    @Test 
+    @org.junit.Test
     public void findIslandTestElseCondition(){
         Compass compass = new Compass(Direction.NORTH);
         gridSearch.count = 4;
@@ -256,35 +255,4 @@ public class GridSearchTest {
         assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"W\"}}", gridSearch.getQueue().dequeue());
         assertTrue(gridSearch.getQueue().isEmpty());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 }

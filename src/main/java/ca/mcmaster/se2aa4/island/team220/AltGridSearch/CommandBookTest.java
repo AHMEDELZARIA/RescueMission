@@ -1,39 +1,40 @@
-package ca.mcmaster.se2aa4.island.team220;
+package ca.mcmaster.se2aa4.island.team220.AltGridSearch;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Before;
+import ca.mcmaster.se2aa4.island.team220.Compass;
+import ca.mcmaster.se2aa4.island.team220.Direction;
+import static org.junit.Assert.assertEquals;
 
 public class CommandBookTest {
 
     private CommandBook testCommand;
-    @BeforeEach
+    @Before
     public void setup() { 
         this.testCommand = new CommandBook(); 
     }
 
-    @Test
+    @org.junit.Test
     public void testGetStop(){
         String expectedString = "{\"action\":\"stop\"}";
         String resultString = testCommand.getStop();
         assertEquals(expectedString, resultString);
     }
 
-    @Test
+    @org.junit.Test
     public void testGetFly(){
         String expectedString = "{\"action\":\"fly\"}";
         String resultString = testCommand.getFly();
         assertEquals(expectedString, resultString);
     }
 
-    @Test
+    @org.junit.Test
     public void testGetScan(){
         String expectedString = "{\"action\":\"scan\"}";
         String resultString = testCommand.getScan();
         assertEquals(expectedString, resultString);
     }
 
-    @Test
+    @org.junit.Test
     public void testGetTurnLeft() {
         Compass compass = new Compass(Direction.NORTH); //Test case where North is Initial Position
         String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"W\"}}";
@@ -41,7 +42,7 @@ public class CommandBookTest {
         assertEquals(expectedString, resultString);
     }
 
-    @Test
+    @org.junit.Test
     public void testGetTurnRight() {
         Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"heading\",\"parameters\":{\"direction\":\"E\"}}";
@@ -49,7 +50,7 @@ public class CommandBookTest {
         assertEquals(expectedString, resultString);
     }
 
-    @Test
+    @org.junit.Test
     public void testGetEchoForward() {
         Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}";
@@ -57,7 +58,7 @@ public class CommandBookTest {
         assertEquals(expectedString, resultString);
     }
 
-    @Test
+    @org.junit.Test
     public void getEchoLeft() {
         Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"W\"}}";
@@ -65,7 +66,7 @@ public class CommandBookTest {
         assertEquals(expectedString, resultString);
     }
 
-    @Test
+    @org.junit.Test
     public void getEchoRight() {
         Compass compass = new Compass(Direction.NORTH); 
         String expectedString = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}";
