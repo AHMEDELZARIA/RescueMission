@@ -1,14 +1,9 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * An Island Search algorithm. Efficiently scans only relevant parts of the map.
  */
 public class EfficientSearch implements ISearchAlgorithm {
-    private final Logger logger = LogManager.getLogger();
-
     private Integer iteration = 0;
     private Integer LandTraversalIteration = 0;
 

@@ -1,11 +1,6 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class GetReadyToTurnState implements State {
-    private final Logger logger = LogManager.getLogger();
-
     private Integer iteration = 0;
     private Direction startHeading;
     private Direction heading;

@@ -11,13 +11,16 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class Explorer implements IExplorerRaid {
-
     private final Logger logger = LogManager.getLogger();
-    private Drone drone;
-    private Translator translator;
-    private AreaMap map;
-    private DecisionHandler decisionHandler;
+    private Drone drone; // Drone used for the exploration
+    private Translator translator; // Responsible for parsing the results from decisions
+    private AreaMap map; // Maps the key exploration of the drone throughout the grid
+    private DecisionHandler decisionHandler; // Takes care of deciding what decisions are to be made
 
+    /**
+     * Initializes the explorer mission.
+     * @param s String holding the context of the mission
+     */
     @Override
     public void initialize(String s) {
         JSONObject context = new JSONObject(new JSONTokener(new StringReader(s)));
@@ -31,11 +34,19 @@ public class Explorer implements IExplorerRaid {
         this.map = new AreaMap(drone);
     }
 
+    /**
+     * Performs decisions to be made during the exploration
+     * @return String JSON representation of the decision made
+     */
     @Override
     public String takeDecision() {
         return decisionHandler.makeDecision(this.drone, this.map);
     }
 
+    /**
+     * Parses the results from the decision made and updates the map and drone accordingly
+     * @param s String holding the results of the decision
+     */
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
@@ -45,6 +56,10 @@ public class Explorer implements IExplorerRaid {
         this.drone.updateBattery(translated_response.getCost());
     }
 
+    /**
+     * Final results from the exploration. Returns the closest creek to the emergency site if available.
+     * @return String id of the closest creek to the emergency site
+     */
     @Override
     public String deliverFinalReport() {
         logger.info("THIS IS THE CLOSEST CREEK: {}", map.getClosestCreek());

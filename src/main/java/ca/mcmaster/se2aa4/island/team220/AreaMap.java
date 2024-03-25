@@ -2,18 +2,12 @@ package ca.mcmaster.se2aa4.island.team220;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import org.json.JSONArray;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Relevant Coordinate System that represents the explored area of a grid
  */
 public class AreaMap {
-    private final Logger logger = LogManager.getLogger();
-
     private Map<Point, MapTile> map; // Relevant Coordinate System
     private Point currentPosition;
     private BiomeMapper biomeMapper; // Maps all possible biomes to either LAND or OCEAN

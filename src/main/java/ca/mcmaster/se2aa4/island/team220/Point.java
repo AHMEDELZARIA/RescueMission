@@ -63,7 +63,6 @@ public class Point {
             default:
                 break;
         }
-
         return new Point(newX, newY);
     }
 
@@ -96,7 +95,6 @@ public class Point {
             default:
                 break;
         }
-
         return new Point(newX, newY);
     }
 
@@ -146,5 +144,4 @@ public class Point {
     public String toString() {
         return "Point [x =" + x + ", y =" + y + "]";
     }
-
 }
