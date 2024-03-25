@@ -18,32 +18,37 @@ Explorer --> CommandCentre
 loop decision != STOP
     CommandCentre -> Explorer: takeDecision()
 
-
     Explorer -> DecisionHandler: makeDecision()
 
     DecisionHandler -> InitialXState: handle()
     InitialXState --> DecisionHandler: setState(InitialYState)
     DecisionHandler -> InitialYState: handle()
     InitialYState --> DecisionHandler: decision
-    DecisionHandler -> InitialYState: handle()
+    DecisionHandler -> SearchIslandState: handle()
+    SearchIslandState -> SkipWaterState: handle()
+    SkipWaterState --> SearchIslandState: decision
+    SearchIslandState -> MoveForwardOnIslandState: handle()
+    MoveForwardOnIslandState --> SearchIslandState: decision
+    SearchIslandState -> GetReadyToTurnState: handle()
+    GetReadyToTurnState --> SearchIslandState: decision
+    SearchIslandState -> UTurnState: handle()
+    UTurnState --> SearchIslandState: decision
     SearchIslandState --> DecisionHandler: decision
-    DecisionHandler -> InitialYState: handle()
-    InitialYState --> DecisionHandler: decision
-
-
     DecisionHandler --> Explorer: decision
-
     Explorer --> CommandCentre: decision
 
 
     CommandCentre -> Explorer: acknowledgeResults(response)
-
-
+    Explorer -> Translator: translate(response)
+    Translator --> Explorer: Information
+    Explorer -> AreaMap: update(Information)
+    AreaMap --> Explorer
     Explorer --> CommandCentre
 end
 
 CommandCentre -> Explorer: deliverFinalReport()
-
+Explorer -> AreaMap: calcClosestCreek()
+AreaMap --> Explorer: closestCreek
 Explorer --> CommandCentre: report
 
 @enduml
