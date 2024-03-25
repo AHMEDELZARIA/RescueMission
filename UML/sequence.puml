@@ -1,7 +1,49 @@
 @startuml
 
-CommandCentre -> Explorer: initialize()
-Explorer --> CommandCentre:
+CommandCentre -> Explorer: this()
+Explorer --> CommandCentre
+CommandCentre -> Explorer: initialize(context)
+Explorer -> Drone: this()
+Drone --> Explorer
+Explorer -> DecisionHandler: this()
+DecisionHandler -> InitialXState: this()
+InitialXState --> DecisionHandler
+DecisionHandler --> Explorer
+Explorer -> Translator: this()
+Translator --> Explorer
+Explorer -> AreaMap: this(Drone drone)
+AreaMap --> Explorer
+Explorer --> CommandCentre
 
+loop decision != STOP
+    CommandCentre -> Explorer: takeDecision()
+
+
+    Explorer -> DecisionHandler: makeDecision()
+
+    DecisionHandler -> InitialXState: handle()
+    InitialXState --> DecisionHandler: setState(InitialYState)
+    DecisionHandler -> InitialYState: handle()
+    InitialYState --> DecisionHandler: decision
+    DecisionHandler -> InitialYState: handle()
+    SearchIslandState --> DecisionHandler: decision
+    DecisionHandler -> InitialYState: handle()
+    InitialYState --> DecisionHandler: decision
+
+
+    DecisionHandler --> Explorer: decision
+
+    Explorer --> CommandCentre: decision
+
+
+    CommandCentre -> Explorer: acknowledgeResults(response)
+
+
+    Explorer --> CommandCentre
+end
+
+CommandCentre -> Explorer: deliverFinalReport()
+
+Explorer --> CommandCentre: report
 
 @enduml
