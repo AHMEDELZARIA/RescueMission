@@ -26,7 +26,7 @@ public class TestInformation {
         assertEquals(new JSONArray().put("C1").put("C2").toString(), information.getCreeks().toString());
         assertEquals(new JSONArray().put("OCEAN").put("MANGROVE").toString(), information.getBiomes().toString());
         assertEquals(new JSONArray().put("S1").put("S2").toString(), information.getSites().toString());
-        assertEquals(MapFeature.LAND, information.getFound());
+        assertEquals(MapTerrain.LAND, information.getFound());
         assertEquals(10, information.getRange());
     }
 }
