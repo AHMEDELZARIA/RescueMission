@@ -2,9 +2,9 @@
 # [A2] Island ca.mcmaster.se2aa4.island.team220.Explorer
 
 - Authors:
-  - [Anindita, Bornomala](bornomaa@mcmaster.ca) 
-  - [Neha, Bhatla](bhatlan@mcmaster.ca)
   - [Ahmed, Elzaria](elzariaa@mcmaster.ca)
+  - [Anindita, Bornomala](bornomaa@mcmaster.ca)
+  - [Neha, Bhatla](bhatlan@mcmaster.ca)
 
 ## Product Description
 
