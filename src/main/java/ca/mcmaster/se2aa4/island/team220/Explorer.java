@@ -2,6 +2,10 @@ package ca.mcmaster.se2aa4.island.team220;
 
 import java.io.StringReader;
 
+import ca.mcmaster.se2aa4.island.team220.drone.Direction;
+import ca.mcmaster.se2aa4.island.team220.drone.Drone;
+import ca.mcmaster.se2aa4.island.team220.map.AreaMap;
+import ca.mcmaster.se2aa4.island.team220.statemachine.DecisionHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.island.team220;
 
-import org.junit.jupiter.api.BeforeEach;
+import ca.mcmaster.se2aa4.island.team220.map.MapTerrain;
+import ca.mcmaster.se2aa4.island.team220.statemachine.Actions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

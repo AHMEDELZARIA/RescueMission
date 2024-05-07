@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team220;
+package ca.mcmaster.se2aa4.island.team220.statemachine;
 
 /**
  * Enum representing the turn direction relative to the drone. Can also be used where the constants LEFT and/or RIGHT

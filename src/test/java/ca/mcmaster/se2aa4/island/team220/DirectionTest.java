@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team220;
 
+import ca.mcmaster.se2aa4.island.team220.drone.Direction;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class DirectionTest {

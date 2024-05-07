@@ -1,7 +1,6 @@
-package ca.mcmaster.se2aa4.island.team220;
+package ca.mcmaster.se2aa4.island.team220.drone;
 
 import org.json.JSONObject;
-import scala.Int;
 
 public class Drone {
 

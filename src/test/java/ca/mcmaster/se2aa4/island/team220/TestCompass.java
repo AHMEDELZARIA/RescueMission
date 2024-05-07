@@ -3,6 +3,8 @@ package ca.mcmaster.se2aa4.island.team220;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import ca.mcmaster.se2aa4.island.team220.drone.Compass;
+import ca.mcmaster.se2aa4.island.team220.drone.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

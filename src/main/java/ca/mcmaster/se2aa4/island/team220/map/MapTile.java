@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team220;
+package ca.mcmaster.se2aa4.island.team220.map;
 
 import org.json.JSONArray;
 

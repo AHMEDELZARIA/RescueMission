@@ -1,4 +1,6 @@
-package ca.mcmaster.se2aa4.island.team220;
+package ca.mcmaster.se2aa4.island.team220.map;
+
+import ca.mcmaster.se2aa4.island.team220.drone.Direction;
 
 public class Point {
     private Integer x;

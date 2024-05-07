@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team220;
+package ca.mcmaster.se2aa4.island.team220.drone;
 
 /**
  * Enum representing the 4 possible directions a Drone may face in a grid

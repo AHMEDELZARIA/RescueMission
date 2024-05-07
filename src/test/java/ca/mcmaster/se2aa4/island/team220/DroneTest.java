@@ -2,9 +2,10 @@ package ca.mcmaster.se2aa4.island.team220;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import ca.mcmaster.se2aa4.island.team220.drone.Direction;
+import ca.mcmaster.se2aa4.island.team220.drone.Drone;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class DroneTest {
 

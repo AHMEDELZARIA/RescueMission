@@ -1,4 +1,8 @@
-package ca.mcmaster.se2aa4.island.team220;
+package ca.mcmaster.se2aa4.island.team220.statemachine;
+
+import ca.mcmaster.se2aa4.island.team220.drone.Direction;
+import ca.mcmaster.se2aa4.island.team220.drone.Drone;
+import ca.mcmaster.se2aa4.island.team220.map.AreaMap;
 
 public class GetReadyToTurnState implements State {
     private Integer iteration = 0;
