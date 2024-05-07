@@ -1,11 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/OY6OZuzi)
-# [A2] Island ca.mcmaster.se2aa4.island.team220.Explorer
-
-- Authors:
-  - [Ahmed, Elzaria](elzariaa@mcmaster.ca)
-  - [Anindita, Bornomala](bornomaa@mcmaster.ca)
-  - [Neha, Bhatla](bhatlan@mcmaster.ca)
-
 ## Product Description
 
 This product is an _exploration command center_ for the [Island](https://ace-design.github.io/island/) serious game. 
