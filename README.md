@@ -1,52 +1,87 @@
-## Product Description
+# ⛑️ RescueMission 
+
+## 👨🏽‍💻 Development Process
+
+The complete Agile software development life cycle was followed for this project. This meant an incremental and iterative approach for gradual release of value. From gathering requirements, to brainstorming, to designing a walking skeleton, developing an MVP, gathering feedback from experienced individuals in the field, to testing, and deployment. This is the result of 2 months of iterative and incremental development.
+
+## Overview
+
+RescueMission is a Java-based project developed as part of an assignment for the SFWRENG 2AA4 course at McMaster University. The project involves creating a command center for a rescue drone to explore an island, locate stranded individuals, and identify suitable rescue points.
 
 This product is an _exploration command center_ for the [Island](https://ace-design.github.io/island/) serious game. 
 
-- The `ca.mcmaster.se2aa4.island.team_220_.Explorer` class implements the command center, used to compete with the others. (220 being the team identifier)
-- The `Runner` class allows one to run the command center on a specific map.
+## 📝 Project Description
 
-### Strategy description
+You have been tasked by ACME Corp to develop a control system for their rescue drone, designed to find survivors on isolated islands and determine the best locations for rescue teams to land. The drone operates in a marine environment and must navigate hostile terrain while managing its battery, radio range, and command integrity.
 
-The exploration strategy is for now to stop exploring as soon as we start. We stay safe and fly back to base immediately.
+The drone is controlled through commands sent to it, which include:
 
-## How to compile, run and deploy
+### ⭐️ Key Objectives
 
-### Compiling the project:
+1. **Locate the Island**: Use radar and photo scanners to find the island.
+2. **Find Emergency Sites**: Identify the location of emergency sites where survivors are sheltering.
+3. **Locate Creeks**: Determine suitable inlets on the island's coast for rescue boats to land.
+4. **Optimize Commands**: Ensure efficient use of the drone's battery and maintain control integrity.
 
+## 🎮 Drone Control Commands
+
+- **Fly**: Move the drone forward.
+- **Heading**: Change the drone's direction.
+- **Radar**: Use sensors to detect terrain.
+- **Photo Scanner**: Identify biomes and points of interest.
+- **Stop**: End the mission and return to base.
+
+## 💻 Technical Environment
+
+The project uses the following technologies and tools:
+- **Java**: Core programming language.
+- **Maven**: For project management and build automation.
+- **JSON**: For command communication with the drone.
+- **JUnit**: Testing framework used.
+- **UML**: For modeling the system design.
+
+## Product Demonstration
+Click the image below for a video demonstration of this product.
+
+[![Rescue Mission Visualizer](https://github.com/AHMEDELZARIA/LLVM-evolution/assets/93144563/7ce7b38d-1908-4e83-b2fa-f4348d8ecc7b)](https://mcmasteru365.sharepoint.com/sites/course-549805-group/_layouts/15/stream.aspx?id=%2Fsites%2Fcourse%2D549805%2Dgroup%2FShared%20Documents%2FGeneral%2F204%5Fexploration%2Emov&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E803a8caf%2D4a76%2D42c7%2D9c1f%2D6f561082929f)
+
+## How to Compile
+
+To compile the project, use Maven:
+```bash
+mvn clean package
 ```
-mosser@azrael a2-template % mvn clean package
-...
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  0.960 s
-[INFO] Finished at: 2024-01-20T18:26:43-05:00
-[INFO] ------------------------------------------------------------------------
-mosser@azrael a2-template % 
+
+## How to Run
+
+To execute the command center with a specific map, use:
+```bash
+mvn exec:java -q -Dexec.args="./maps/map03.json"
 ```
 
-This creates one jar file in the `target` directory, named after the team identifier (i.e., team 220 uses `team220-1.0.jar`).
+This will generate output files in the `outputs` directory:
+- `_pois.json`
+- `Explorer_Island.json`
+- `Explorer.svg`
 
-As the project is intended to run in the competition arena, this jar is not executable. 
+## Deliverables
 
-### Run the project
+1. **Code**: Main branch on the GitHub repository.
+2. **Kanban Board**: Project management.
+3. **PDF Report**: Detailed software design and implementation report.
 
-The project is not intended to be started by the user, but instead to be part of the competition arena. However, one might one to execute their command center on local files for testing purposes.
+## Repository Structure
 
-To do so, we ask maven to execute the `Runner` class, using a map provided as parameter:
+1. UML/: Contains UML diagrams for the project.
+2. maps/: Includes JSON files of different maps used for testing.
+3. src/: Source code directory.
 
-```
-mosser@azrael a2-template % mvn exec:java -q -Dexec.args="./maps/map03.json"
-```
+## Deploying the project to the arena
 
-It creates three files in the `outputs` directory:
+Each week, we had to `tag` the version we wanted to submit for the competition. This version would be used in the weekly run. No tag means no competition.
 
-- `_pois.json`: the location of the points of interests
-- `Explorer_Island.json`: a transcript of the dialogue between the player and the game engine
-- `Explorer.svg`: the map explored by the player, with a fog of war for the tiles that were not visited.
+The tag syntax is `wX`, with `X` the week number. So our product for the first week would be tagged `w1`.
 
-### Deploying the project to the arena
+## License
 
-Each week, you'll have to `tag` the version you want to submit for the competition. This version will be used in the weekly run. No tag means no competition.
-
-The tag syntax is `wX`, with `X` the week number. So your product for the first week will be tagged `w1`.
+This project is licensed under the MIT License. See the LICENSE.txt file for details.
